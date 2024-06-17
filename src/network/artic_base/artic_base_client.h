@@ -84,10 +84,6 @@ public:
         communication_error_callback = callback;
     }
 
-    void SetArticReportTrafficCallback(const std::function<void(s32)>& callback) {
-        report_traffic_callback = callback;
-    }
-
     void ReportArticEvent(u64 event) {
         if (report_artic_event_callback) {
             report_artic_event_callback(event);
