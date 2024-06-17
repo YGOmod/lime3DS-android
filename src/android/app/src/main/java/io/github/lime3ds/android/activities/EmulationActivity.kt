@@ -176,18 +176,24 @@ class EmulationActivity : AppCompatActivity() {
     }
 
     private fun enableFullscreenImmersive() {
-        // TODO: Remove this once we properly account for display insets in the input overlay
-        window.attributes.layoutInDisplayCutoutMode =
-            WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER
+    // Account for display insets in the input overlay
+    val windowInsets = window.decorView.rootWindowInsets
+    val displayCutout = windowInsets?.displayCutout
 
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-
-        WindowInsetsControllerCompat(window, window.decorView).let { controller ->
-            controller.hide(WindowInsetsCompat.Type.systemBars())
-            controller.systemBarsBehavior =
-                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        }
+    if (displayCutout != null) {
+        val insets = displayCutout.safeInsetLeft + displayCutout.safeInsetRight
+        window.attributes.width = resources.displayMetrics.widthPixels - insets
+        window.attributes.height = resources.displayMetrics.heightPixels - displayCutout.safeInsetTop - displayCutout.safeInsetBottom
     }
+
+    WindowCompat.setDecorFitsSystemWindows(window, false)
+
+    WindowInsetsControllerCompat(window, window.decorView).let { controller ->
+        controller.hide(WindowInsetsCompat.Type.systemBars())
+        controller.systemBarsBehavior =
+            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+    }
+}
 
     // Gets button presses
     @Suppress("DEPRECATION")
