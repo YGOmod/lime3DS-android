@@ -39,6 +39,7 @@ class InputOverlayDrawableButton(
     private val defaultStateBitmap: BitmapDrawable
     private val pressedStateBitmap: BitmapDrawable
     private var pressedState = false
+    private val pressedButtonIds = mutableSetOf<Int>()
 
     init {
         this.defaultStateBitmap = BitmapDrawable(res, defaultStateBitmap)
@@ -53,36 +54,41 @@ class InputOverlayDrawableButton(
      *
      * @return true if value was changed
      */
-    fun updateStatus(event: MotionEvent, overlay:InputOverlay): Boolean {
-        val pointerIndex = event.actionIndex
-        val xPosition = event.getX(pointerIndex).toInt()
-        val yPosition = event.getY(pointerIndex).toInt()
-        val pointerId = event.getPointerId(pointerIndex)
-        val motionEvent = event.action and MotionEvent.ACTION_MASK
-        val isActionDown =
-            motionEvent == MotionEvent.ACTION_DOWN || motionEvent == MotionEvent.ACTION_POINTER_DOWN
-        val isActionUp =
-            motionEvent == MotionEvent.ACTION_UP || motionEvent == MotionEvent.ACTION_POINTER_UP
-        if (isActionDown) {
-            if (!bounds.contains(xPosition, yPosition)) {
-                return false
-            }
-            pressedState = true
-            trackId = pointerId
-            overlay.hapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
-            return true
+    fun updateStatus(event: MotionEvent, overlay: InputOverlay): Boolean {
+    val pointerIndex = event.actionIndex
+    val xPosition = event.getX(pointerIndex).toInt()
+    val yPosition = event.getY(pointerIndex).toInt()
+    val pointerId = event.getPointerId(pointerIndex)
+    val motionEvent = event.action and MotionEvent.ACTION_MASK
+    val isActionDown =
+        motionEvent == MotionEvent.ACTION_DOWN || motionEvent == MotionEvent.ACTION_POINTER_DOWN
+    val isActionUp =
+        motionEvent == MotionEvent.ACTION_UP || motionEvent == MotionEvent.ACTION_POINTER_UP
+
+    if (isActionDown) {
+        if (!bounds.contains(xPosition, yPosition)) {
+            return false
         }
-        if (isActionUp) {
-            if (trackId != pointerId) {
-                return false
-            }
-            pressedState = false
-            trackId = -1
-            overlay.hapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY_RELEASE)
-            return true
-        }
-        return false
+        pressedState = true
+        trackId = pointerId
+        pressedButtonIds.add(id) // Add the button ID to the set
+        overlay.hapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+        return true
     }
+
+    if (isActionUp) {
+        if (trackId != pointerId) {
+            return false
+        }
+        pressedState = false
+        trackId = -1
+        pressedButtonIds.remove(id) // Remove the button ID from the set
+        overlay.hapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY_RELEASE)
+        return true
+    }
+
+    return false
+}
 
     fun onConfigureTouch(event: MotionEvent): Boolean {
         val pointerIndex = event.actionIndex
