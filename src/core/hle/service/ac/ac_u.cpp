@@ -16,7 +16,7 @@ AC_U::AC_U(std::shared_ptr<Module> ac) : Module::Interface(std::move(ac), "ac:u"
         {0x0007, &AC_U::CancelConnectAsync, "CancelConnectAsync"},
         {0x0008, &AC_U::CloseAsync, "CloseAsync"},
         {0x0009, &AC_U::GetCloseResult, "GetCloseResult"},
-        {0x000A, nullptr, "GetLastErrorCode"},
+        {0x000A, &AC_U::GetLastErrorCode, "GetLastErrorCode"},
         {0x000C, &AC_U::GetStatus, "GetStatus"},
         {0x000D, &AC_U::GetWifiStatus, "GetWifiStatus"},
         {0x000E, &AC_U::GetCurrentAPInfo, "GetCurrentAPInfo"},
