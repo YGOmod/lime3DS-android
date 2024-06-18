@@ -61,6 +61,15 @@ void Module::Interface::GetConnectResult(Kernel::HLERequestContext& ctx) {
     rb.Push(ac->connect_result);
 }
 
+void Module::Interface::GetLastErrorCode(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+    rb.Push(ResultSuccess);
+    rb.Push(0);
+
+    LOG_WARNING(Service_AC, "(STUBBED) called");
+}
+
 void Module::Interface::CancelConnectAsync(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     const u32 pid = rp.PopPID();
