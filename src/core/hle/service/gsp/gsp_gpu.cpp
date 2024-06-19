@@ -571,10 +571,9 @@ Result GSP_GPU::AcquireGpuRight(const Kernel::HLERequestContext& ctx,
     }
 
     if (blocking) {
-        if (active_thread_id != std::numeric_limits<u32>::max()) {
-            waiting_threads.push(session_data->thread_id);
-            Kernel::GetCurrentThread()->WaitCurrent();
-        }
+        // TODO: The thread should be put to sleep until acquired.
+        ASSERT_MSG(active_thread_id == std::numeric_limits<u32>::max(),
+                   "Sleeping for GPU right is not yet supported.");
     } else if (active_thread_id != std::numeric_limits<u32>::max()) {
         return {ErrorDescription::Busy, ErrorModule::GX, ErrorSummary::WouldBlock,
                 ErrorLevel::Status};
