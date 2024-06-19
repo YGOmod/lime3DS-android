@@ -36,6 +36,7 @@ CFG_S::CFG_S(std::shared_ptr<Module> cfg) : Module::Interface(std::move(cfg), "c
         {0x0409, nullptr, "UpdateConfigBlk00040003"},
         {0x040D, &CFG_S::SetUUIDClockSequence, "SetUUIDClockSequence"},
         {0x040E, &CFG_S::GetUUIDClockSequence, "GetUUIDClockSequence"},
+        {0x040F, nullptr, "ClearParentalControls"},
         // clang-format on
     };
     RegisterHandlers(functions);
