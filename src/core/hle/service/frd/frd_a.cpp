@@ -67,12 +67,12 @@ FRD_A::FRD_A(std::shared_ptr<Module> frd) : Module::Interface(std::move(frd), "f
         {0x0405, nullptr, "SaveData"},
         {0x0406, nullptr, "AddFriendOnline"},
         {0x0409, nullptr, "RemoveFriend"},
-        {0x040a, nullptr, "UpdatePlayingGame"},
-        {0x040b, nullptr, "UpdatePreference"},
-        {0x040c, nullptr, "UpdateMii"},
-        {0x040d, nullptr, "UpdateFavoriteGame"},
-        {0x040e, nullptr, "UpdateNcPrincipalId"},
-        {0x040f, nullptr, "UpdateComment"},
+        {0x040A, nullptr, "UpdatePlayingGame"},
+        {0x040B, nullptr, "UpdatePreference"},
+        {0x040C, nullptr, "UpdateMii"},
+        {0x040D, nullptr, "UpdateFavoriteGame"},
+        {0x040E, nullptr, "UpdateNcPrincipalId"},
+        {0x040F, nullptr, "UpdateComment"},
     };
     RegisterHandlers(functions);
 }
