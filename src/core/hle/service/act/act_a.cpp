@@ -13,6 +13,7 @@ ACT_A::ACT_A(std::shared_ptr<Module> act) : Module::Interface(std::move(act), "a
         // clang-format off
         {0x0001, &ACT_A::Initialize, "Initialize"},
         {0x0002, nullptr, "GetErrorCode"},
+	{0x0005, nullptr, "GetAccountManagerInfo"},
         {0x0006, &ACT_A::GetAccountDataBlock, "GetAccountDataBlock"},
         {0x000B, nullptr, "AcquireEulaList"},
         {0x000D, nullptr, "GenerateUuid"},
