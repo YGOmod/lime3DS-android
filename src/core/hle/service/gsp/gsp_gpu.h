@@ -378,9 +378,6 @@ private:
     /// Thread id that currently has GPU rights or std::numeric_limits<u32>::max() if none.
     u32 active_thread_id = std::numeric_limits<u32>::max();
 
-    //waiting thread
-    u32 waiting_threads;
-
     bool first_initialization = true;
 
     /// VRAM copy saved using SaveVramSysArea.
