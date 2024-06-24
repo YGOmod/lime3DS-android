@@ -162,6 +162,7 @@ private:
 
     bool shell_open = true;
     bool battery_is_charging = true;
+    int battery_percent = 10;
     bool charger_is_plugged = true;
     bool pedometer_is_counting = false;
 
