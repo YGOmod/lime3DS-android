@@ -58,10 +58,9 @@ void Module::Interface::GetBatteryLevel(Kernel::HLERequestContext& ctx) {
 void Module::Interface::GetBatteryChargeState(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
 
-    const bool charging = ptm->charger_is_plugged && ptm->battery_percent < 100;
     IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
     rb.Push(ResultSuccess);
-    rb.Push(charging);
+    rb.Push(ptm->battery_is_charging);
 
     LOG_WARNING(Service_PTM, "(STUBBED) called");
 }
@@ -237,6 +236,8 @@ template <class Archive>
 void Module::serialize(Archive& ar, const unsigned int) {
     ar & shell_open;
     ar & battery_is_charging;
+    ar & battery_percent;
+    ar & charger_is_plugged;
     ar & pedometer_is_counting;
 }
 SERIALIZE_IMPL(Module)
