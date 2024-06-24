@@ -139,7 +139,7 @@ public:
          */
         void CheckNew3DS(Kernel::HLERequestContext& ctx);
 
-        /**
+         /**
          * PTM::GetSystemTime service function
          *  Outputs:
          *      1: Result code, 0 on success, otherwise error code
@@ -147,11 +147,11 @@ public:
          */
         void GetSystemTime(Kernel::HLERequestContext& ctx);
 
-	/**
-	 * PTM::ConfigureNew3DSCPU service function
-	 *
-	 */
-	void ConfigureNew3DSCPU(Kernel::HLERequestContext& ctx);
+         /**
+         * PTM::ConfigureNew3DSCPU service function
+         *
+         */
+        void ConfigureNew3DSCPU(Kernel::HLERequestContext& ctx);
 
     protected:
         std::shared_ptr<Module> ptm;
