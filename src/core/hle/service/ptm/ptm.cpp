@@ -32,7 +32,7 @@ void Module::Interface::GetAdapterState(Kernel::HLERequestContext& ctx) {
 
     IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
     rb.Push(ResultSuccess);
-    rb.Push(static_cast<u8>(ptm->charger_is_plugged ? 1 : 0));
+    rb.Push(ptm->charger_is_plugged ? 1 : 0);
 
     LOG_WARNING(Service_PTM, "(STUBBED) called");
 }
