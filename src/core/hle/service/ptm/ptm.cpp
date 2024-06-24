@@ -58,9 +58,10 @@ void Module::Interface::GetBatteryLevel(Kernel::HLERequestContext& ctx) {
 void Module::Interface::GetBatteryChargeState(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
 
+    const bool charging = ptm->charger_is_plugged && ptm->battery_percent < 100;
     IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
     rb.Push(ResultSuccess);
-    rb.Push(ptm->battery_is_charging);
+    rb.Push(charging);
 
     LOG_WARNING(Service_PTM, "(STUBBED) called");
 }
