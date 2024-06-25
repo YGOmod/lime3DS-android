@@ -32,7 +32,7 @@ void Module::Interface::GetAdapterState(Kernel::HLERequestContext& ctx) {
 
     IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
     rb.Push(ResultSuccess);
-    rb.Push(ptm->battery_is_charging);
+    rb.Push(ptm->charger_is_plugged ? 1 : 0);
 
     LOG_WARNING(Service_PTM, "(STUBBED) called");
 }
@@ -236,6 +236,8 @@ template <class Archive>
 void Module::serialize(Archive& ar, const unsigned int) {
     ar & shell_open;
     ar & battery_is_charging;
+    ar & battery_percent;
+    ar & charger_is_plugged;
     ar & pedometer_is_counting;
 }
 SERIALIZE_IMPL(Module)

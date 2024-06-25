@@ -24,8 +24,6 @@ public:
         client->SetCommunicationErrorCallback([&system_]() {
             system_.SetStatus(Core::System::ResultStatus::ErrorArticDisconnected);
         });
-        client->SetArticReportTrafficCallback(
-            [&system_](u32 bytes) { system_.ReportArticTraffic(bytes); });
         client->SetReportArticEventCallback([&system_](u64 event) {
             Core::PerfStats::PerfArticEventBits ev =
                 static_cast<Core::PerfStats::PerfArticEventBits>(event & 0xFFFFFFFF);
