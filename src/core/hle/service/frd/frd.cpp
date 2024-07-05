@@ -222,6 +222,14 @@ void Module::Interface::UnscrambleLocalFriendCode(Kernel::HLERequestContext& ctx
     rb.PushStaticBuffer(std::move(unscrambled_friend_codes), 0);
 }
 
+void Module::Interface::updateGameModeDescription(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess);
+
+    LOG_WARNING(Service_FRD, "(STUBBED) called");
+}
+
 void Module::Interface::SetClientSdkVersion(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     u32 version = rp.Pop<u32>();

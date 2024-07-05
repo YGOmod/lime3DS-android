@@ -372,6 +372,8 @@ private:
      *      4 : Partition capacity in clusters
      *      5 : Available free space in clusters
      */
+    void GetCardType(Kernel::HLERequestContext& ctx);
+    
     void GetSdmcArchiveResource(Kernel::HLERequestContext& ctx);
 
     /**

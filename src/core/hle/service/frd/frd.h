@@ -211,6 +211,8 @@ public:
          *      1 : Result of function, 0 on success, otherwise error code
          */
         void UnscrambleLocalFriendCode(Kernel::HLERequestContext& ctx);
+        
+        void UpdateGameModeDescription(Kernel::HLERequestContext& ctx);
 
         /**
          * FRD::SetClientSdkVersion service function
@@ -219,6 +221,7 @@ public:
          *  Outputs:
          *      1 : Result of function, 0 on success, otherwise error code
          */
+        
         void SetClientSdkVersion(Kernel::HLERequestContext& ctx);
 
         /**
