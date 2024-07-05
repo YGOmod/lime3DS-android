@@ -222,7 +222,7 @@ void Module::Interface::UnscrambleLocalFriendCode(Kernel::HLERequestContext& ctx
     rb.PushStaticBuffer(std::move(unscrambled_friend_codes), 0);
 }
 
-void Module::Interface::updateGameModeDescription(Kernel::HLERequestContext& ctx) {
+void Module::Interface::UpdateGameModeDescription(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(ResultSuccess);
