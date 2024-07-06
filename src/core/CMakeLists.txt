@@ -369,6 +369,8 @@ add_library(lime_core STATIC
     hle/service/nim/nim.h
     hle/service/nim/nim_aoc.cpp
     hle/service/nim/nim_aoc.h
+    hle/service/nim/nim_ndm.cpp
+    hle/service/nim/nim_ndm.h
     hle/service/nim/nim_s.cpp
     hle/service/nim/nim_s.h
     hle/service/nim/nim_u.cpp

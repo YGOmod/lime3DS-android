@@ -1680,7 +1680,7 @@ FS_USER::FS_USER(Core::System& system)
         {0x0810, &FS_USER::CreateLegacySystemSaveData, "CreateLegacySystemSaveData"},
         {0x0811, nullptr, "DeleteSystemSaveData"},
         {0x0812, &FS_USER::GetFreeBytes, "GetFreeBytes"},
-        {0x0813, nullptr, "GetCardType"},
+        {0x0813, &FS_USER::GetCardType, "GetCardType"},
         {0x0814, &FS_USER::GetSdmcArchiveResource, "GetSdmcArchiveResource"},
         {0x0815, &FS_USER::GetNandArchiveResource, "GetNandArchiveResource"},
         {0x0816, nullptr, "GetSdmcFatfsError"},
