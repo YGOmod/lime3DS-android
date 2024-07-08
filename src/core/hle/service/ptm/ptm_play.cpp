@@ -22,7 +22,7 @@ PTM_Play::PTM_Play(std::shared_ptr<Module> ptm)
         {0x0006, &PTM_Play::GetShellState, "GetShellState"},
         {0x0007, &PTM_Play::GetBatteryLevel, "GetBatteryLevel"},
         {0x0008, &PTM_Play::GetBatteryChargeState, "GetBatteryChargeState"},
-        {0x0009, nullptr, "GetPedometerState"},
+        {0x0009, &PTM_Play::GetPedometerState "GetPedometerState"},
         {0x000A, nullptr, "GetStepHistoryEntry"},
         {0x000B, &PTM_Play::GetStepHistory, "GetStepHistory"},
         {0x000C, &PTM_Play::GetTotalStepCount, "GetTotalStepCount"},

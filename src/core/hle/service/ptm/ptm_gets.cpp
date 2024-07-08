@@ -22,7 +22,7 @@ PTM_Gets::PTM_Gets(std::shared_ptr<Module> ptm)
         {0x0006, &PTM_Gets::GetShellState, "GetShellState"},
         {0x0007, &PTM_Gets::GetBatteryLevel, "GetBatteryLevel"},
         {0x0008, &PTM_Gets::GetBatteryChargeState, "GetBatteryChargeState"},
-        {0x0009, nullptr, "GetPedometerState"},
+        {0x0009, &PTM_Gets::GetPedometerState, "GetPedometerState"},
         {0x000A, nullptr, "GetStepHistoryEntry"},
         {0x000B, &PTM_Gets::GetStepHistory, "GetStepHistory"},
         {0x000C, &PTM_Gets::GetTotalStepCount, "GetTotalStepCount"},
