@@ -13,6 +13,14 @@ namespace Service::GSP {
 GSP_LCD::GSP_LCD() : ServiceFramework("gsp::Lcd") {
     static const FunctionInfo functions[] = {
         // clang-format off
+        {0x0001, nullptr, "EnableABL"},
+        {0x0002, nullptr, "DisableABL"},
+        {0x0003, nullptr, "SetRSLut"},
+        {0x0004, nullptr, "SetRSParams"},
+        {0x0005, nullptr, "SetABLArea"},
+        {0x0007, nullptr, "SetInertia"},
+        {0x0008, nullptr, "SetDitherMode"},
+        {0x0009, nullptr, "SetDitherParams"},
         {0x000A, nullptr, "SetBrightnessRaw"},
         {0x000B, nullptr, "SetBrightness"},
         {0x000F, nullptr, "PowerOnAllBacklights"},
