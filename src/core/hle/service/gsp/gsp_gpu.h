@@ -328,6 +328,8 @@ private:
      *      1: Result code
      */
     void RestoreVramSysArea(Kernel::HLERequestContext& ctx);
+    
+    void ResetGpuCore(Kernel::HLERequestContext& ctx);
 
     /**
      * GSP_GPU::StoreDataCache service function

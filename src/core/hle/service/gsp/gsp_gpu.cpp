@@ -557,6 +557,15 @@ void GSP_GPU::RestoreVramSysArea(Kernel::HLERequestContext& ctx) {
     rb.Push(ResultSuccess);
 }
 
+void GSP_GPU::ResetGpuCore(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+
+    LOG_INFO(Service_GSP, "called");
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess);
+}
+
 Result GSP_GPU::AcquireGpuRight(const Kernel::HLERequestContext& ctx,
                                 const std::shared_ptr<Kernel::Process>& process, u32 flag,
                                 bool blocking) {
@@ -711,7 +720,7 @@ GSP_GPU::GSP_GPU(Core::System& system) : ServiceFramework("gsp::Gpu", 4), system
         {0x0018, &GSP_GPU::ImportDisplayCaptureInfo, "ImportDisplayCaptureInfo"},
         {0x0019, &GSP_GPU::SaveVramSysArea, "SaveVramSysArea"},
         {0x001A, &GSP_GPU::RestoreVramSysArea, "RestoreVramSysArea"},
-        {0x001B, nullptr, "ResetGpuCore"},
+        {0x001B, &GSP_GPU::ResetGpuCore, "ResetGpuCore"},
         {0x001C, &GSP_GPU::SetLedForceOff, "SetLedForceOff"},
         {0x001D, nullptr, "SetTestCommand"},
         {0x001E, &GSP_GPU::SetInternalPriorities, "SetInternalPriorities"},
