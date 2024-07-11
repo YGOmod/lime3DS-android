@@ -117,6 +117,8 @@ private:
      *      2 : Daemon status
      */
     void QueryStatus(Kernel::HLERequestContext& ctx);
+    
+    void GetCurrentState(Kernel::HLERequestContext& ctx);
 
     /**
      *  NDM::GetDaemonDisableCount service function
@@ -253,6 +255,21 @@ private:
         Streetpass = 3,
         StreetpassData = 4,
     };
+    
+    enum class State : u32 {
+        Initial = 0,
+        Suspended = 1,
+        InfrastructureConnecting = 2,
+        InfrastructureConnected = 3,
+        InfrastructureWorking = 4,
+        InfrastructureSuspending = 5,
+        InfrastructureForceSuspending = 6,
+        InfrastructureDisconnecting = 7,
+        InfrastructureForceDisconnecting = 8,
+        CecWorking = 9,
+        CecForceSuspending = 10,
+        CecDisconnecting = 11,
+    };
 
     enum : u32 {
         DEFAULT_RETRY_INTERVAL = 10,
@@ -268,6 +285,7 @@ private:
         DaemonStatus::Idle,
     };
     ExclusiveState exclusive_state = ExclusiveState::None;
+    State current_state = State::Initial;
     u32 scan_interval = DEFAULT_SCAN_INTERVAL;
     u32 retry_interval = DEFAULT_RETRY_INTERVAL;
     bool daemon_lock_enabled = false;
@@ -279,6 +297,7 @@ private:
         ar & default_daemon_bit_mask;
         ar & daemon_status;
         ar & exclusive_state;
+        ar & current_state;
         ar & scan_interval;
         ar & retry_interval;
         ar & daemon_lock_enabled;

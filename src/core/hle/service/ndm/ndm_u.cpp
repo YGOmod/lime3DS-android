@@ -115,6 +115,14 @@ void NDM_U::QueryStatus(Kernel::HLERequestContext& ctx) {
     LOG_WARNING(Service_NDM, "(STUBBED) daemon=0x{:02X}", daemon);
 }
 
+void NDM_U::GetCurrentState(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+    rb.Push(ResultSuccess);
+    rb.PushEnum(current_state);
+    LOG_WARNING(Service_NDM, "(STUBBED)");
+}
+
 void NDM_U::GetDaemonDisableCount(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     u8 daemon = rp.Pop<u8>();
