@@ -14,9 +14,10 @@ public:
     ~NIM_AOC();
 
 private:
-    SERVICE_SERIALIZATION_SIMPLE
+    void Initialize(Kernel::HLERequestContext& ctx);
 };
 
 } // namespace Service::NIM
 
+SERVICE_CONSTRUCT(Service::NIM::NIM_AOC)
 BOOST_CLASS_EXPORT_KEY(Service::NIM::NIM_AOC)

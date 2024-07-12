@@ -3,8 +3,11 @@
 // Refer to the license.txt file included.
 
 #include "common/archives.h"
+#include "core/core.h"
+#include "core/hle/ipc_helpers.h"
 #include "core/hle/service/nim/nim_aoc.h"
 
+SERVICE_CONSTRUCT_IMPL(Service::NIM::NIM_AOC)
 SERIALIZE_EXPORT_IMPL(Service::NIM::NIM_AOC)
 
 namespace Service::NIM {
@@ -17,7 +20,7 @@ NIM_AOC::NIM_AOC() : ServiceFramework("nim:aoc", 2) {
         {0x0009, nullptr, "ListContentSetsEx"},
         {0x0018, nullptr, "GetBalance"},
         {0x001D, nullptr, "GetCustomerSupportCode"},
-        {0x0021, nullptr, "Initialize"},
+        {0x0021, &NIM_AOC::Initialize, "Initialize"},
         {0x0024, nullptr, "CalculateContentsRequiredSize"},
         {0x0025, nullptr, "RefreshServerTime"},
         // clang-format on
@@ -26,5 +29,14 @@ NIM_AOC::NIM_AOC() : ServiceFramework("nim:aoc", 2) {
 }
 
 NIM_AOC::~NIM_AOC() = default;
+
+void NIM_AOC::Initialize(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess);
+
+    LOG_WARNING(Service_NIM, "(STUBBED) called");
+}
 
 } // namespace Service::NIM
