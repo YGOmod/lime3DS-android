@@ -118,6 +118,15 @@ void Module::Interface::GetSoftwareClosedFlag(Kernel::HLERequestContext& ctx) {
     LOG_WARNING(Service_PTM, "(STUBBED) called");
 }
 
+void Module::Interface::ClearSoftwareClosedFlag(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess);
+
+    LOG_WARNING(Service_PTM, "(STUBBED) called");
+}
+
 void CheckNew3DS(IPC::RequestBuilder& rb) {
     const bool is_new_3ds = Settings::values.is_new_3ds.GetValue();
 

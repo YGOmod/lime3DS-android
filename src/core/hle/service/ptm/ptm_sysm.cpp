@@ -56,7 +56,7 @@ PTM_S_Common::PTM_S_Common(std::shared_ptr<Module> ptm, const char* name)
         {0x080D, nullptr, "InvalidateSystemTime"},
         {0x080E, nullptr, "NotifyPlayEvent"},
         {0x080F, &PTM_S_Common::GetSoftwareClosedFlag, "GetSoftwareClosedFlag"},
-        {0x0810, nullptr, "ClearSoftwareClosedFlag"},
+        {0x0810, &PTM_S_Common::ClearSoftwareClosedFlag, "ClearSoftwareClosedFlag"},
         {0x0811, &PTM_S_Common::GetShellState, "GetShellState"},
         {0x0812, nullptr, "IsShutdownByBatteryEmpty"},
         {0x0813, nullptr, "FormatSavedata"},

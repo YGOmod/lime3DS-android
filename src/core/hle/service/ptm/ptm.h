@@ -130,6 +130,8 @@ public:
          *         and should be displayed.
          */
         void GetSoftwareClosedFlag(Kernel::HLERequestContext& ctx);
+        
+        void ClearSoftwareClosedFlag(Kernel::HLERequestContext& ctx);
 
         /**
          * PTM::CheckNew3DS service function
