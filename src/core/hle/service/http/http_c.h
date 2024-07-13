@@ -52,8 +52,9 @@ enum class RequestState : u8 {
     ConnectingToServer = 0x5,     // Request in progress, connecting to server.
     SendingRequest = 0x6,         // Request in progress, sending HTTP request.
     ReceivingResponse = 0x7,      // Request in progress, receiving HTTP response.
-    ReadyToDownloadContent = 0x8, // Ready to download the content.
-    TimedOut = 0xA,               // Request timed out?
+    ReceivingBody = 0x8,          // Ready to download the content.
+    Received = 0x9,
+    Completed= 0xA,               // Request is completed
 };
 
 enum class PostDataEncoding : u8 {

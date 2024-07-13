@@ -10,6 +10,7 @@
 #include "common/microprofile.h"
 #include "common/scm_rev.h"
 #include "core/arm/arm_interface.h"
+#include "common/settings.h"
 #include "core/core.h"
 #include "core/core_timing.h"
 #include "core/gdbstub/hio.h"
@@ -75,6 +76,12 @@ enum class KernelState {
     KERNEL_STATE_REBOOT = 7,
 };
 
+// Special Citra only states.
+    /**
+     * Sets the emulation speed percentage. A value of 0 means unthrottled.
+     */
+    KERNEL_STATE_CITRA_EMULATION_SPEED = 0x20000 ///
+    
 struct PageInfo {
     u32 flags;
 };
@@ -268,6 +275,7 @@ enum class SystemInfoMemUsageRegion {
  */
 enum class SystemInfoCitraInformation {
     IS_CITRA = 0,          // Always set the output to 1, signaling the app is running on Citra.
+    EMULATION_SPEED = 2,   // Gets the emulation speed set by the user or by KernelSetState.
     BUILD_NAME = 10,       // (ie: Nightly, Canary).
     BUILD_VERSION = 11,    // Build version.
     BUILD_DATE_PART1 = 20, // Build date first 7 characters.
@@ -1370,6 +1378,11 @@ Result SVC::KernelSetState(u32 kernel_state, u32 varg1, u32 varg2) {
     case KernelState::KERNEL_STATE_REBOOT:
         system.RequestShutdown();
         break;
+    // Citra specific states.
+    case KernelState::KERNEL_STATE_CITRA_EMULATION_SPEED: {
+        u16 new_value = static_cast<u16>(varg1);
+        Settings::values.frame_limit.SetValue(new_value);
+    } break;
     default:
         LOG_ERROR(Kernel_SVC, "Unknown KernelSetState state={} varg1={} varg2={}", kernel_state,
                   varg1, varg2);
@@ -1739,6 +1752,9 @@ Result SVC::GetSystemInfo(s64* out, u32 type, s32 param) {
         switch ((SystemInfoCitraInformation)param) {
         case SystemInfoCitraInformation::IS_CITRA:
             *out = 1;
+            break;
+        case SystemInfoCitraInformation::EMULATION_SPEED:
+            *out = static_cast<s64>(Settings::values.frame_limit.GetValue());
             break;
         case SystemInfoCitraInformation::BUILD_NAME:
             CopyStringPart(reinterpret_cast<char*>(out), Common::g_build_name, 0, sizeof(s64));
