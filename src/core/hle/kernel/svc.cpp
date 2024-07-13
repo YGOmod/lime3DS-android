@@ -74,13 +74,13 @@ enum class KernelState {
      * Reboots the console
      */
     KERNEL_STATE_REBOOT = 7,
-};
-
-// Special Citra only states.
+    
+    // Special Citra only states.
     /**
      * Sets the emulation speed percentage. A value of 0 means unthrottled.
      */
-    KERNEL_STATE_CITRA_EMULATION_SPEED = 0x20000 ///
+    KERNEL_STATE_CITRA_EMULATION_SPEED = 0x20000 /// 
+};
     
 struct PageInfo {
     u32 flags;
