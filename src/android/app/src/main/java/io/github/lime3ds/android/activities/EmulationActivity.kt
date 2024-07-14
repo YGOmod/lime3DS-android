@@ -35,6 +35,8 @@ import io.github.lime3ds.android.display.ScreenAdjustmentUtil
 import io.github.lime3ds.android.features.hotkeys.HotkeyUtility
 import io.github.lime3ds.android.features.settings.model.SettingsViewModel
 import io.github.lime3ds.android.features.settings.model.view.InputBindingSetting
+import io.github.lime3ds.android.features.settings.model.IntSetting
+import io.github.lime3ds.android.features.settings.model.Settings
 import io.github.lime3ds.android.fragments.EmulationFragment
 import io.github.lime3ds.android.fragments.MessageDialogFragment
 import io.github.lime3ds.android.utils.ControllerMappingHelper
@@ -69,7 +71,10 @@ class EmulationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         ThemeUtil.setTheme(this)
 
-        settingsViewModel.settings.loadSettings()
+        isActivityRecreated = savedInstanceState != null
+        if (!isActivityRecreated) {
+            settingsViewModel.settings.loadSettings()
+        }
 
         super.onCreate(savedInstanceState)
 
@@ -82,8 +87,6 @@ class EmulationActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
         navController.setGraph(R.navigation.emulation_navigation, intent.extras)
-
-        isActivityRecreated = savedInstanceState != null
 
         // Set these options now so that the SurfaceView the game renders into is the right size.
         enableFullscreenImmersive()
@@ -194,6 +197,9 @@ class EmulationActivity : AppCompatActivity() {
             controller.systemBarsBehavior =
                 WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
+        val orientation = settingsViewModel.settings.getSection(Settings.SECTION_RENDERER)
+            ?.getSetting(IntSetting.DEVICE_ORIENTATION.key) as IntSetting
+        this.requestedOrientation = orientation.int
     }
 
     // Gets button presses
