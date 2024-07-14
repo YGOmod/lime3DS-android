@@ -10,18 +10,6 @@ SERIALIZE_EXPORT_IMPL(Service::QTM::QTM_S)
 
 namespace Service::QTM {
 
-void QTM_S::GetHeadtrackingInfo(Kernel::HLERequestContext& ctx) {
-    IPC::RequestParser rp(ctx);
-    [[maybe_unused]] const u64 unknown = rp.Pop<u64>();
-
-    std::array<u8, 0x40> data{};
-    IPC::RequestBuilder rb = rp.MakeBuilder(17, 0);
-    rb.Push(ResultSuccess);
-    rb.PushRaw<std::array<u8, 0x40>>(data);
-
-    LOG_DEBUG(Service, "(STUBBED) called");
-}
-
 QTM_S::QTM_S() : ServiceFramework("qtm:s", 2) {
     static const FunctionInfo functions[] = {
         // qtm common commands
@@ -32,6 +20,18 @@ QTM_S::QTM_S() : ServiceFramework("qtm:s", 2) {
     };
 
     RegisterHandlers(functions);
+}
+
+void QTM_S::GetHeadtrackingInfo(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    [[maybe_unused]] const u64 unknown = rp.Pop<u64>();
+
+    std::array<u8, 0x40> data{};
+    IPC::RequestBuilder rb = rp.MakeBuilder(17, 0);
+    rb.Push(ResultSuccess);
+    rb.PushRaw<std::array<u8, 0x40>>(data);
+
+    LOG_DEBUG(Service, "(STUBBED) called");
 }
 
 } // namespace Service::QTM

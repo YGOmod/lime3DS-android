@@ -1490,6 +1490,7 @@ NWM_UDS::NWM_UDS(Core::System& system) : ServiceFramework("nwm::UDS"), system(sy
         {0x0020, nullptr, "Flush"},
         {0x0021, nullptr, "SetProbeResponseParam"},
         {0x0022, nullptr, "ScanOnConnection"},
+        {0x0023, nullptr, "Unknown23"},
         // clang-format on
     };
     connection_status_event =

@@ -10,11 +10,12 @@ SERIALIZE_EXPORT_IMPL(Service::NWM::NWM_SOC)
 namespace Service::NWM {
 
 NWM_SOC::NWM_SOC() : ServiceFramework("nwm::SOC") {
-    /*
     static const FunctionInfo functions[] = {
+        // clang-format off
+        {0x0008, nullptr, "GetMACAddress"},
+        // clang-format on
     };
     RegisterHandlers(functions);
-    */
 }
 
 } // namespace Service::NWM

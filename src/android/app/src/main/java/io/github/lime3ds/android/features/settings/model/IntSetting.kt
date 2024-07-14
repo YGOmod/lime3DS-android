@@ -4,8 +4,6 @@
 
 package io.github.lime3ds.android.features.settings.model
 
-import android.content.pm.ActivityInfo
-
 enum class IntSetting(
     override val key: String,
     override val section: String,
@@ -44,8 +42,7 @@ enum class IntSetting(
     DEBUG_RENDERER("renderer_debug", Settings.SECTION_DEBUG, 0),
     TEXTURE_FILTER("texture_filter", Settings.SECTION_RENDERER, 0),
     USE_FRAME_LIMIT("use_frame_limit", Settings.SECTION_RENDERER, 1);
-    DEVICE_ORIENTATION("default_device_orientation", Settings.SECTION_RENDERER, ActivityInfo.SCREEN_ORIENTATION_USER);
-
+    
     override var int: Int = defaultValue
 
     override val valueAsString: String
