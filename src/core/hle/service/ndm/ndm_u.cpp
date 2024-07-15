@@ -230,7 +230,7 @@ NDM_U::NDM_U() : ServiceFramework("ndm:u", 6) {
         {0x0007, &NDM_U::ResumeDaemons, "ResumeDaemons"},
         {0x0008, &NDM_U::SuspendScheduler, "SuspendScheduler"},
         {0x0009, &NDM_U::ResumeScheduler, "ResumeScheduler"},
-        {0x000A, nullptr, "GetCurrentState"},
+        {0x000A, &NDM_U::GetCurrentState, "GetCurrentState"},
         {0x000B, nullptr, "GetTargetState"},
         {0x000C, nullptr, "<Stubbed>"},
         {0x000D, &NDM_U::QueryStatus, "QueryStatus"},
