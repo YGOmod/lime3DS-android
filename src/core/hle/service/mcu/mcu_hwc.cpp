@@ -3,6 +3,7 @@
 // Refer to the license.txt file included.
 
 #include "common/archives.h"
+#include "core/hle/ipc_helpers.h"
 #include "core/hle/service/mcu/mcu_hwc.h"
 
 SERIALIZE_EXPORT_IMPL(Service::MCU::HWC)
@@ -16,7 +17,7 @@ HWC::HWC() : ServiceFramework("mcu::HWC", 1) {
         {0x0002, nullptr, "WriteRegister"},
         {0x0003, nullptr, "GetInfoRegisters"},
         {0x0004, nullptr, "GetBatteryVoltage"},
-        {0x0005, nullptr, "GetBatteryLevel"},
+        {0x0005, &HWC::GetBatteryLevel, "GetBatteryLevel"},
         {0x0006, nullptr, "SetPowerLEDPattern"},
         {0x0007, nullptr, "SetWifiLEDState"},
         {0x0008, nullptr, "SetCameraLEDPattern"},
@@ -31,6 +32,16 @@ HWC::HWC() : ServiceFramework("mcu::HWC", 1) {
         // clang-format on
     };
     RegisterHandlers(functions);
+}
+
+void HWC::GetBatteryLevel(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+    rb.Push(ResultSuccess);
+    rb.Push<u8>(100); // Set to a completely full battery
+
+    LOG_WARNING(Service_PTM, "(STUBBED) called");
 }
 
 } // namespace Service::MCU

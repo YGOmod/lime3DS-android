@@ -10,9 +10,12 @@ namespace Service::MCU {
 
 class HWC final : public ServiceFramework<HWC> {
 public:
-    explicit HWC();
+    HWC();
+    ~HWC() = default;
 
 private:
+    void GetBatteryLevel(Kernel::HLERequestContext& ctx);
+    
     SERVICE_SERIALIZATION_SIMPLE
 };
 

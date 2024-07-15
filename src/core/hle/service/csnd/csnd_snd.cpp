@@ -512,7 +512,7 @@ CSND_SND::CSND_SND(Core::System& system) : ServiceFramework("csnd:SND", 4), syst
         {0x0001, &CSND_SND::Initialize, "Initialize"},
         {0x0002, &CSND_SND::Shutdown, "Shutdown"},
         {0x0003, &CSND_SND::ExecuteCommands, "ExecuteCommands"},
-        {0x0004, nullptr, "ExecuteType1Commands"},
+        {0x0004, nullptr, "PlaySoundDirectly"},
         {0x0005, &CSND_SND::AcquireSoundChannels, "AcquireSoundChannels"},
         {0x0006, &CSND_SND::ReleaseSoundChannels, "ReleaseSoundChannels"},
         {0x0007, &CSND_SND::AcquireCapUnit, "AcquireCapUnit"},

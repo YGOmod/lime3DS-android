@@ -13,29 +13,6 @@
 SERIALIZE_EXPORT_IMPL(Service::SSL::SSL_C)
 namespace Service::SSL {
 
-void SSL_C::Initialize(Kernel::HLERequestContext& ctx) {
-    IPC::RequestParser rp(ctx);
-    rp.PopPID();
-
-    // Stub, return success
-    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
-    rb.Push(ResultSuccess);
-}
-
-void SSL_C::GenerateRandomData(Kernel::HLERequestContext& ctx) {
-    IPC::RequestParser rp(ctx);
-    const u32 size = rp.Pop<u32>();
-    auto buffer = rp.PopMappedBuffer();
-
-    std::vector<u8> out_data(size);
-    SSL::GenerateRandomData(out_data);
-    buffer.Write(out_data.data(), 0, size);
-
-    IPC::RequestBuilder rb = rp.MakeBuilder(1, 2);
-    rb.Push(ResultSuccess);
-    rb.PushMappedBuffer(buffer);
-}
-
 SSL_C::SSL_C() : ServiceFramework("ssl:C") {
     static const FunctionInfo functions[] = {
         // clang-format off
@@ -66,6 +43,29 @@ SSL_C::SSL_C() : ServiceFramework("ssl:C") {
     };
 
     RegisterHandlers(functions);
+}
+
+void SSL_C::Initialize(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    rp.PopPID();
+
+    // Stub, return success
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess);
+}
+
+void SSL_C::GenerateRandomData(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    const u32 size = rp.Pop<u32>();
+    auto buffer = rp.PopMappedBuffer();
+
+    std::vector<u8> out_data(size);
+    SSL::GenerateRandomData(out_data);
+    buffer.Write(out_data.data(), 0, size);
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 2);
+    rb.Push(ResultSuccess);
+    rb.PushMappedBuffer(buffer);
 }
 
 void InstallInterfaces(Core::System& system) {

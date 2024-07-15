@@ -17,6 +17,10 @@ CECD_NDM::CECD_NDM(std::shared_ptr<Module> cecd)
         {0x0002, nullptr, "Deinitialize"},
         {0x0003, nullptr, "ResumeDaemon"},
         {0x0004, nullptr, "SuspendDaemon"},
+        {0x0005, nullptr, "QueryStatus"},
+        {0x0006, nullptr, "GetNZoneInfo"},
+        {0x0007, nullptr, "SetNZoneSSIDList"},
+        {0x0008, nullptr, "SetNZoneMacFilter"},
         // clang-format on
     };
 
