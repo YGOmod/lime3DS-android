@@ -11,12 +11,12 @@ ACT_A::ACT_A(std::shared_ptr<Module> act) : Module::Interface(std::move(act), "a
     const FunctionInfo functions[] = {
         // act:u shared commands
         // clang-format off
-        {0x0001, &ACT_U::Initialize, "Initialize"},
+        {0x0001, &ACT_A::Initialize, "Initialize"},
         {0x0002, nullptr, "GetErrorCode"},
         {0x0003, nullptr, "GetLastResponseCode"},
         {0x0004, nullptr, "Unknown_04"},
         {0x0005, nullptr, "GetAccountManagerInfo"},
-        {0x0006, &ACT_U::GetAccountDataBlock, "GetAccountDataBlock"},
+        {0x0006, &ACT_A::GetAccountDataBlock, "GetAccountDataBlock"},
         {0x0007, nullptr, "GetResultAsync"},
         {0x0008, nullptr, "GetMiiImageData"},
         {0x0009, nullptr, "SetNfsPassword"},
