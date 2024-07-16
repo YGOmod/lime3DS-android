@@ -900,7 +900,7 @@ void Module::Interface::ListDLCContentInfos(Kernel::HLERequestContext& ctx) {
     rb.PushMappedBuffer(content_info_out);
 }
 
-void Module::Interface::DeleteContents(Kernel::HLERequestContext& ctx) {
+void Module::Interface::DeleteDLCContents(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     u8 media_type = rp.Pop<u8>();
     u64 title_id = rp.Pop<u64>();
@@ -1110,7 +1110,7 @@ void Module::Interface::GetPatchTitleInfos(Kernel::HLERequestContext& ctx) {
     rb.PushMappedBuffer(title_info_out);
 }
 
-void Module::Interface::ListDataTitleTicketInfos(Kernel::HLERequestContext& ctx) {
+void Module::Interface::ListDLCOrLicenseTicketInfos(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     u32 ticket_count = rp.Pop<u32>();
     u64 title_id = rp.Pop<u64>();
