@@ -268,7 +268,7 @@ public:
          *  Outputs:
          *      1 : Result, 0 on success, otherwise error code
          */
-        void DeleteContents(Kernel::HLERequestContext& ctx);
+        void DeleteDLCContents(Kernel::HLERequestContext& ctx);
 
         /**
          * AM::GetProgramList service function
@@ -371,7 +371,7 @@ public:
          *      1 : Result, 0 on success, otherwise error code
          *      2 : Number of ticket infos returned
          */
-        void ListDataTitleTicketInfos(Kernel::HLERequestContext& ctx);
+        void ListDLCOrLicenseTicketInfos(Kernel::HLERequestContext& ctx);
 
         /**
          * AM::GetDLCContentInfoCount service function
