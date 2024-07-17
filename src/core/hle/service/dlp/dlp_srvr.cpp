@@ -41,7 +41,7 @@ DLP_SRVR::DLP_SRVR() : ServiceFramework("dlp:SRVR", 1) {
 void DLP_SRVR::Finalize(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     
-    IPC::ResponseBuilder rb = rp.MakeBuilder(1, 0);
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(ResultSuccess);
     
     LOG_WARNING(Service_DLP, "(STUBBED) called");
