@@ -15,8 +15,6 @@ public:
 
 private:
     SERVICE_SERIALIZATION_SIMPLE
-    
-    void GetHeadtrackingInfo(Kernel::HLERequestContext& ctx);
 };
 
 } // namespace Service::QTM
