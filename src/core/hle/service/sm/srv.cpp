@@ -29,6 +29,30 @@ SERIALIZE_EXPORT_IMPL(Service::SM::SRV)
 
 namespace Service::SM {
 
+SRV::SRV(Core::System& system) : ServiceFramework("srv:", 64), system(system) {
+    static const FunctionInfo functions[] = {
+        // clang-format off
+        {0x0001, &SRV::RegisterClient, "RegisterClient"},
+        {0x0002, &SRV::EnableNotification, "EnableNotification"},
+        {0x0003, &SRV::RegisterService, "RegisterService"},
+        {0x0004, nullptr, "UnregisterService"},
+        {0x0005, &SRV::GetServiceHandle, "GetServiceHandle"},
+        {0x0006, nullptr, "RegisterPort"},
+        {0x0007, nullptr, "UnregisterPort"},
+        {0x0008, nullptr, "GetPort"},
+        {0x0009, &SRV::Subscribe, "Subscribe"},
+        {0x000A, &SRV::Unsubscribe, "Unsubscribe"},
+        {0x000B, nullptr, "ReceiveNotification"},
+        {0x000C, &SRV::PublishToSubscriber, "PublishToSubscriber"},
+        {0x000D, nullptr, "PublishAndGetSubscriber"},
+        {0x000E, nullptr, "IsServiceRegistered"},
+        // clang-format on
+    };
+    RegisterHandlers(functions);
+}
+
+SRV::~SRV() = default;
+
 template <class Archive>
 void SRV::serialize(Archive& ar, const unsigned int) {
     ar& boost::serialization::base_object<Kernel::SessionRequestHandler>(*this);
@@ -288,30 +312,6 @@ void SRV::RegisterService(Kernel::HLERequestContext& ctx) {
     rb.Push(ResultSuccess);
     rb.PushMoveObjects(std::move(port));
 }
-
-SRV::SRV(Core::System& system) : ServiceFramework("srv:", 64), system(system) {
-    static const FunctionInfo functions[] = {
-        // clang-format off
-        {0x0001, &SRV::RegisterClient, "RegisterClient"},
-        {0x0002, &SRV::EnableNotification, "EnableNotification"},
-        {0x0003, &SRV::RegisterService, "RegisterService"},
-        {0x0004, nullptr, "UnregisterService"},
-        {0x0005, &SRV::GetServiceHandle, "GetServiceHandle"},
-        {0x0006, nullptr, "RegisterPort"},
-        {0x0007, nullptr, "UnregisterPort"},
-        {0x0008, nullptr, "GetPort"},
-        {0x0009, &SRV::Subscribe, "Subscribe"},
-        {0x000A, &SRV::Unsubscribe, "Unsubscribe"},
-        {0x000B, nullptr, "ReceiveNotification"},
-        {0x000C, &SRV::PublishToSubscriber, "PublishToSubscriber"},
-        {0x000D, nullptr, "PublishAndGetSubscriber"},
-        {0x000E, nullptr, "IsServiceRegistered"},
-        // clang-format on
-    };
-    RegisterHandlers(functions);
-}
-
-SRV::~SRV() = default;
 
 } // namespace Service::SM
 

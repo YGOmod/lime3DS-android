@@ -14,6 +14,7 @@ public:
     ~DLP_SRVR() = default;
 
 private:
+    void Finalize(Kernel::HLERequestContext& ctx);
     void IsChild(Kernel::HLERequestContext& ctx);
 
     SERVICE_SERIALIZATION_SIMPLE

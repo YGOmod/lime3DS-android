@@ -13,7 +13,7 @@ NIM_S::NIM_S() : ServiceFramework("nim:s", 1) {
     const FunctionInfo functions[] = {
         // clang-format off
         {0x0001, nullptr, "StartDownloadSimple"},
-        {0x0002, nullptr, "CancelDownload"},
+        {0x0002, &NIM_S::CancelDownload, "CancelDownload"},
         {0x0003, nullptr, "GetProgress"},
         {0x0005, nullptr, "UnregisterTask"},
         {0x0006, nullptr, "IsTaskRegistered"},
@@ -52,5 +52,14 @@ NIM_S::NIM_S() : ServiceFramework("nim:s", 1) {
 }
 
 NIM_S::~NIM_S() = default;
+
+void NIM_S::CancelDownload(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess);
+
+    LOG_WARNING(Service_NIM, "(STUBBED) called");
+}
 
 } // namespace Service::NIM

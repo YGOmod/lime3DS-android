@@ -157,9 +157,8 @@ void Module::Interface::GetSystemTime(Kernel::HLERequestContext& ctx) {
 void Module::Interface::ConfigureNew3DSCPU(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     
-    IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(ResultSuccess);
-    rb.Push(3);
 
     LOG_WARNING(Service_PTM, "(STUBBED) called");
 }

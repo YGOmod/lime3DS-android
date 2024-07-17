@@ -13,22 +13,11 @@ SERIALIZE_EXPORT_IMPL(Service::DLP::DLP_SRVR)
 
 namespace Service::DLP {
 
-void DLP_SRVR::IsChild(Kernel::HLERequestContext& ctx) {
-    IPC::RequestParser rp(ctx);
-    rp.Skip(1, false);
-
-    IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
-    rb.Push(ResultSuccess);
-    rb.Push(false);
-
-    LOG_WARNING(Service_DLP, "(STUBBED) called");
-}
-
 DLP_SRVR::DLP_SRVR() : ServiceFramework("dlp:SRVR", 1) {
     static const FunctionInfo functions[] = {
         // clang-format off
         {0x0001, nullptr, "Initialize"},
-        {0x0002, nullptr, "Finalize"},
+        {0x0002, &DLP_SRVR::Finalize, "Finalize"},
         {0x0003, nullptr, "GetServerState"},
         {0x0004, nullptr, "GetEventDescription"},
         {0x0005, nullptr, "StartAccepting"},
@@ -47,6 +36,26 @@ DLP_SRVR::DLP_SRVR() : ServiceFramework("dlp:SRVR", 1) {
     };
 
     RegisterHandlers(functions);
+}
+
+void DLP_SRVR::Finalize(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    
+    IPC::ResponseBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess);
+    
+    LOG_WARNING(Service_DLP, "(STUBBED) called");
+}
+
+void DLP_SRVR::IsChild(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    rp.Skip(1, false);
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+    rb.Push(ResultSuccess);
+    rb.Push(false);
+
+    LOG_WARNING(Service_DLP, "(STUBBED) called");
 }
 
 } // namespace Service::DLP

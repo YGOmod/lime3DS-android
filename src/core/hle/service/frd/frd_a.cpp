@@ -64,6 +64,7 @@ FRD_A::FRD_A(std::shared_ptr<Module> frd) : Module::Interface(std::move(frd), "f
         {0x0033, nullptr, "GetMyApproachContext"},
         {0x0034, nullptr, "AddFriendWithApproach"},
         {0x0035, nullptr, "DecryptApproachContext"},
+        //frd:a 
         {0x0401, nullptr, "CreateLocalAccount"},
         {0x0403, nullptr, "SetLocalAccountId"},
         {0x0405, nullptr, "SaveData"},

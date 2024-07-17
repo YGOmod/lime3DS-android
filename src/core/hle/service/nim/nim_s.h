@@ -14,6 +14,8 @@ public:
     ~NIM_S();
 
 private:
+    void CancelDownload(Kernel::HLERequestContext& ctx);
+    
     SERVICE_SERIALIZATION_SIMPLE
 };
 
