@@ -58,6 +58,7 @@ public:
     void ReloadInputDevices();
 
 private:
+    void InitializeIrNop(Kernel::HLERequestContext& ctx);
     /**
      * InitializeIrNopShared service function
      * Initializes ir:USER service with a user provided shared memory. The shared memory is
@@ -99,6 +100,8 @@ private:
      *      2 : 0 (Handle descriptor)
      *      3 : Receive event handle
      */
+    void AutoConnection(Kernel::HLERequestContext& ctx);
+    
     void GetReceiveEvent(Kernel::HLERequestContext& ctx);
 
     /**
@@ -149,6 +152,7 @@ private:
      */
     void SendIrNop(Kernel::HLERequestContext& ctx);
 
+    void GetConnectionStatus(Kernel::HLERequestContext& ctx);
     /**
      * ReleaseReceivedData function
      * Release a specified amount of packet from the receive buffer. This is called after the
@@ -166,7 +170,9 @@ private:
     std::shared_ptr<Kernel::Event> conn_status_event, send_event, receive_event;
     std::shared_ptr<Kernel::SharedMemory> shared_memory;
     bool connected_device;
+    bool init_with_shared;
     std::unique_ptr<BufferManager> receive_buffer;
+    std::unique_ptr<BufferManager> send_buffer;
     std::unique_ptr<ExtraHID> extra_hid;
 
 private:
