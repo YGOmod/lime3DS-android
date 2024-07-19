@@ -52,8 +52,6 @@ NIM_S::NIM_S() : ServiceFramework("nim:s", 1) {
     RegisterHandlers(functions);
 }
 
-NIM_S::~NIM_S() = default;
-
 void NIM_S::CancelDownload(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
 

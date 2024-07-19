@@ -26,6 +26,7 @@ SSL_C::SSL_C() : ServiceFramework("ssl:C") {
         {0x000D, nullptr, "OpenClientCertContext"},
         {0x000E, nullptr, "OpenDefaultClientCertContext"},
         {0x000F, nullptr, "CloseClientCertContext"},
+        {0x0010, nullptr, "SeedRNG"},
         {0x0011, &SSL_C::GenerateRandomData, "GenerateRandomData"},
         {0x0012, nullptr, "InitializeConnectionSession"},
         {0x0013, nullptr, "StartConnection"},
@@ -39,6 +40,7 @@ SSL_C::SSL_C() : ServiceFramework("ssl:C") {
         {0x001C, nullptr, "ContextGetProtocolCipher"},
         {0x001E, nullptr, "DestroyContext"},
         {0x001F, nullptr, "ContextInitSharedmem"},
+        {0x0020, nullptr, "AddEVPolicyID"},
         // clang-format on
     };
 

@@ -191,6 +191,27 @@ struct CaptureState {
 };
 static_assert(sizeof(CaptureState) == 0x8, "CaptureState structure size is wrong");
 
+CSND_SND::CSND_SND(Core::System& system) : ServiceFramework("csnd:SND", 4), system(system) {
+    static const FunctionInfo functions[] = {
+        // clang-format off
+        {0x0001, &CSND_SND::Initialize, "Initialize"},
+        {0x0002, &CSND_SND::Shutdown, "Shutdown"},
+        {0x0003, &CSND_SND::ExecuteCommands, "ExecuteCommands"},
+        {0x0004, nullptr, "PlaySoundDirectly"},
+        {0x0005, &CSND_SND::AcquireSoundChannels, "AcquireSoundChannels"},
+        {0x0006, &CSND_SND::ReleaseSoundChannels, "ReleaseSoundChannels"},
+        {0x0007, &CSND_SND::AcquireCapUnit, "AcquireCapUnit"},
+        {0x0008, &CSND_SND::ReleaseCapUnit, "ReleaseCapUnit"},
+        {0x0009, &CSND_SND::FlushDataCache, "FlushDataCache"},
+        {0x000A, &CSND_SND::StoreDataCache, "StoreDataCache"},
+        {0x000B, &CSND_SND::InvalidateDataCache, "InvalidateDataCache"},
+        {0x000C, &CSND_SND::Reset, "Reset"},
+        // clang-format on
+    };
+
+    RegisterHandlers(functions);
+};
+
 void CSND_SND::Initialize(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     const u32 size = Common::AlignUp(rp.Pop<u32>(), Memory::CITRA_PAGE_SIZE);
@@ -505,27 +526,6 @@ void CSND_SND::Reset(Kernel::HLERequestContext& ctx) {
 
     LOG_WARNING(Service_CSND, "(STUBBED) called");
 }
-
-CSND_SND::CSND_SND(Core::System& system) : ServiceFramework("csnd:SND", 4), system(system) {
-    static const FunctionInfo functions[] = {
-        // clang-format off
-        {0x0001, &CSND_SND::Initialize, "Initialize"},
-        {0x0002, &CSND_SND::Shutdown, "Shutdown"},
-        {0x0003, &CSND_SND::ExecuteCommands, "ExecuteCommands"},
-        {0x0004, nullptr, "PlaySoundDirectly"},
-        {0x0005, &CSND_SND::AcquireSoundChannels, "AcquireSoundChannels"},
-        {0x0006, &CSND_SND::ReleaseSoundChannels, "ReleaseSoundChannels"},
-        {0x0007, &CSND_SND::AcquireCapUnit, "AcquireCapUnit"},
-        {0x0008, &CSND_SND::ReleaseCapUnit, "ReleaseCapUnit"},
-        {0x0009, &CSND_SND::FlushDataCache, "FlushDataCache"},
-        {0x000A, &CSND_SND::StoreDataCache, "StoreDataCache"},
-        {0x000B, &CSND_SND::InvalidateDataCache, "InvalidateDataCache"},
-        {0x000C, &CSND_SND::Reset, "Reset"},
-        // clang-format on
-    };
-
-    RegisterHandlers(functions);
-};
 
 void InstallInterfaces(Core::System& system) {
     auto& service_manager = system.ServiceManager();

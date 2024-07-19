@@ -11,8 +11,13 @@ namespace Service::NWM {
 class NWM_EXT final : public ServiceFramework<NWM_EXT> {
 public:
     NWM_EXT();
+    ~NWM_EXT();
 
 private:
+    void ControlWirelessEnabled(Kernel::HLERequestContext& ctx);
+    
+    bool control_wireless_enabled = true;
+    
     SERVICE_SERIALIZATION_SIMPLE
 };
 
