@@ -3,6 +3,7 @@
 // Refer to the license.txt file included.
 
 #include "common/archives.h"
+#include "core/hle/ipc_helpers.h"
 #include "core/hle/service/nim/nim_aoc.h"
 
 SERIALIZE_EXPORT_IMPL(Service::NIM::NIM_AOC)
@@ -24,6 +25,8 @@ NIM_AOC::NIM_AOC() : ServiceFramework("nim:aoc", 2) {
     };
     RegisterHandlers(functions);
 }
+
+NIM_AOC::~NIM_AOC() = default;
 
 void NIM_AOC::Initialize(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
