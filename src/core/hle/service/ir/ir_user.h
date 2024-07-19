@@ -151,6 +151,10 @@ private:
      *      1 : Result of function, 0 on success, otherwise error code
      */
     void SendIrNop(Kernel::HLERequestContext& ctx);
+    
+    void GetLatestReceiveErrorResult(Kernel::HLERequestContext& ctx);
+    
+    void GetLatestSendErrorResult(Kernel::HLERequestContext& ctx);
 
     void GetConnectionStatus(Kernel::HLERequestContext& ctx);
     /**
