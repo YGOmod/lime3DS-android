@@ -19,6 +19,8 @@ NWM_EXT::NWM_EXT() : ServiceFramework("nwm::EXT") {
     RegisterHandlers(functions);
 }
 
+NWM_EXT::~NWM_EXT() = default;
+
 void NWM_EXT::ControlWirelessEnabled(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
 
