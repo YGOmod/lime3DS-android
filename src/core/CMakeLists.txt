@@ -419,6 +419,8 @@ add_library(lime_core STATIC
     hle/service/ptm/ptm_sysm.h
     hle/service/ptm/ptm_u.cpp
     hle/service/ptm/ptm_u.h
+    hle/service/pxi/am.cpp
+    hle/service/pxi/am.h
     hle/service/pxi/dev.cpp
     hle/service/pxi/dev.h
     hle/service/pxi/pxi.cpp
