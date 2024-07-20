@@ -1255,7 +1255,7 @@ void FS_USER::GetArchiveResource(Kernel::HLERequestContext& ctx) {
 
 void FS_USER::AbnegateAccessRight(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    access_right = rp.Pop<u32>();
+    u32 access_right = rp.Pop<u32>();
     
     if(access_right >= 0x38) {
         LOG_ERROR(Service_FS, "invalid access right");
