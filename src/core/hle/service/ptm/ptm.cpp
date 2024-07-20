@@ -163,6 +163,24 @@ void Module::Interface::ConfigureNew3DSCPU(Kernel::HLERequestContext& ctx) {
     LOG_WARNING(Service_PTM, "(STUBBED) called");
 }
 
+void Module::Interface::GetPlayHistoryStart(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess);
+
+    LOG_WARNING(Service_PTM, "(STUBBED) called");
+}
+
+void Module::Interface::GetPlayHistoryLength(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess);
+
+    LOG_WARNING(Service_PTM, "(STUBBED) called");
+}
+
 static void WriteGameCoinData(GameCoin gamecoin_data) {
     const std::string& nand_directory = FileUtil::GetUserPath(FileUtil::UserPath::NANDDir);
     FileSys::ArchiveFactory_ExtSaveData extdata_archive_factory(nand_directory,

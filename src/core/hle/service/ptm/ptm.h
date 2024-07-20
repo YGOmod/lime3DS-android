@@ -154,6 +154,10 @@ public:
          *
          */
         void ConfigureNew3DSCPU(Kernel::HLERequestContext& ctx);
+        
+        void GetPlayHistoryStart(Kernel::HLERequestContext& ctx);
+        
+        void GetPlayHistoryLength(Kernel::HLERequestContext& ctx);
 
     protected:
         std::shared_ptr<Module> ptm;

@@ -14,7 +14,7 @@ FRD_U::FRD_U(std::shared_ptr<Module> frd) : Module::Interface(std::move(frd), "f
         {0x0001, &FRD_U::HasLoggedIn, "HasLoggedIn"},
         {0x0002, &FRD_U::IsOnline, "IsOnline"},
         {0x0003, &FRD_U::Login, "Login"},
-        {0x0004, nullptr, "Logout"},
+        {0x0004, &FRD_U::Logout, "Logout"},
         {0x0005, &FRD_U::GetMyFriendKey, "GetMyFriendKey"},
         {0x0006, &FRD_U::GetMyPreference, "GetMyPreference"},
         {0x0007, &FRD_U::GetMyProfile, "GetMyProfile"},
@@ -42,8 +42,8 @@ FRD_U::FRD_U(std::shared_ptr<Module> frd) : Module::Interface(std::move(frd), "f
         {0x001D, &FRD_U::UpdateGameModeDescription, "UpdateGameModeDescription"},
         {0x001E, nullptr, "UpdateGameMode"},
         {0x001F, nullptr, "SendInvitation"},
-        {0x0020, nullptr, "AttachToEventNotification"},
-        {0x0021, nullptr, "SetNotificationMask"},
+        {0x0020, &FRD_U::AttachToEventNotification, "AttachToEventNotification"},
+        {0x0021, &FRD_U::SetNotificationMask, "SetNotificationMask"},
         {0x0022, nullptr, "GetEventNotification"},
         {0x0023, &FRD_U::GetLastResponseResult, "GetLastResponseResult"},
         {0x0024, nullptr, "PrincipalIdToFriendCode"},
@@ -64,6 +64,7 @@ FRD_U::FRD_U(std::shared_ptr<Module> frd) : Module::Interface(std::move(frd), "f
         {0x0033, nullptr, "GetMyApproachContext"},
         {0x0034, nullptr, "AddFriendWithApproach"},
         {0x0035, nullptr, "DecryptApproachContext"},
+        {0x0036, nullptr, "GetExtendedNatProperties"},
     };
     RegisterHandlers(functions);
 }

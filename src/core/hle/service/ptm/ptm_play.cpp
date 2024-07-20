@@ -31,8 +31,8 @@ PTM_Play::PTM_Play(std::shared_ptr<Module> ptm)
         {0x000F, nullptr, "GetStepHistoryAll"},
         // ptm:play
         {0x0807, nullptr, "GetPlayHistory"},
-        {0x0808, nullptr, "GetPlayHistoryStart"},
-        {0x0809, nullptr, "GetPlayHistoryLength"},
+        {0x0808, &PTM_Play::GetPlayHistoryStart, "GetPlayHistoryStart"},
+        {0x0809, &PTM_Play::GetPlayHistoryLength, "GetPlayHistoryLength"},
         {0x080B, nullptr, "CalcPlayHistoryStart"},
         // clang-format on
     };

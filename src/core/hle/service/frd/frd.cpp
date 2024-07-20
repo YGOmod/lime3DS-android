@@ -230,6 +230,21 @@ void Module::Interface::UpdateGameModeDescription(Kernel::HLERequestContext& ctx
     LOG_WARNING(Service_FRD, "(STUBBED) called");
 }
 
+void Module::Interface::AttachToEventNotification(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    frd->notif_event = rp.PopObject<Kernel::Event>();
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess);
+}
+
+void Module::Interface::SetNotificationMask(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    frd->notif_event_mask = rp.Pop<u32>();
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess);
+}
 void Module::Interface::SetClientSdkVersion(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     u32 version = rp.Pop<u32>();
@@ -281,10 +296,20 @@ void Module::Interface::Login(Kernel::HLERequestContext& ctx) {
     rb.Push(ResultSuccess);
 }
 
+void Module::Interface::Logout(Kernel::HLERequestContext& ctx) {
+    LOG_WARNING(Service_FRD, "(STUBBED) called");
+    
+    IPC::RequestParser rp(ctx);
+    frd->logged_in = false;
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess);
+}
+
 void Module::Interface::GetLastResponseResult(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
     LOG_WARNING(Service_FRD, "(STUBBED) called");
 
-    IPC::RequestParser rp(ctx);
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(ResultSuccess);
 }

@@ -213,6 +213,10 @@ public:
         void UnscrambleLocalFriendCode(Kernel::HLERequestContext& ctx);
         
         void UpdateGameModeDescription(Kernel::HLERequestContext& ctx);
+        
+        void AttachToEventNotification(Kernel::HLERequestContext& ctx);
+        
+        void SetNotificationMask(Kernel::HLERequestContext& ctx);
 
         /**
          * FRD::SetClientSdkVersion service function
@@ -232,6 +236,8 @@ public:
          *      1  : Result of function, 0 on success, otherwise error code
          */
         void Login(Kernel::HLERequestContext& ctx);
+        
+        void Logout(Kernel::HLERequestContext& ctx);
 
         /**
          * FRD::IsOnline service function
@@ -271,6 +277,9 @@ private:
     std::shared_ptr<Kernel::Event> login_event;
     Core::TimingEventType* login_delay_event;
     Core::System& system;
+    
+    u32 notif_event_mask = 0xF7;
+    std::shared_ptr<Kernel::Event> notif_event;
 
     template <class Archive>
     void serialize(Archive& ar, const unsigned int) {
