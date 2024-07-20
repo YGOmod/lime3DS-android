@@ -28,6 +28,72 @@ SERVICE_CONSTRUCT_IMPL(Service::NWM::NWM_UDS)
 
 namespace Service::NWM {
 
+NWM_UDS::NWM_UDS(Core::System& system) : ServiceFramework("nwm::UDS"), system(system) {
+    static const FunctionInfo functions[] = {
+        // clang-format off
+        {0x0001, &NWM_UDS::InitializeDeprecated, "Initialize (deprecated)"},
+        {0x0002, nullptr, "Scrap"},
+        {0x0003, &NWM_UDS::Shutdown, "Shutdown"},
+        {0x0004, &NWM_UDS::BeginHostingNetworkDeprecated, "BeginHostingNetwork (deprecated)"},
+        {0x0005, &NWM_UDS::EjectClient, "EjectClient"},
+        {0x0006, nullptr, "EjectSpectator"},
+        {0x0007, &NWM_UDS::UpdateNetworkAttribute, "UpdateNetworkAttribute"},
+        {0x0008, &NWM_UDS::DestroyNetwork, "DestroyNetwork"},
+        {0x0009, &NWM_UDS::ConnectToNetworkDeprecated, "ConnectToNetwork (deprecated)"},
+        {0x000A, &NWM_UDS::DisconnectNetwork, "DisconnectNetwork"},
+        {0x000B, &NWM_UDS::GetConnectionStatus, "GetConnectionStatus"},
+        {0x000D, &NWM_UDS::GetNodeInformation, "GetNodeInformation"},
+        {0x000E, &NWM_UDS::DecryptBeaconData, "DecryptBeaconData (deprecated)"},
+        {0x000F, &NWM_UDS::RecvBeaconBroadcastData, "RecvBeaconBroadcastData"},
+        {0x0010, &NWM_UDS::SetApplicationData, "SetApplicationData"},
+        {0x0011, &NWM_UDS::GetApplicationData, "GetApplicationData"},
+        {0x0012, &NWM_UDS::Bind, "Bind"},
+        {0x0013, &NWM_UDS::Unbind, "Unbind"},
+        {0x0014, &NWM_UDS::PullPacket, "PullPacket"},
+        {0x0015, nullptr, "SetMaxSendDelay"},
+        {0x0017, &NWM_UDS::SendTo, "SendTo"},
+        {0x001A, &NWM_UDS::GetChannel, "GetChannel"},
+        {0x001B, &NWM_UDS::InitializeWithVersion, "InitializeWithVersion"},
+        {0x001D, &NWM_UDS::BeginHostingNetwork, "BeginHostingNetwork"},
+        {0x001E, &NWM_UDS::ConnectToNetwork, "ConnectToNetwork"},
+        {0x001F, &NWM_UDS::DecryptBeaconData, "DecryptBeaconData"},
+        {0x0020, nullptr, "Flush"},
+        {0x0021, nullptr, "SetProbeResponseParam"},
+        {0x0022, nullptr, "ScanOnConnection"},
+        {0x0023, nullptr, "Unknown23"},
+        // clang-format on
+    };
+    connection_status_event =
+        system.Kernel().CreateEvent(Kernel::ResetType::OneShot, "NWM::connection_status_event");
+
+    RegisterHandlers(functions);
+
+    beacon_broadcast_event = system.CoreTiming().RegisterEvent(
+        "UDS::BeaconBroadcastCallback", [this](std::uintptr_t user_data, s64 cycles_late) {
+            BeaconBroadcastCallback(user_data, cycles_late);
+        });
+
+    CryptoPP::AutoSeededRandomPool rng;
+    auto mac = SharedPage::DefaultMac;
+    // Keep the Nintendo 3DS MAC header and randomly generate the last 3 bytes
+    rng.GenerateBlock(static_cast<CryptoPP::byte*>(mac.data() + 3), 3);
+
+    if (auto room_member = Network::GetRoomMember().lock()) {
+        if (room_member->IsConnected()) {
+            mac = room_member->GetMacAddress();
+        }
+    }
+
+    system.Kernel().GetSharedPageHandler().SetMacAddress(mac);
+
+    if (auto room_member = Network::GetRoomMember().lock()) {
+        wifi_packet_received = room_member->BindOnWifiPacketReceived(
+            [this](const Network::WifiPacket& packet) { OnWifiPacketReceived(packet); });
+    } else {
+        LOG_ERROR(Service_NWM, "Network isn't initalized");
+    }
+}
+
 template <class Archive>
 void NWM_UDS::serialize(Archive& ar, const unsigned int) {
     ar& boost::serialization::base_object<Kernel::SessionRequestHandler>(*this);
@@ -1456,72 +1522,6 @@ void NWM_UDS::BeaconBroadcastCallback(std::uintptr_t user_data, s64 cycles_late)
     system.CoreTiming().ScheduleEvent(msToCycles(DefaultBeaconInterval * MillisecondsPerTU) -
                                           cycles_late,
                                       beacon_broadcast_event, 0);
-}
-
-NWM_UDS::NWM_UDS(Core::System& system) : ServiceFramework("nwm::UDS"), system(system) {
-    static const FunctionInfo functions[] = {
-        // clang-format off
-        {0x0001, &NWM_UDS::InitializeDeprecated, "Initialize (deprecated)"},
-        {0x0002, nullptr, "Scrap"},
-        {0x0003, &NWM_UDS::Shutdown, "Shutdown"},
-        {0x0004, &NWM_UDS::BeginHostingNetworkDeprecated, "BeginHostingNetwork (deprecated)"},
-        {0x0005, &NWM_UDS::EjectClient, "EjectClient"},
-        {0x0006, nullptr, "EjectSpectator"},
-        {0x0007, &NWM_UDS::UpdateNetworkAttribute, "UpdateNetworkAttribute"},
-        {0x0008, &NWM_UDS::DestroyNetwork, "DestroyNetwork"},
-        {0x0009, &NWM_UDS::ConnectToNetworkDeprecated, "ConnectToNetwork (deprecated)"},
-        {0x000A, &NWM_UDS::DisconnectNetwork, "DisconnectNetwork"},
-        {0x000B, &NWM_UDS::GetConnectionStatus, "GetConnectionStatus"},
-        {0x000D, &NWM_UDS::GetNodeInformation, "GetNodeInformation"},
-        {0x000E, &NWM_UDS::DecryptBeaconData, "DecryptBeaconData (deprecated)"},
-        {0x000F, &NWM_UDS::RecvBeaconBroadcastData, "RecvBeaconBroadcastData"},
-        {0x0010, &NWM_UDS::SetApplicationData, "SetApplicationData"},
-        {0x0011, &NWM_UDS::GetApplicationData, "GetApplicationData"},
-        {0x0012, &NWM_UDS::Bind, "Bind"},
-        {0x0013, &NWM_UDS::Unbind, "Unbind"},
-        {0x0014, &NWM_UDS::PullPacket, "PullPacket"},
-        {0x0015, nullptr, "SetMaxSendDelay"},
-        {0x0017, &NWM_UDS::SendTo, "SendTo"},
-        {0x001A, &NWM_UDS::GetChannel, "GetChannel"},
-        {0x001B, &NWM_UDS::InitializeWithVersion, "InitializeWithVersion"},
-        {0x001D, &NWM_UDS::BeginHostingNetwork, "BeginHostingNetwork"},
-        {0x001E, &NWM_UDS::ConnectToNetwork, "ConnectToNetwork"},
-        {0x001F, &NWM_UDS::DecryptBeaconData, "DecryptBeaconData"},
-        {0x0020, nullptr, "Flush"},
-        {0x0021, nullptr, "SetProbeResponseParam"},
-        {0x0022, nullptr, "ScanOnConnection"},
-        {0x0023, nullptr, "Unknown23"},
-        // clang-format on
-    };
-    connection_status_event =
-        system.Kernel().CreateEvent(Kernel::ResetType::OneShot, "NWM::connection_status_event");
-
-    RegisterHandlers(functions);
-
-    beacon_broadcast_event = system.CoreTiming().RegisterEvent(
-        "UDS::BeaconBroadcastCallback", [this](std::uintptr_t user_data, s64 cycles_late) {
-            BeaconBroadcastCallback(user_data, cycles_late);
-        });
-
-    CryptoPP::AutoSeededRandomPool rng;
-    auto mac = SharedPage::DefaultMac;
-    // Keep the Nintendo 3DS MAC header and randomly generate the last 3 bytes
-    rng.GenerateBlock(static_cast<CryptoPP::byte*>(mac.data() + 3), 3);
-
-    if (auto room_member = Network::GetRoomMember().lock()) {
-        if (room_member->IsConnected()) {
-            mac = room_member->GetMacAddress();
-        }
-    }
-
-    system.Kernel().GetSharedPageHandler().SetMacAddress(mac);
-
-    if (auto room_member = Network::GetRoomMember().lock()) {
-        wifi_packet_received = room_member->BindOnWifiPacketReceived(
-            [this](const Network::WifiPacket& packet) { OnWifiPacketReceived(packet); });
-    } else {
-        LOG_ERROR(Service_NWM, "Network isn't initalized");
-    }
 }
 
 NWM_UDS::~NWM_UDS() {

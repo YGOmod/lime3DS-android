@@ -33,6 +33,8 @@ Directory::Directory() : ServiceFramework("", 1), path(""), backend(nullptr) {
         // clang-format off
         {0x0801, &Directory::Read, "Read"},
         {0x0802, &Directory::Close, "Close"},
+        {0x0803, nullptr, "SetPriority"},
+        {0x0804, nullptr, "GetPriority"},
         // clang-format on
     };
     RegisterHandlers(functions);

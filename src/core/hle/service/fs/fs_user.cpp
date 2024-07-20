@@ -35,6 +35,131 @@ using Kernel::ServerSession;
 
 namespace Service::FS {
 
+FS_USER::FS_USER(Core::System& system)
+    : ServiceFramework("fs:USER", 30), system(system), archives(system.ArchiveManager()) {
+    static const FunctionInfo functions[] = {
+        // clang-format off
+        {0x0001, nullptr, "Dummy1"},
+        {0x0401, nullptr, "Control"},
+        {0x0801, &FS_USER::Initialize, "Initialize"},
+        {0x0802, &FS_USER::OpenFile, "OpenFile"},
+        {0x0803, &FS_USER::OpenFileDirectly, "OpenFileDirectly"},
+        {0x0804, &FS_USER::DeleteFile, "DeleteFile"},
+        {0x0805, &FS_USER::RenameFile, "RenameFile"},
+        {0x0806, &FS_USER::DeleteDirectory, "DeleteDirectory"},
+        {0x0807, &FS_USER::DeleteDirectoryRecursively, "DeleteDirectoryRecursively"},
+        {0x0808, &FS_USER::CreateFile, "CreateFile"},
+        {0x0809, &FS_USER::CreateDirectory, "CreateDirectory"},
+        {0x080A, &FS_USER::RenameDirectory, "RenameDirectory"},
+        {0x080B, &FS_USER::OpenDirectory, "OpenDirectory"},
+        {0x080C, &FS_USER::OpenArchive, "OpenArchive"},
+        {0x080D, &FS_USER::ControlArchive, "ControlArchive"},
+        {0x080E, &FS_USER::CloseArchive, "CloseArchive"},
+        {0x080F, &FS_USER::FormatThisUserSaveData, "FormatThisUserSaveData"},
+        {0x0810, &FS_USER::CreateLegacySystemSaveData, "CreateLegacySystemSaveData"},
+        {0x0811, nullptr, "DeleteSystemSaveData"},
+        {0x0812, &FS_USER::GetFreeBytes, "GetFreeBytes"},
+        {0x0813, &FS_USER::GetCardType, "GetCardType"},
+        {0x0814, &FS_USER::GetSdmcArchiveResource, "GetSdmcArchiveResource"},
+        {0x0815, &FS_USER::GetNandArchiveResource, "GetNandArchiveResource"},
+        {0x0816, nullptr, "GetSdmcFatfsError"},
+        {0x0817, &FS_USER::IsSdmcDetected, "IsSdmcDetected"},
+        {0x0818, &FS_USER::IsSdmcWriteable, "IsSdmcWritable"},
+        {0x0819, nullptr, "GetSdmcCid"},
+        {0x081A, nullptr, "GetNandCid"},
+        {0x081B, nullptr, "GetSdmcSpeedInfo"},
+        {0x081C, nullptr, "GetNandSpeedInfo"},
+        {0x081D, nullptr, "GetSdmcLog"},
+        {0x081E, nullptr, "GetNandLog"},
+        {0x081F, nullptr, "ClearSdmcLog"},
+        {0x0820, nullptr, "ClearNandLog"},
+        {0x0821, &FS_USER::CardSlotIsInserted, "CardSlotIsInserted"},
+        {0x0822, nullptr, "CardSlotPowerOn"},
+        {0x0823, nullptr, "CardSlotPowerOff"},
+        {0x0824, nullptr, "CardSlotGetCardIFPowerStatus"},
+        {0x0825, nullptr, "CardNorDirectCommand"},
+        {0x0826, nullptr, "CardNorDirectCommandWithAddress"},
+        {0x0827, nullptr, "CardNorDirectRead"},
+        {0x0828, nullptr, "CardNorDirectReadWithAddress"},
+        {0x0829, nullptr, "CardNorDirectWrite"},
+        {0x082A, nullptr, "CardNorDirectWriteWithAddress"},
+        {0x082B, nullptr, "CardNorDirectRead_4xIO"},
+        {0x082C, nullptr, "CardNorDirectCpuWriteWithoutVerify"},
+        {0x082D, nullptr, "CardNorDirectSectorEraseWithoutVerify"},
+        {0x082E, &FS_USER::GetProductInfo, "GetProductInfo"},
+        {0x082F, &FS_USER::GetProgramLaunchInfo, "GetProgramLaunchInfo"},
+        {0x0830, &FS_USER::ObsoletedCreateExtSaveData, "Obsoleted_3_0_CreateExtSaveData"},
+        {0x0831, nullptr, "CreateSharedExtSaveData"},
+        {0x0832, nullptr, "ReadExtSaveDataIcon"},
+        {0x0833, nullptr, "EnumerateExtSaveData"},
+        {0x0834, nullptr, "EnumerateSharedExtSaveData"},
+        {0x0835, &FS_USER::ObsoletedDeleteExtSaveData, "Obsoleted_3_0_DeleteExtSaveData"},
+        {0x0836, nullptr, "DeleteSharedExtSaveData"},
+        {0x0837, nullptr, "SetCardSpiBaudRate"},
+        {0x0838, nullptr, "SetCardSpiBusMode"},
+        {0x0839, nullptr, "SendInitializeInfoTo9"},
+        {0x083A, &FS_USER::GetSpecialContentIndex, "GetSpecialContentIndex"},
+        {0x083B, nullptr, "GetLegacyRomHeader"},
+        {0x083C, nullptr, "GetLegacyBannerData"},
+        {0x083D, nullptr, "CheckAuthorityToAccessExtSaveData"},
+        {0x083E, nullptr, "QueryTotalQuotaSize"},
+        {0x083F, nullptr, "GetExtDataBlockSize"},
+        {0x0840, &FS_USER::AbnegateAccessRight, "AbnegateAccessRight"},
+        {0x0841, nullptr, "DeleteSdmcRoot"},
+        {0x0842, nullptr, "DeleteAllExtSaveDataOnNand"},
+        {0x0843, nullptr, "InitializeCtrFileSystem"},
+        {0x0844, nullptr, "CreateSeed"},
+        {0x0845, &FS_USER::GetFormatInfo, "GetFormatInfo"},
+        {0x0846, nullptr, "GetLegacyRomHeader2"},
+        {0x0847, nullptr, "FormatCtrCardUserSaveData"},
+        {0x0848, nullptr, "GetSdmcCtrRootPath"},
+        {0x0849, &FS_USER::GetArchiveResource, "GetArchiveResource"},
+        {0x084A, nullptr, "ExportIntegrityVerificationSeed"},
+        {0x084B, nullptr, "ImportIntegrityVerificationSeed"},
+        {0x084C, &FS_USER::FormatSaveData, "FormatSaveData"},
+        {0x084D, nullptr, "GetLegacySubBannerData"},
+        {0x084E, nullptr, "UpdateSha256Context"},
+        {0x084F, nullptr, "ReadSpecialFile"},
+        {0x0850, nullptr, "GetSpecialFileSize"},
+        {0x0851, &FS_USER::CreateExtSaveData, "CreateExtSaveData"},
+        {0x0852, &FS_USER::DeleteExtSaveData, "DeleteExtSaveData"},
+        {0x0853, nullptr, "ReadExtSaveDataIcon"},
+        {0x0854, nullptr, "GetExtDataBlockSize"},
+        {0x0855, nullptr, "EnumerateExtSaveData"},
+        {0x0856, &FS_USER::CreateSystemSaveData, "CreateSystemSaveData"},
+        {0x0857, &FS_USER::DeleteSystemSaveData, "DeleteSystemSaveData"},
+        {0x0858, nullptr, "StartDeviceMoveAsSource"},
+        {0x0859, nullptr, "StartDeviceMoveAsDestination"},
+        {0x085A, &FS_USER::SetArchivePriority, "SetArchivePriority"},
+        {0x085B, nullptr, "GetArchivePriority"},
+        {0x085C, nullptr, "SetCtrCardLatencyParameter"},
+        {0x085D, nullptr, "SetFsCompatibilityInfo"},
+        {0x085E, nullptr, "ResetCardCompatibilityParameter"},
+        {0x085F, nullptr, "SwitchCleanupInvalidSaveData"},
+        {0x0860, nullptr, "EnumerateSystemSaveData"},
+        {0x0861, &FS_USER::InitializeWithSdkVersion, "InitializeWithSdkVersion"},
+        {0x0862, &FS_USER::SetPriority, "SetPriority"},
+        {0x0863, &FS_USER::GetPriority, "GetPriority"},
+        {0x0864, nullptr, "GetNandInfo"},
+        {0x0865, &FS_USER::ObsoletedSetSaveDataSecureValue, "SetSaveDataSecureValue"},
+        {0x0866, &FS_USER::ObsoletedGetSaveDataSecureValue, "GetSaveDataSecureValue"},
+        {0x0867, &FS_USER::ControlSecureSave, "ControlSecureSave"},
+        {0x0868, nullptr, "GetMediaType"},
+        {0x0869, nullptr, "GetNandEraseCount"},
+        {0x086A, nullptr, "ReadNandReport"},
+        {0x086E, &FS_USER::SetThisSaveDataSecureValue, "SetThisSaveDataSecureValue" },
+        {0x086F, &FS_USER::GetThisSaveDataSecureValue, "GetThisSaveDataSecureValue" },
+        {0x0875, &FS_USER::SetSaveDataSecureValue, "SetSaveDataSecureValue" },
+        {0x0876, &FS_USER::GetSaveDataSecureValue, "GetSaveDataSecureValue" },
+        {0x087A, &FS_USER::AddSeed, "AddSeed"},
+        {0x087D, &FS_USER::GetNumSeeds, "GetNumSeeds"},
+        {0x0886, nullptr, "CheckUpdatedDat"},
+        // clang-format on
+    };
+    RegisterHandlers(functions);
+    secure_value_backend = std::make_shared<FileSys::DefaultSecureValueBackend>();
+}
+
 void FS_USER::Initialize(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     u32 pid = rp.PopPID();
@@ -1060,6 +1185,17 @@ void FS_USER::CreateLegacySystemSaveData(Kernel::HLERequestContext& ctx) {
     rb.Push(archives.CreateSystemSaveData(0, savedata_id));
 }
 
+void FS_USER::SetArchivePriority(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    const auto archive_handle = rp.PopRaw<ArchiveHandle>();
+    const auto priority = rp.Pop<u32>();
+    
+    LOG_DEBUG(Service_FS, "Stubbed. archive=0x{:08X} priority={}", archive_handle, priority);
+    
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess);
+}
+
 void FS_USER::InitializeWithSdkVersion(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     const u32 version = rp.Pop<u32>();
@@ -1115,6 +1251,20 @@ void FS_USER::GetArchiveResource(Kernel::HLERequestContext& ctx) {
     IPC::RequestBuilder rb = rp.MakeBuilder(5, 0);
     rb.Push(ResultSuccess);
     rb.PushRaw(*resource);
+}
+
+void FS_USER::AbnegateAccessRight(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    access_right = rp.Pop<u32>();
+    
+    if(access_right >= 0x38) {
+        LOG_ERROR(Service_FS, "invalid access right");
+    }
+    
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess);
+
+    LOG_DEBUG(Service_FS, "called access right=0x{:X}", access_right);
 }
 
 void FS_USER::GetFormatInfo(Kernel::HLERequestContext& ctx) {
@@ -1656,130 +1806,6 @@ ResultVal<u16> FS_USER::GetSpecialContentIndexFromTMD(MediaType media_type, u64 
     return ResultUnknown;
 }
 
-FS_USER::FS_USER(Core::System& system)
-    : ServiceFramework("fs:USER", 30), system(system), archives(system.ArchiveManager()) {
-    static const FunctionInfo functions[] = {
-        // clang-format off
-        {0x0001, nullptr, "Dummy1"},
-        {0x0401, nullptr, "Control"},
-        {0x0801, &FS_USER::Initialize, "Initialize"},
-        {0x0802, &FS_USER::OpenFile, "OpenFile"},
-        {0x0803, &FS_USER::OpenFileDirectly, "OpenFileDirectly"},
-        {0x0804, &FS_USER::DeleteFile, "DeleteFile"},
-        {0x0805, &FS_USER::RenameFile, "RenameFile"},
-        {0x0806, &FS_USER::DeleteDirectory, "DeleteDirectory"},
-        {0x0807, &FS_USER::DeleteDirectoryRecursively, "DeleteDirectoryRecursively"},
-        {0x0808, &FS_USER::CreateFile, "CreateFile"},
-        {0x0809, &FS_USER::CreateDirectory, "CreateDirectory"},
-        {0x080A, &FS_USER::RenameDirectory, "RenameDirectory"},
-        {0x080B, &FS_USER::OpenDirectory, "OpenDirectory"},
-        {0x080C, &FS_USER::OpenArchive, "OpenArchive"},
-        {0x080D, &FS_USER::ControlArchive, "ControlArchive"},
-        {0x080E, &FS_USER::CloseArchive, "CloseArchive"},
-        {0x080F, &FS_USER::FormatThisUserSaveData, "FormatThisUserSaveData"},
-        {0x0810, &FS_USER::CreateLegacySystemSaveData, "CreateLegacySystemSaveData"},
-        {0x0811, nullptr, "DeleteSystemSaveData"},
-        {0x0812, &FS_USER::GetFreeBytes, "GetFreeBytes"},
-        {0x0813, &FS_USER::GetCardType, "GetCardType"},
-        {0x0814, &FS_USER::GetSdmcArchiveResource, "GetSdmcArchiveResource"},
-        {0x0815, &FS_USER::GetNandArchiveResource, "GetNandArchiveResource"},
-        {0x0816, nullptr, "GetSdmcFatfsError"},
-        {0x0817, &FS_USER::IsSdmcDetected, "IsSdmcDetected"},
-        {0x0818, &FS_USER::IsSdmcWriteable, "IsSdmcWritable"},
-        {0x0819, nullptr, "GetSdmcCid"},
-        {0x081A, nullptr, "GetNandCid"},
-        {0x081B, nullptr, "GetSdmcSpeedInfo"},
-        {0x081C, nullptr, "GetNandSpeedInfo"},
-        {0x081D, nullptr, "GetSdmcLog"},
-        {0x081E, nullptr, "GetNandLog"},
-        {0x081F, nullptr, "ClearSdmcLog"},
-        {0x0820, nullptr, "ClearNandLog"},
-        {0x0821, &FS_USER::CardSlotIsInserted, "CardSlotIsInserted"},
-        {0x0822, nullptr, "CardSlotPowerOn"},
-        {0x0823, nullptr, "CardSlotPowerOff"},
-        {0x0824, nullptr, "CardSlotGetCardIFPowerStatus"},
-        {0x0825, nullptr, "CardNorDirectCommand"},
-        {0x0826, nullptr, "CardNorDirectCommandWithAddress"},
-        {0x0827, nullptr, "CardNorDirectRead"},
-        {0x0828, nullptr, "CardNorDirectReadWithAddress"},
-        {0x0829, nullptr, "CardNorDirectWrite"},
-        {0x082A, nullptr, "CardNorDirectWriteWithAddress"},
-        {0x082B, nullptr, "CardNorDirectRead_4xIO"},
-        {0x082C, nullptr, "CardNorDirectCpuWriteWithoutVerify"},
-        {0x082D, nullptr, "CardNorDirectSectorEraseWithoutVerify"},
-        {0x082E, &FS_USER::GetProductInfo, "GetProductInfo"},
-        {0x082F, &FS_USER::GetProgramLaunchInfo, "GetProgramLaunchInfo"},
-        {0x0830, &FS_USER::ObsoletedCreateExtSaveData, "Obsoleted_3_0_CreateExtSaveData"},
-        {0x0831, nullptr, "CreateSharedExtSaveData"},
-        {0x0832, nullptr, "ReadExtSaveDataIcon"},
-        {0x0833, nullptr, "EnumerateExtSaveData"},
-        {0x0834, nullptr, "EnumerateSharedExtSaveData"},
-        {0x0835, &FS_USER::ObsoletedDeleteExtSaveData, "Obsoleted_3_0_DeleteExtSaveData"},
-        {0x0836, nullptr, "DeleteSharedExtSaveData"},
-        {0x0837, nullptr, "SetCardSpiBaudRate"},
-        {0x0838, nullptr, "SetCardSpiBusMode"},
-        {0x0839, nullptr, "SendInitializeInfoTo9"},
-        {0x083A, &FS_USER::GetSpecialContentIndex, "GetSpecialContentIndex"},
-        {0x083B, nullptr, "GetLegacyRomHeader"},
-        {0x083C, nullptr, "GetLegacyBannerData"},
-        {0x083D, nullptr, "CheckAuthorityToAccessExtSaveData"},
-        {0x083E, nullptr, "QueryTotalQuotaSize"},
-        {0x083F, nullptr, "GetExtDataBlockSize"},
-        {0x0840, nullptr, "AbnegateAccessRight"},
-        {0x0841, nullptr, "DeleteSdmcRoot"},
-        {0x0842, nullptr, "DeleteAllExtSaveDataOnNand"},
-        {0x0843, nullptr, "InitializeCtrFileSystem"},
-        {0x0844, nullptr, "CreateSeed"},
-        {0x0845, &FS_USER::GetFormatInfo, "GetFormatInfo"},
-        {0x0846, nullptr, "GetLegacyRomHeader2"},
-        {0x0847, nullptr, "FormatCtrCardUserSaveData"},
-        {0x0848, nullptr, "GetSdmcCtrRootPath"},
-        {0x0849, &FS_USER::GetArchiveResource, "GetArchiveResource"},
-        {0x084A, nullptr, "ExportIntegrityVerificationSeed"},
-        {0x084B, nullptr, "ImportIntegrityVerificationSeed"},
-        {0x084C, &FS_USER::FormatSaveData, "FormatSaveData"},
-        {0x084D, nullptr, "GetLegacySubBannerData"},
-        {0x084E, nullptr, "UpdateSha256Context"},
-        {0x084F, nullptr, "ReadSpecialFile"},
-        {0x0850, nullptr, "GetSpecialFileSize"},
-        {0x0851, &FS_USER::CreateExtSaveData, "CreateExtSaveData"},
-        {0x0852, &FS_USER::DeleteExtSaveData, "DeleteExtSaveData"},
-        {0x0853, nullptr, "ReadExtSaveDataIcon"},
-        {0x0854, nullptr, "GetExtDataBlockSize"},
-        {0x0855, nullptr, "EnumerateExtSaveData"},
-        {0x0856, &FS_USER::CreateSystemSaveData, "CreateSystemSaveData"},
-        {0x0857, &FS_USER::DeleteSystemSaveData, "DeleteSystemSaveData"},
-        {0x0858, nullptr, "StartDeviceMoveAsSource"},
-        {0x0859, nullptr, "StartDeviceMoveAsDestination"},
-        {0x085A, nullptr, "SetArchivePriority"},
-        {0x085B, nullptr, "GetArchivePriority"},
-        {0x085C, nullptr, "SetCtrCardLatencyParameter"},
-        {0x085D, nullptr, "SetFsCompatibilityInfo"},
-        {0x085E, nullptr, "ResetCardCompatibilityParameter"},
-        {0x085F, nullptr, "SwitchCleanupInvalidSaveData"},
-        {0x0860, nullptr, "EnumerateSystemSaveData"},
-        {0x0861, &FS_USER::InitializeWithSdkVersion, "InitializeWithSdkVersion"},
-        {0x0862, &FS_USER::SetPriority, "SetPriority"},
-        {0x0863, &FS_USER::GetPriority, "GetPriority"},
-        {0x0864, nullptr, "GetNandInfo"},
-        {0x0865, &FS_USER::ObsoletedSetSaveDataSecureValue, "SetSaveDataSecureValue"},
-        {0x0866, &FS_USER::ObsoletedGetSaveDataSecureValue, "GetSaveDataSecureValue"},
-        {0x0867, &FS_USER::ControlSecureSave, "ControlSecureSave"},
-        {0x0868, nullptr, "GetMediaType"},
-        {0x0869, nullptr, "GetNandEraseCount"},
-        {0x086A, nullptr, "ReadNandReport"},
-        {0x086E, &FS_USER::SetThisSaveDataSecureValue, "SetThisSaveDataSecureValue" },
-        {0x086F, &FS_USER::GetThisSaveDataSecureValue, "GetThisSaveDataSecureValue" },
-        {0x0875, &FS_USER::SetSaveDataSecureValue, "SetSaveDataSecureValue" },
-        {0x0876, &FS_USER::GetSaveDataSecureValue, "GetSaveDataSecureValue" },
-        {0x087A, &FS_USER::AddSeed, "AddSeed"},
-        {0x087D, &FS_USER::GetNumSeeds, "GetNumSeeds"},
-        {0x0886, nullptr, "CheckUpdatedDat"},
-        // clang-format on
-    };
-    RegisterHandlers(functions);
-    secure_value_backend = std::make_shared<FileSys::DefaultSecureValueBackend>();
-}
 template <class Archive>
 void Service::FS::FS_USER::serialize(Archive& ar, const unsigned int) {
     ar& boost::serialization::base_object<Kernel::SessionRequestHandler>(*this);

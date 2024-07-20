@@ -44,11 +44,14 @@ File::File(Kernel::KernelSystem& kernel)
         {0x0803, &File::Write, "Write"},
         {0x0804, &File::GetSize, "GetSize"},
         {0x0805, &File::SetSize, "SetSize"},
+        {0x0806, nullptr, "GetAttributes"},
+        {0x0807, nullptr, "SetAttributes"},
         {0x0808, &File::Close, "Close"},
         {0x0809, &File::Flush, "Flush"},
         {0x080A, &File::SetPriority, "SetPriority"},
         {0x080B, &File::GetPriority, "GetPriority"},
         {0x080C, &File::OpenLinkFile, "OpenLinkFile"},
+        {0x0C01, nullptr, "GetAvailable"},
     };
     RegisterHandlers(functions);
 }

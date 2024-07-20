@@ -479,6 +479,8 @@ private:
      *      1 : Result of function, 0 on success, otherwise error code
      */
     void CreateLegacySystemSaveData(Kernel::HLERequestContext& ctx);
+    
+    void SetArchivePriority(Kernel::HLERequestContext& ctx);
 
     /**
      * FS_User::InitializeWithSdkVersion service function.
@@ -525,6 +527,8 @@ private:
      *      5 : Available free space in clusters
      */
     void GetArchiveResource(Kernel::HLERequestContext& ctx);
+    
+    void AbnegateAccessRight(Kernel::HLERequestContext& ctx);
 
     /**
      * FS_User::GetFormatInfo service function.
