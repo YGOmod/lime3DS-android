@@ -161,7 +161,7 @@ void Module::Interface::ConfigureNew3DSCPU(Kernel::HLERequestContext& ctx) {
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(ResultSuccess);
 
-    LOG_WARNING(Service_PTM, "(STUBBED) called value={}", value);
+    LOG_WARNING(Service_PTM, "(STUBBED) called, value={}", value);
 }
 
 void Module::Interface::GetPlayHistoryStart(Kernel::HLERequestContext& ctx) {
