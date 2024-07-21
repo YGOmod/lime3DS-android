@@ -84,9 +84,9 @@ void Module::Interface::GetStepHistory(Kernel::HLERequestContext& ctx) {
     ASSERT_MSG(sizeof(u16) * hours == buffer.GetSize(),
                "Buffer for steps count has incorrect size");
 
-    // Stub: set zero steps count for every hour
+    // Stub: set one steps count for every hour
     for (u32 i = 0; i < hours; ++i) {
-        const u16_le steps_per_hour = 0;
+        const u16_le steps_per_hour = 1;
         buffer.Write(&steps_per_hour, i * sizeof(u16), sizeof(u16));
     }
 
@@ -156,11 +156,12 @@ void Module::Interface::GetSystemTime(Kernel::HLERequestContext& ctx) {
 
 void Module::Interface::ConfigureNew3DSCPU(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
+    const u8 value = rp.Pop<u8>();
     
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(ResultSuccess);
 
-    LOG_WARNING(Service_PTM, "(STUBBED) called");
+    LOG_WARNING(Service_PTM, "(STUBBED) called value={}", value);
 }
 
 void Module::Interface::GetPlayHistoryStart(Kernel::HLERequestContext& ctx) {

@@ -869,31 +869,6 @@ void Module::Interface::SetFrameRate(Kernel::HLERequestContext& ctx) {
                 camera_select.m_val, frame_rate);
 }
 
-void Module::Interface::SetPhotoMode(Kernel::HLERequestContext& ctx) {
-    IPC::RequestParser rp(ctx);
-    const CameraSet camera_select(rp.Pop<u8>());
-    const PhotoMode photo_mode = rp.PopEnum<PhotoMode>();
-
-    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
-    if (camera_select.IsValid()) {
-        for (int index : camera_select) {
-            auto& camera = cam->cameras[index];
-            camera.photo_mode = photo_mode;
-            if (!camera.impl) {
-                cam->LoadCameraImplementation(camera, index);
-            }
-            camera.impl->SetPhotoMode(photo_mode);
-        }
-        rb.Push(ResultSuccess);
-    } else {
-        LOG_ERROR(Service_CAM, "invalid camera_select={}", camera_select.m_val);
-        rb.Push(ResultInvalidEnumValue);
-    }
-
-    LOG_WARNING(Service_CAM, "(STUBBED) called, camera_select={}, photo_mode={}",
-                camera_select.m_val, photo_mode);
-}
-
 void Module::Interface::SetEffect(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     const CameraSet camera_select(rp.Pop<u8>());

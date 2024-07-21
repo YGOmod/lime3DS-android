@@ -483,8 +483,6 @@ public:
          *      1: Result
          */
         void SetFrameRate(Kernel::HLERequestContext& ctx);
-        
-        void SetPhotoMode(Kernel::HLERequestContext& ctx);
 
         /**
          * Sets effect on the output image
@@ -687,6 +685,7 @@ private:
             ar & contexts;
             ar & current_context;
             ar & frame_rate;
+            ar & photo_mode;
         }
         friend class boost::serialization::access;
     };
