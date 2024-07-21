@@ -679,6 +679,7 @@ private:
         std::array<ContextConfig, 2> contexts;
         int current_context{0};
         FrameRate frame_rate{FrameRate::Rate_15};
+        PhotoMode photo_mode{PhotoMode::Normal};
 
     private:
         template <class Archive>

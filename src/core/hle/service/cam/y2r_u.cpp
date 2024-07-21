@@ -20,6 +20,66 @@ SERIALIZE_EXPORT_IMPL(Service::Y2R::Y2R_U)
 
 namespace Service::Y2R {
 
+Y2R_U::Y2R_U(Core::System& system) : ServiceFramework("y2r:u", 1), system(system) {
+    static const FunctionInfo functions[] = {
+        // clang-format off
+        {0x0001, &Y2R_U::SetInputFormat, "SetInputFormat"},
+        {0x0002, &Y2R_U::GetInputFormat, "GetInputFormat"},
+        {0x0003, &Y2R_U::SetOutputFormat, "SetOutputFormat"},
+        {0x0004, &Y2R_U::GetOutputFormat, "GetOutputFormat"},
+        {0x0005, &Y2R_U::SetRotation, "SetRotation"},
+        {0x0006, &Y2R_U::GetRotation, "GetRotation"},
+        {0x0007, &Y2R_U::SetBlockAlignment, "SetBlockAlignment"},
+        {0x0008, &Y2R_U::GetBlockAlignment, "GetBlockAlignment"},
+        {0x0009, &Y2R_U::SetSpacialDithering, "SetSpacialDithering"},
+        {0x000A, &Y2R_U::GetSpacialDithering, "GetSpacialDithering"},
+        {0x000B, &Y2R_U::SetTemporalDithering, "SetTemporalDithering"},
+        {0x000C, &Y2R_U::GetTemporalDithering, "GetTemporalDithering"},
+        {0x000D, &Y2R_U::SetTransferEndInterrupt, "SetTransferEndInterrupt"},
+        {0x000E, &Y2R_U::GetTransferEndInterrupt, "GetTransferEndInterrupt"},
+        {0x000F, &Y2R_U::GetTransferEndEvent, "GetTransferEndEvent"},
+        {0x0010, &Y2R_U::SetSendingY, "SetSendingY"},
+        {0x0011, &Y2R_U::SetSendingU, "SetSendingU"},
+        {0x0012, &Y2R_U::SetSendingV, "SetSendingV"},
+        {0x0013, &Y2R_U::SetSendingYUYV, "SetSendingYUYV"},
+        {0x0014, &Y2R_U::IsFinishedSendingYuv, "IsFinishedSendingYuv"},
+        {0x0015, &Y2R_U::IsFinishedSendingY, "IsFinishedSendingY"},
+        {0x0016, &Y2R_U::IsFinishedSendingU, "IsFinishedSendingU"},
+        {0x0017, &Y2R_U::IsFinishedSendingV, "IsFinishedSendingV"},
+        {0x0018, &Y2R_U::SetReceiving, "SetReceiving"},
+        {0x0019, &Y2R_U::IsFinishedReceiving, "IsFinishedReceiving"},
+        {0x001A, &Y2R_U::SetInputLineWidth, "SetInputLineWidth"},
+        {0x001B, &Y2R_U::GetInputLineWidth, "GetInputLineWidth"},
+        {0x001C, &Y2R_U::SetInputLines, "SetInputLines"},
+        {0x001D, &Y2R_U::GetInputLines, "GetInputLines"},
+        {0x001E, &Y2R_U::SetCoefficient, "SetCoefficient"},
+        {0x001F, &Y2R_U::GetCoefficient, "GetCoefficient"},
+        {0x0020, &Y2R_U::SetStandardCoefficient, "SetStandardCoefficient"},
+        {0x0021, &Y2R_U::GetStandardCoefficient, "GetStandardCoefficient"},
+        {0x0022, &Y2R_U::SetAlpha, "SetAlpha"},
+        {0x0023, &Y2R_U::GetAlpha, "GetAlpha"},
+        {0x0024, &Y2R_U::SetDitheringWeightParams, "SetDitheringWeightParams"},
+        {0x0025, &Y2R_U::GetDitheringWeightParams, "GetDitheringWeightParams"},
+        {0x0026, &Y2R_U::StartConversion, "StartConversion"},
+        {0x0027, &Y2R_U::StopConversion, "StopConversion"},
+        {0x0028, &Y2R_U::IsBusyConversion, "IsBusyConversion"},
+        {0x0029, &Y2R_U::SetPackageParameter, "SetPackageParameter"},
+        {0x002A, &Y2R_U::PingProcess, "PingProcess"},
+        {0x002B, &Y2R_U::DriverInitialize, "DriverInitialize"},
+        {0x002C, &Y2R_U::DriverFinalize, "DriverFinalize"},
+        {0x002D, &Y2R_U::GetPackageParameter, "GetPackageParameter"},
+        // clang-format on
+    };
+    RegisterHandlers(functions);
+
+    completion_event = system.Kernel().CreateEvent(Kernel::ResetType::OneShot, "Y2R:Completed");
+    completion_signal_event =
+        system.CoreTiming().RegisterEvent("Y2R Completion Signal Event", [this](uintptr_t, s64) {
+            completion_event->Signal();
+            is_busy_conversion = false;
+        });
+}
+
 template <class Archive>
 void Y2R_U::serialize(Archive& ar, const unsigned int) {
     ar& boost::serialization::base_object<Kernel::SessionRequestHandler>(*this);
@@ -661,66 +721,6 @@ void Y2R_U::GetPackageParameter(Kernel::HLERequestContext& ctx) {
     rb.PushRaw(conversion);
 
     LOG_DEBUG(Service_Y2R, "called");
-}
-
-Y2R_U::Y2R_U(Core::System& system) : ServiceFramework("y2r:u", 1), system(system) {
-    static const FunctionInfo functions[] = {
-        // clang-format off
-        {0x0001, &Y2R_U::SetInputFormat, "SetInputFormat"},
-        {0x0002, &Y2R_U::GetInputFormat, "GetInputFormat"},
-        {0x0003, &Y2R_U::SetOutputFormat, "SetOutputFormat"},
-        {0x0004, &Y2R_U::GetOutputFormat, "GetOutputFormat"},
-        {0x0005, &Y2R_U::SetRotation, "SetRotation"},
-        {0x0006, &Y2R_U::GetRotation, "GetRotation"},
-        {0x0007, &Y2R_U::SetBlockAlignment, "SetBlockAlignment"},
-        {0x0008, &Y2R_U::GetBlockAlignment, "GetBlockAlignment"},
-        {0x0009, &Y2R_U::SetSpacialDithering, "SetSpacialDithering"},
-        {0x000A, &Y2R_U::GetSpacialDithering, "GetSpacialDithering"},
-        {0x000B, &Y2R_U::SetTemporalDithering, "SetTemporalDithering"},
-        {0x000C, &Y2R_U::GetTemporalDithering, "GetTemporalDithering"},
-        {0x000D, &Y2R_U::SetTransferEndInterrupt, "SetTransferEndInterrupt"},
-        {0x000E, &Y2R_U::GetTransferEndInterrupt, "GetTransferEndInterrupt"},
-        {0x000F, &Y2R_U::GetTransferEndEvent, "GetTransferEndEvent"},
-        {0x0010, &Y2R_U::SetSendingY, "SetSendingY"},
-        {0x0011, &Y2R_U::SetSendingU, "SetSendingU"},
-        {0x0012, &Y2R_U::SetSendingV, "SetSendingV"},
-        {0x0013, &Y2R_U::SetSendingYUYV, "SetSendingYUYV"},
-        {0x0014, &Y2R_U::IsFinishedSendingYuv, "IsFinishedSendingYuv"},
-        {0x0015, &Y2R_U::IsFinishedSendingY, "IsFinishedSendingY"},
-        {0x0016, &Y2R_U::IsFinishedSendingU, "IsFinishedSendingU"},
-        {0x0017, &Y2R_U::IsFinishedSendingV, "IsFinishedSendingV"},
-        {0x0018, &Y2R_U::SetReceiving, "SetReceiving"},
-        {0x0019, &Y2R_U::IsFinishedReceiving, "IsFinishedReceiving"},
-        {0x001A, &Y2R_U::SetInputLineWidth, "SetInputLineWidth"},
-        {0x001B, &Y2R_U::GetInputLineWidth, "GetInputLineWidth"},
-        {0x001C, &Y2R_U::SetInputLines, "SetInputLines"},
-        {0x001D, &Y2R_U::GetInputLines, "GetInputLines"},
-        {0x001E, &Y2R_U::SetCoefficient, "SetCoefficient"},
-        {0x001F, &Y2R_U::GetCoefficient, "GetCoefficient"},
-        {0x0020, &Y2R_U::SetStandardCoefficient, "SetStandardCoefficient"},
-        {0x0021, &Y2R_U::GetStandardCoefficient, "GetStandardCoefficient"},
-        {0x0022, &Y2R_U::SetAlpha, "SetAlpha"},
-        {0x0023, &Y2R_U::GetAlpha, "GetAlpha"},
-        {0x0024, &Y2R_U::SetDitheringWeightParams, "SetDitheringWeightParams"},
-        {0x0025, &Y2R_U::GetDitheringWeightParams, "GetDitheringWeightParams"},
-        {0x0026, &Y2R_U::StartConversion, "StartConversion"},
-        {0x0027, &Y2R_U::StopConversion, "StopConversion"},
-        {0x0028, &Y2R_U::IsBusyConversion, "IsBusyConversion"},
-        {0x0029, &Y2R_U::SetPackageParameter, "SetPackageParameter"},
-        {0x002A, &Y2R_U::PingProcess, "PingProcess"},
-        {0x002B, &Y2R_U::DriverInitialize, "DriverInitialize"},
-        {0x002C, &Y2R_U::DriverFinalize, "DriverFinalize"},
-        {0x002D, &Y2R_U::GetPackageParameter, "GetPackageParameter"},
-        // clang-format on
-    };
-    RegisterHandlers(functions);
-
-    completion_event = system.Kernel().CreateEvent(Kernel::ResetType::OneShot, "Y2R:Completed");
-    completion_signal_event =
-        system.CoreTiming().RegisterEvent("Y2R Completion Signal Event", [this](uintptr_t, s64) {
-            completion_event->Signal();
-            is_busy_conversion = false;
-        });
 }
 
 Y2R_U::~Y2R_U() = default;
