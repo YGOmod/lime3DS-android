@@ -30,7 +30,7 @@ CFG_S::CFG_S(std::shared_ptr<Module> cfg) : Module::Interface(std::move(cfg), "c
         {0x0403, &CFG_S::UpdateConfigNANDSavegame, "UpdateConfigNANDSavegame"},
         {0x0404, nullptr, "GetLocalFriendCodeSeedData"},
         {0x0405, nullptr, "GetLocalFriendCodeSeed"},
-        {0x0406, &CFG_S::SecureInfoGetRegion, "GetRegion"},
+        {0x0406, &CFG_S::SecureInfoGetRegion, "SecureInfoGetRegion"},
         {0x0407, &CFG_S::SecureInfoGetByte101, "SecureInfoGetByte101"},
         {0x0408, nullptr, "SecureInfoGetSerialNo"},
         {0x0409, nullptr, "UpdateConfigBlk00040003"},

@@ -483,6 +483,8 @@ public:
          *      1: Result
          */
         void SetFrameRate(Kernel::HLERequestContext& ctx);
+        
+        void SetPhotoMode(Kernel::HLERequestContext& ctx);
 
         /**
          * Sets effect on the output image

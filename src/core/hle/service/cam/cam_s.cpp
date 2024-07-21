@@ -43,7 +43,7 @@ CAM_S::CAM_S(std::shared_ptr<Module> cam) : Module::Interface(std::move(cam), "c
         {0x001E, &CAM_S::SetDetailSize, "SetDetailSize"},
         {0x001F, &CAM_S::SetSize, "SetSize"},
         {0x0020, &CAM_S::SetFrameRate, "SetFrameRate"},
-        {0x0021, nullptr, "SetPhotoMode"},
+        {0x0021, &CAM_S::SetPhotoMode, "SetPhotoMode"},
         {0x0022, &CAM_S::SetEffect, "SetEffect"},
         {0x0023, nullptr, "SetContrast"},
         {0x0024, nullptr, "SetLensCorrection"},
