@@ -206,7 +206,7 @@ u32 Module::GetRegionValue() {
     return Settings::values.region_value.GetValue();
 }
 
-void Module::Interface::GetRegion(Kernel::HLERequestContext& ctx) {
+void Module::Interface::SecureInfoGetRegion(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
 
     IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
@@ -369,6 +369,15 @@ void Module::Interface::FormatConfig(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(cfg->FormatConfig());
+}
+
+void Module::Interface::ClearParentalControls(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+
+    LOG_DEBUG(Service_CFG, "(STUBBED) called");
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess);
 }
 
 ResultVal<void*> Module::GetConfigBlockPointer(u32 block_id, u32 size, AccessFlag accesss_flag) {

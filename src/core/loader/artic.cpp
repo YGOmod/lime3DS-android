@@ -15,7 +15,7 @@
 #include "core/core.h"
 #include "core/file_sys/ncch_container.h"
 #include "core/file_sys/romfs_reader.h"
-#include "core/file_sys/secure_value_backend_artic.h"
+//#include "core/file_sys/secure_value_backend_artic.h"
 #include "core/file_sys/title_metadata.h"
 #include "core/hle/kernel/kernel.h"
 #include "core/hle/kernel/process.h"
@@ -336,8 +336,8 @@ ResultStatus Apploader_Artic::Load(std::shared_ptr<Kernel::Process>& process) {
     system.ArchiveManager().RegisterArticExtData(client);
     system.ArchiveManager().RegisterArticNCCH(client);
 
-    auto fs_user = system.ServiceManager().GetService<Service::FS::FS_USER>("fs:USER");
-    fs_user->RegisterSecureValueBackend(std::make_shared<FileSys::ArticSecureValueBackend>(client));
+    //auto fs_user = system.ServiceManager().GetService<Service::FS::FS_USER>("fs:USER");
+    //fs_user->RegisterSecureValueBackend(std::make_shared<FileSys::ArticSecureValueBackend>(client));
 
     ParseRegionLockoutInfo(ncch_program_id);
 

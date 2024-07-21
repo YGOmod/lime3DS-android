@@ -217,7 +217,7 @@ public:
          *      1 : Result of function, 0 on success, otherwise error code
          *      2 : Region value loaded from SecureInfo offset 0x100
          */
-        void GetRegion(Kernel::HLERequestContext& ctx);
+        void SecureInfoGetRegion(Kernel::HLERequestContext& ctx);
 
         /**
          * CFG::SecureInfoGetByte101 service function
@@ -306,6 +306,8 @@ public:
          *      1 : Result of function, 0 on success, otherwise error code
          */
         void GetConfig(Kernel::HLERequestContext& ctx);
+        
+        void ClearParentalControls(Kernel::HLERequestContext& ctx);
 
         /**
          * CFG::GetSystemConfig service function

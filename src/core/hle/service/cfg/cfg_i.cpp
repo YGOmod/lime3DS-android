@@ -14,7 +14,7 @@ CFG_I::CFG_I(std::shared_ptr<Module> cfg) : Module::Interface(std::move(cfg), "c
         // cfg common
         // clang-format off
         {0x0001, &CFG_I::GetConfig, "GetConfig"},
-        {0x0002, &CFG_I::GetRegion, "GetRegion"},
+        {0x0002, &CFG_I::SecureInfoGetRegion, "SecureInfoGetRegion"},
         {0x0003, &CFG_I::GetTransferableId, "GetTransferableId"},
         {0x0004, &CFG_I::IsCoppacsSupported, "IsCoppacsSupported"},
         {0x0005, &CFG_I::GetSystemModel, "GetSystemModel"},
@@ -30,7 +30,7 @@ CFG_I::CFG_I(std::shared_ptr<Module> cfg) : Module::Interface(std::move(cfg), "c
         {0x0403, &CFG_I::UpdateConfigNANDSavegame, "UpdateConfigNANDSavegame"},
         {0x0404, nullptr, "GetLocalFriendCodeSeedData"},
         {0x0405, nullptr, "GetLocalFriendCodeSeed"},
-        {0x0406, &CFG_I::GetRegion, "GetRegion"},
+        {0x0406, &CFG_I::SecureInfoGetRegion, "GetRegion"},
         {0x0407, &CFG_I::SecureInfoGetByte101, "SecureInfoGetByte101"},
         {0x0408, nullptr, "SecureInfoGetSerialNo"},
         {0x0409, nullptr, "UpdateConfigBlk00040003"},
@@ -55,7 +55,7 @@ CFG_I::CFG_I(std::shared_ptr<Module> cfg) : Module::Interface(std::move(cfg), "c
         {0x0813, nullptr, "VerifySigSecureInfo"},
         {0x0814, nullptr, "SecureInfoGetData"},
         {0x0815, nullptr, "SecureInfoGetSignature"},
-        {0x0816, &CFG_I::GetRegion, "GetRegion"},
+        {0x0816, &CFG_I::SecureInfoGetRegion, "GetRegion"},
         {0x0817, &CFG_I::SecureInfoGetByte101, "SecureInfoGetByte101"},
         {0x0818, nullptr, "SecureInfoGetSerialNo"},
         // clang-format on

@@ -14,7 +14,7 @@ CFG_U::CFG_U(std::shared_ptr<Module> cfg) : Module::Interface(std::move(cfg), "c
         // cfg common
         // clang-format off
         {0x0001, &CFG_U::GetConfig, "GetConfig"},
-        {0x0002, &CFG_U::GetRegion, "GetRegion"},
+        {0x0002, &CFG_U::SecureInfoGetRegion, "SecureInfoGetRegion"},
         {0x0003, &CFG_U::GetTransferableId, "GetTransferableId"},
         {0x0004, &CFG_U::IsCoppacsSupported, "IsCoppacsSupported"},
         {0x0005, &CFG_U::GetSystemModel, "GetSystemModel"},

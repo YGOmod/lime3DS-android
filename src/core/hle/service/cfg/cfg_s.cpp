@@ -14,7 +14,7 @@ CFG_S::CFG_S(std::shared_ptr<Module> cfg) : Module::Interface(std::move(cfg), "c
         // cfg common
         // clang-format off
         {0x0001, &CFG_S::GetConfig, "GetConfig"},
-        {0x0002, &CFG_S::GetRegion, "GetRegion"},
+        {0x0002, &CFG_S::SecureInfoGetRegion, "SecureInfoGetRegion"},
         {0x0003, &CFG_S::GetTransferableId, "GetTransferableId"},
         {0x0004, &CFG_S::IsCoppacsSupported, "IsCoppacsSupported"},
         {0x0005, &CFG_S::GetSystemModel, "GetSystemModel"},
@@ -30,13 +30,13 @@ CFG_S::CFG_S(std::shared_ptr<Module> cfg) : Module::Interface(std::move(cfg), "c
         {0x0403, &CFG_S::UpdateConfigNANDSavegame, "UpdateConfigNANDSavegame"},
         {0x0404, nullptr, "GetLocalFriendCodeSeedData"},
         {0x0405, nullptr, "GetLocalFriendCodeSeed"},
-        {0x0406, &CFG_S::GetRegion, "GetRegion"},
+        {0x0406, &CFG_S::SecureInfoGetRegion, "GetRegion"},
         {0x0407, &CFG_S::SecureInfoGetByte101, "SecureInfoGetByte101"},
         {0x0408, nullptr, "SecureInfoGetSerialNo"},
         {0x0409, nullptr, "UpdateConfigBlk00040003"},
         {0x040D, &CFG_S::SetUUIDClockSequence, "SetUUIDClockSequence"},
         {0x040E, &CFG_S::GetUUIDClockSequence, "GetUUIDClockSequence"},
-        {0x040F, nullptr, "ClearParentalControls"},
+        {0x040F, &CFG_S::ClearParentalControls, "ClearParentalControls"},
         // clang-format on
     };
     RegisterHandlers(functions);

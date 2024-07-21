@@ -91,8 +91,6 @@ add_library(lime_core STATIC
     file_sys/romfs_reader.h
     file_sys/savedata_archive.cpp
     file_sys/savedata_archive.h
-    file_sys/secure_value_backend_artic.cpp
-    file_sys/secure_value_backend_artic.h
     file_sys/secure_value_backend.cpp
     file_sys/secure_value_backend.h
     file_sys/seed_db.cpp
