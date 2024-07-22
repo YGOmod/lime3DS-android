@@ -23,6 +23,50 @@ SERVICE_CONSTRUCT_IMPL(Service::IR::IR_USER)
 
 namespace Service::IR {
 
+IR_USER::IR_USER(Core::System& system) : ServiceFramework("ir:USER", 1) {
+    const FunctionInfo functions[] = {
+        // clang-format off
+        {0x0001, &IR_USER::InitializeIrNop, "InitializeIrNop"},
+        {0x0002, &IR_USER::FinalizeIrNop, "FinalizeIrNop"},
+        {0x0003, nullptr, "ClearReceiveBuffer"},
+        {0x0004, nullptr, "ClearSendBuffer"},
+        {0x0005, nullptr, "WaitConnection"},
+        {0x0006, &IR_USER::RequireConnection, "RequireConnection"},
+        {0x0007, &IR_USER::AutoConnection, "AutoConnection"},
+        {0x0008, nullptr, "AnyConnection"},
+        {0x0009, &IR_USER::Disconnect, "Disconnect"},
+        {0x000A, &IR_USER::GetReceiveEvent, "GetReceiveEvent"},
+        {0x000B, &IR_USER::GetSendEvent, "GetSendEvent"},
+        {0x000C, &IR_USER::GetConnectionStatusEvent, "GetConnectionStatusEvent"},
+        {0x000D, &IR_USER::SendIrNop, "SendIrNop"},
+        {0x000E, nullptr, "SendIrNopLarge"},
+        {0x000F, nullptr, "ReceiveIrnop"},
+        {0x0010, nullptr, "ReceiveIrnopLarge"},
+        {0x0011, &IR_USER::GetLatestReceiveErrorResult, "GetLatestReceiveErrorResult"},
+        {0x0012, &IR_USER::GetLatestSendErrorResult, "GetLatestSendErrorResult"},
+        {0x0013, &IR_USER::GetConnectionStatus, "GetConnectionStatus"},
+        {0x0014, nullptr, "GetTryingToConnectStatus"},
+        {0x0015, nullptr, "GetReceiveSizeFreeAndUsed"},
+        {0x0016, nullptr, "GetSendSizeFreeAndUsed"},
+        {0x0017, nullptr, "GetConnectionRole"},
+        {0x0018, &IR_USER::InitializeIrNopShared, "InitializeIrNopShared"},
+        {0x0019, &IR_USER::ReleaseReceivedData, "ReleaseReceivedData"},
+        {0x001A, nullptr, "SetOwnMachineId"},
+        // clang-format on
+    };
+    RegisterHandlers(functions);
+
+    using namespace Kernel;
+
+    connected_device = false;
+    conn_status_event = system.Kernel().CreateEvent(ResetType::OneShot, "IR:ConnectionStatusEvent");
+    send_event = system.Kernel().CreateEvent(ResetType::OneShot, "IR:SendEvent");
+    receive_event = system.Kernel().CreateEvent(ResetType::OneShot, "IR:ReceiveEvent");
+
+    extra_hid = std::make_unique<ExtraHID>([this](std::span<const u8> data) { PutToReceive(data); },
+                                           system.CoreTiming(), system.Movie());
+}
+
 template <class Archive>
 void IR_USER::serialize(Archive& ar, const unsigned int) {
     ar& boost::serialization::base_object<Kernel::SessionRequestHandler>(*this);
@@ -546,50 +590,6 @@ void IR_USER::ReleaseReceivedData(Kernel::HLERequestContext& ctx) {
     }
 
     LOG_TRACE(Service_IR, "called, count={}", count);
-}
-
-IR_USER::IR_USER(Core::System& system) : ServiceFramework("ir:USER", 1) {
-    const FunctionInfo functions[] = {
-        // clang-format off
-        {0x0001, &IR_USER::InitializeIrNop, "InitializeIrNop"},
-        {0x0002, &IR_USER::FinalizeIrNop, "FinalizeIrNop"},
-        {0x0003, nullptr, "ClearReceiveBuffer"},
-        {0x0004, nullptr, "ClearSendBuffer"},
-        {0x0005, nullptr, "WaitConnection"},
-        {0x0006, &IR_USER::RequireConnection, "RequireConnection"},
-        {0x0007, &IR_USER::AutoConnection, "AutoConnection"},
-        {0x0008, nullptr, "AnyConnection"},
-        {0x0009, &IR_USER::Disconnect, "Disconnect"},
-        {0x000A, &IR_USER::GetReceiveEvent, "GetReceiveEvent"},
-        {0x000B, &IR_USER::GetSendEvent, "GetSendEvent"},
-        {0x000C, &IR_USER::GetConnectionStatusEvent, "GetConnectionStatusEvent"},
-        {0x000D, &IR_USER::SendIrNop, "SendIrNop"},
-        {0x000E, nullptr, "SendIrNopLarge"},
-        {0x000F, nullptr, "ReceiveIrnop"},
-        {0x0010, nullptr, "ReceiveIrnopLarge"},
-        {0x0011, &IR_USER::GetLatestReceiveErrorResult, "GetLatestReceiveErrorResult"},
-        {0x0012, &IR_USER::GetLatestSendErrorResult, "GetLatestSendErrorResult"},
-        {0x0013, &IR_USER::GetConnectionStatus, "GetConnectionStatus"},
-        {0x0014, nullptr, "GetTryingToConnectStatus"},
-        {0x0015, nullptr, "GetReceiveSizeFreeAndUsed"},
-        {0x0016, nullptr, "GetSendSizeFreeAndUsed"},
-        {0x0017, nullptr, "GetConnectionRole"},
-        {0x0018, &IR_USER::InitializeIrNopShared, "InitializeIrNopShared"},
-        {0x0019, &IR_USER::ReleaseReceivedData, "ReleaseReceivedData"},
-        {0x001A, nullptr, "SetOwnMachineId"},
-        // clang-format on
-    };
-    RegisterHandlers(functions);
-
-    using namespace Kernel;
-
-    connected_device = false;
-    conn_status_event = system.Kernel().CreateEvent(ResetType::OneShot, "IR:ConnectionStatusEvent");
-    send_event = system.Kernel().CreateEvent(ResetType::OneShot, "IR:SendEvent");
-    receive_event = system.Kernel().CreateEvent(ResetType::OneShot, "IR:ReceiveEvent");
-
-    extra_hid = std::make_unique<ExtraHID>([this](std::span<const u8> data) { PutToReceive(data); },
-                                           system.CoreTiming(), system.Movie());
 }
 
 IR_USER::~IR_USER() {
