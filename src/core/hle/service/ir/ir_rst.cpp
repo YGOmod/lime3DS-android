@@ -20,33 +20,6 @@ SERVICE_CONSTRUCT_IMPL(Service::IR::IR_RST)
 
 namespace Service::IR {
 
-IR_RST::IR_RST(Core::System& system) : ServiceFramework("ir:rst", 2), system(system) {
-    using namespace Kernel;
-    // Note: these two kernel objects are even available before Initialize service function is
-    // called.
-    shared_memory =
-        system.Kernel()
-            .CreateSharedMemory(nullptr, 0x1000, MemoryPermission::ReadWrite,
-                                MemoryPermission::Read, 0, MemoryRegion::BASE, "IRRST:SharedMemory")
-            .Unwrap();
-    update_event = system.Kernel().CreateEvent(ResetType::OneShot, "IRRST:UpdateEvent");
-
-    update_callback_id = system.CoreTiming().RegisterEvent(
-        "IRRST:UpdateCallBack", [this](std::uintptr_t user_data, s64 cycles_late) {
-            UpdateCallback(user_data, cycles_late);
-        });
-
-    static const FunctionInfo functions[] = {
-        // clang-format off
-        {0x0001, &IR_RST::GetHandles, "GetHandles"},
-        {0x0002, &IR_RST::Initialize, "Initialize"},
-        {0x0003, &IR_RST::Shutdown, "Shutdown"},
-        {0x0009, nullptr, "WriteToTwoFields"},
-        // clang-format on
-    };
-    RegisterHandlers(functions);
-}
-
 template <class Archive>
 void IR_RST::serialize(Archive& ar, const unsigned int) {
     ar& boost::serialization::base_object<Kernel::SessionRequestHandler>(*this);
@@ -188,6 +161,33 @@ void IR_RST::Shutdown(Kernel::HLERequestContext& ctx) {
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(ResultSuccess);
     LOG_DEBUG(Service_IR, "called");
+}
+
+IR_RST::IR_RST(Core::System& system) : ServiceFramework("ir:rst", 2), system(system) {
+    using namespace Kernel;
+    // Note: these two kernel objects are even available before Initialize service function is
+    // called.
+    shared_memory =
+        system.Kernel()
+            .CreateSharedMemory(nullptr, 0x1000, MemoryPermission::ReadWrite,
+                                MemoryPermission::Read, 0, MemoryRegion::BASE, "IRRST:SharedMemory")
+            .Unwrap();
+    update_event = system.Kernel().CreateEvent(ResetType::OneShot, "IRRST:UpdateEvent");
+
+    update_callback_id = system.CoreTiming().RegisterEvent(
+        "IRRST:UpdateCallBack", [this](std::uintptr_t user_data, s64 cycles_late) {
+            UpdateCallback(user_data, cycles_late);
+        });
+
+    static const FunctionInfo functions[] = {
+        // clang-format off
+        {0x0001, &IR_RST::GetHandles, "GetHandles"},
+        {0x0002, &IR_RST::Initialize, "Initialize"},
+        {0x0003, &IR_RST::Shutdown, "Shutdown"},
+        {0x0009, nullptr, "WriteToTwoFields"},
+        // clang-format on
+    };
+    RegisterHandlers(functions);
 }
 
 IR_RST::~IR_RST() = default;

@@ -4,7 +4,6 @@
 
 #include <array>
 #include <cstddef>
-#include <tuple>
 #include "video_core/pica/regs_texturing.h"
 #include "video_core/renderer_software/sw_clipper.h"
 
