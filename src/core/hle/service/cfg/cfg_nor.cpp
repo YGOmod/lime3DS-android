@@ -29,7 +29,7 @@ void CFG_NOR::Shutdown(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
-    rp.Push(ResultSuccess);
+    rb.Push(ResultSuccess);
     
     LOG_WARNING(Service_CFG, "(STUBBED) called");
 }
