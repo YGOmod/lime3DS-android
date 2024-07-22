@@ -13,7 +13,7 @@ CFG_NOR::CFG_NOR() : ServiceFramework("cfg:nor", 23) {
     static const FunctionInfo functions[] = {
         // clang-format off
         {0x0001, nullptr, "Initialize"},
-        {0x0002, nullptr, "Shutdown"},
+        {0x0002, &CFG_NOR::Shutdown, "Shutdown"},
         {0x0005, nullptr, "ReadData"},
         {0x0006, nullptr, "WriteData"},
         {0x0009, nullptr, "ReadIdentification"},
@@ -23,6 +23,15 @@ CFG_NOR::CFG_NOR() : ServiceFramework("cfg:nor", 23) {
         // clang-format on
     };
     RegisterHandlers(functions);
+}
+
+void CFG_NOR::Shutdown(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rp.Push(ResultSuccess);
+    
+    LOG_WARNING(Service_CFG, "(STUBBED) called");
 }
 
 } // namespace Service::CFG

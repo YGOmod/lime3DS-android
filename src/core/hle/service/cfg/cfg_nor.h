@@ -11,8 +11,11 @@ namespace Service::CFG {
 class CFG_NOR final : public ServiceFramework<CFG_NOR> {
 public:
     CFG_NOR();
+    ~CFG_NOR() = default;
 
 private:
+    void Shutdown(Kernel::HLERequestContext& ctx);
+
     SERVICE_SERIALIZATION_SIMPLE
 };
 
