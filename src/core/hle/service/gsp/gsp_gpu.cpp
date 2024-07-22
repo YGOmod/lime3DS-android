@@ -26,6 +26,54 @@ SERVICE_CONSTRUCT_IMPL(Service::GSP::GSP_GPU)
 
 namespace Service::GSP {
 
+GSP_GPU::GSP_GPU(Core::System& system) : ServiceFramework("gsp::Gpu", 4), system(system) {
+    static const FunctionInfo functions[] = {
+        // clang-format off
+        {0x0001, &GSP_GPU::WriteHWRegs, "WriteHWRegs"},
+        {0x0002, &GSP_GPU::WriteHWRegsWithMask, "WriteHWRegsWithMask"},
+        {0x0003, nullptr, "WriteHWRegRepeat"},
+        {0x0004, &GSP_GPU::ReadHWRegs, "ReadHWRegs"},
+        {0x0005, &GSP_GPU::SetBufferSwap, "SetBufferSwap"},
+        {0x0006, nullptr, "SetCommandList"},
+        {0x0007, nullptr, "RequestDma"},
+        {0x0008, &GSP_GPU::FlushDataCache, "FlushDataCache"},
+        {0x0009, &GSP_GPU::InvalidateDataCache, "InvalidateDataCache"},
+        {0x000A, nullptr, "RegisterInterruptEvents"},
+        {0x000B, &GSP_GPU::SetLcdForceBlack, "SetLcdForceBlack"},
+        {0x000C, &GSP_GPU::TriggerCmdReqQueue, "TriggerCmdReqQueue"},
+        {0x000D, nullptr, "SetDisplayTransfer"},
+        {0x000E, nullptr, "SetTextureCopy"},
+        {0x000F, nullptr, "SetMemoryFill"},
+        {0x0010, &GSP_GPU::SetAxiConfigQoSMode, "SetAxiConfigQoSMode"},
+        {0x0011, nullptr, "SetPerfLogMode"},
+        {0x0012, nullptr, "GetPerfLog"},
+        {0x0013, &GSP_GPU::RegisterInterruptRelayQueue, "RegisterInterruptRelayQueue"},
+        {0x0014, &GSP_GPU::UnregisterInterruptRelayQueue, "UnregisterInterruptRelayQueue"},
+        {0x0015, &GSP_GPU::TryAcquireRight, "TryAcquireRight"},
+        {0x0016, &GSP_GPU::AcquireRight, "AcquireRight"},
+        {0x0017, &GSP_GPU::ReleaseRight, "ReleaseRight"},
+        {0x0018, &GSP_GPU::ImportDisplayCaptureInfo, "ImportDisplayCaptureInfo"},
+        {0x0019, &GSP_GPU::SaveVramSysArea, "SaveVramSysArea"},
+        {0x001A, &GSP_GPU::RestoreVramSysArea, "RestoreVramSysArea"},
+        {0x001B, &GSP_GPU::ResetGpuCore, "ResetGpuCore"},
+        {0x001C, &GSP_GPU::SetLedForceOff, "SetLedForceOff"},
+        {0x001D, nullptr, "SetTestCommand"},
+        {0x001E, &GSP_GPU::SetInternalPriorities, "SetInternalPriorities"},
+        {0x001F, &GSP_GPU::StoreDataCache, "StoreDataCache"},
+        // clang-format on
+    };
+    RegisterHandlers(functions);
+
+    using Kernel::MemoryPermission;
+    shared_memory = system.Kernel()
+                        .CreateSharedMemory(nullptr, 0x1000, MemoryPermission::ReadWrite,
+                                            MemoryPermission::ReadWrite, 0,
+                                            Kernel::MemoryRegion::BASE, "GSP:SharedMemory")
+                        .Unwrap();
+
+    first_initialization = true;
+};
+
 // Beginning address of HW regs
 constexpr u32 REGS_BEGIN = 0x1EB00000;
 
@@ -704,54 +752,6 @@ void GSP_GPU::serialize(Archive& ar, const unsigned int) {
     ar & saved_vram;
 }
 SERIALIZE_IMPL(GSP_GPU)
-
-GSP_GPU::GSP_GPU(Core::System& system) : ServiceFramework("gsp::Gpu", 4), system(system) {
-    static const FunctionInfo functions[] = {
-        // clang-format off
-        {0x0001, &GSP_GPU::WriteHWRegs, "WriteHWRegs"},
-        {0x0002, &GSP_GPU::WriteHWRegsWithMask, "WriteHWRegsWithMask"},
-        {0x0003, nullptr, "WriteHWRegRepeat"},
-        {0x0004, &GSP_GPU::ReadHWRegs, "ReadHWRegs"},
-        {0x0005, &GSP_GPU::SetBufferSwap, "SetBufferSwap"},
-        {0x0006, nullptr, "SetCommandList"},
-        {0x0007, nullptr, "RequestDma"},
-        {0x0008, &GSP_GPU::FlushDataCache, "FlushDataCache"},
-        {0x0009, &GSP_GPU::InvalidateDataCache, "InvalidateDataCache"},
-        {0x000A, nullptr, "RegisterInterruptEvents"},
-        {0x000B, &GSP_GPU::SetLcdForceBlack, "SetLcdForceBlack"},
-        {0x000C, &GSP_GPU::TriggerCmdReqQueue, "TriggerCmdReqQueue"},
-        {0x000D, nullptr, "SetDisplayTransfer"},
-        {0x000E, nullptr, "SetTextureCopy"},
-        {0x000F, nullptr, "SetMemoryFill"},
-        {0x0010, &GSP_GPU::SetAxiConfigQoSMode, "SetAxiConfigQoSMode"},
-        {0x0011, nullptr, "SetPerfLogMode"},
-        {0x0012, nullptr, "GetPerfLog"},
-        {0x0013, &GSP_GPU::RegisterInterruptRelayQueue, "RegisterInterruptRelayQueue"},
-        {0x0014, &GSP_GPU::UnregisterInterruptRelayQueue, "UnregisterInterruptRelayQueue"},
-        {0x0015, &GSP_GPU::TryAcquireRight, "TryAcquireRight"},
-        {0x0016, &GSP_GPU::AcquireRight, "AcquireRight"},
-        {0x0017, &GSP_GPU::ReleaseRight, "ReleaseRight"},
-        {0x0018, &GSP_GPU::ImportDisplayCaptureInfo, "ImportDisplayCaptureInfo"},
-        {0x0019, &GSP_GPU::SaveVramSysArea, "SaveVramSysArea"},
-        {0x001A, &GSP_GPU::RestoreVramSysArea, "RestoreVramSysArea"},
-        {0x001B, &GSP_GPU::ResetGpuCore, "ResetGpuCore"},
-        {0x001C, &GSP_GPU::SetLedForceOff, "SetLedForceOff"},
-        {0x001D, nullptr, "SetTestCommand"},
-        {0x001E, &GSP_GPU::SetInternalPriorities, "SetInternalPriorities"},
-        {0x001F, &GSP_GPU::StoreDataCache, "StoreDataCache"},
-        // clang-format on
-    };
-    RegisterHandlers(functions);
-
-    using Kernel::MemoryPermission;
-    shared_memory = system.Kernel()
-                        .CreateSharedMemory(nullptr, 0x1000, MemoryPermission::ReadWrite,
-                                            MemoryPermission::ReadWrite, 0,
-                                            Kernel::MemoryRegion::BASE, "GSP:SharedMemory")
-                        .Unwrap();
-
-    first_initialization = true;
-};
 
 std::unique_ptr<Kernel::SessionRequestHandler::SessionDataBase> GSP_GPU::MakeSessionData() {
     return std::make_unique<SessionData>(this);

@@ -14,6 +14,7 @@ public:
     ~CFG_NOR() = default;
 
 private:
+    void Initialize(Kernel::HLERequestContext& ctx);
     void Shutdown(Kernel::HLERequestContext& ctx);
 
     SERVICE_SERIALIZATION_SIMPLE
