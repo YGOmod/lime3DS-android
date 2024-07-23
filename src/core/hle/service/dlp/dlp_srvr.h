@@ -15,6 +15,9 @@ public:
 
 private:
     void Finalize(Kernel::HLERequestContext& ctx);
+    void GetServerState(Kernel::HLERequestContext& ctx);
+    void AcceptClient(Kernel::HLERequestContext& ctx);
+    void DisconnectClient(Kernel::HLERequestContext& ctx);
     void IsChild(Kernel::HLERequestContext& ctx);
 
     SERVICE_SERIALIZATION_SIMPLE

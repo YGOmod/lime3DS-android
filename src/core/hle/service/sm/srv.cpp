@@ -42,7 +42,7 @@ SRV::SRV(Core::System& system) : ServiceFramework("srv:", 64), system(system) {
         {0x0008, nullptr, "GetPort"},
         {0x0009, &SRV::Subscribe, "Subscribe"},
         {0x000A, &SRV::Unsubscribe, "Unsubscribe"},
-        {0x000B, nullptr, "ReceiveNotification"},
+        {0x000B, &SRV::ReceiveNotification, "ReceiveNotification"},
         {0x000C, &SRV::PublishToSubscriber, "PublishToSubscriber"},
         {0x000D, nullptr, "PublishAndGetSubscriber"},
         {0x000E, nullptr, "IsServiceRegistered"},
@@ -252,6 +252,24 @@ void SRV::Unsubscribe(Kernel::HLERequestContext& ctx) {
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(ResultSuccess);
     LOG_WARNING(Service_SRV, "(STUBBED) called, notification_id=0x{:X}", notification_id);
+}
+
+/**
+ *SRV::ReceiveNotification service function
+ *  Inputs:
+ *      0: 0x000B0000
+ *  Outputs:
+ *      0: 0x000B0000
+ *      1: Result
+ *      2: Notification ID (if any) 
+ */
+void SRV::ReceiveNotification(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    
+    IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+    rb.Push(ResultSuccess);
+    rb.Push<u32>(0);
+    LOG_WARNING(Service_SRV, "(STUBBED) called");
 }
 
 /**

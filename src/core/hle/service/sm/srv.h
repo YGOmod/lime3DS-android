@@ -34,6 +34,7 @@ private:
     void GetServiceHandle(Kernel::HLERequestContext& ctx);
     void Subscribe(Kernel::HLERequestContext& ctx);
     void Unsubscribe(Kernel::HLERequestContext& ctx);
+    void ReceiveNotification(Kernel::HLERequestContext& ctx);
     void PublishToSubscriber(Kernel::HLERequestContext& ctx);
     void RegisterService(Kernel::HLERequestContext& ctx);
 

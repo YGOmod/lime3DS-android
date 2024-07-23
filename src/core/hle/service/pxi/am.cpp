@@ -98,7 +98,6 @@ AM::AM() : ServiceFramework("pxi:am", 1) {
         {0x0063, nullptr, "UpdateImportContentContexts"},
         {0x0064, nullptr, "GetInternalTitleLocationInfo"},
         {0x0065, nullptr, "MigrateAGBtoSAV"},
-        {0x0066, nullptr, "Stubbed"},
         {0x0067, nullptr, "DeleteProgramsAtomically"},
         {0x0068, nullptr, "GetItemRights"},
         {0x0069, nullptr, "IsDataTitleInUse"},
