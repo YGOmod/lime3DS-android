@@ -556,7 +556,7 @@
     
     <!-- Texture sampling names -->
     <string name="game_controlled">Game Controlled</string>
-    <string name="nearest_neighbor">Nearest Neighbor</string>
+    <string name="nearest_neighbor_sampling">Nearest Neighbor</string>
     <string name="linear">Linear</string>
 
     <!-- Sound output modes -->

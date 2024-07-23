@@ -183,7 +183,7 @@
     
     <string-array name="textureSamplingNames">
         <item>@string/game_controlled</item>
-        <item>@string/nearest_neighbor</item>
+        <item>@string/nearest_neighbor_sampling</item>
         <item>@string/linear</item>
     </string-array>
 
