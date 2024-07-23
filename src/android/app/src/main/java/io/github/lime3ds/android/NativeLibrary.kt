@@ -224,12 +224,6 @@ object NativeLibrary {
                 canContinue = true
             }
 
-            CoreError.ErrorArticDisconnected -> {
-                title = emulationActivity.getString(R.string.artic_base)
-                message = emulationActivity.getString(R.string.artic_server_comm_error)
-                canContinue = false
-            }
-
             CoreError.ErrorUnknown -> {
                 title = emulationActivity.getString(R.string.fatal_error)
                 message = emulationActivity.getString(R.string.fatal_error_message)
@@ -380,18 +374,12 @@ object NativeLibrary {
             if (result == ErrorLoader_ErrorEncrypted) {
                 captionId = R.string.loader_error_encrypted
             }
-            if (result == ErrorArticDisconnected) {
-                captionId = R.string.artic_base
-            }
 
             val alert = MaterialAlertDialogBuilder(requireContext())
                 .setTitle(captionId)
                 .setMessage(
                     Html.fromHtml(
-                        if (result == ErrorArticDisconnected)
-                            LimeApplication.appContext.resources.getString(R.string.artic_server_comm_error)
-                        else
-                            LimeApplication.appContext.resources.getString(R.string.redump_games),
+                        LimeApplication.appContext.resources.getString(R.string.redump_games),
                     Html.FROM_HTML_MODE_LEGACY
                     )
                 )
@@ -423,7 +411,6 @@ object NativeLibrary {
             const val ErrorLoader_ErrorGBATitle = 7
             const val ErrorSystemFiles = 8
             const val ErrorSavestate = 9
-            const val ErrorArticDisconnected = 10
             const val ShutdownRequested = 11
             const val ErrorUnknown = 12
 
@@ -644,7 +631,6 @@ object NativeLibrary {
     enum class CoreError {
         ErrorSystemFiles,
         ErrorSavestate,
-        ErrorArticDisconnected,
         ErrorUnknown
     }
 

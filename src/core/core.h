@@ -88,21 +88,21 @@ public:
 
     /// Enumeration representing the return values of the System Initialize and Load process.
     enum class ResultStatus : u32 {
-        Success,                    ///< Succeeded
-        ErrorNotInitialized,        ///< Error trying to use core prior to initialization
-        ErrorGetLoader,             ///< Error finding the correct application loader
-        ErrorSystemMode,            ///< Error determining the system mode
-        ErrorLoader,                ///< Error loading the specified application
-        ErrorLoader_ErrorEncrypted, ///< Error loading the specified application due to encryption
+        Success,                        ///< Succeeded
+        ErrorNotInitialized,            ///< Error trying to use core prior to initialization
+        ErrorGetLoader,                 ///< Error finding the correct application loader
+        ErrorSystemMode,                ///< Error determining the system mode
+        ErrorLoader,                    ///< Error loading the specified application
+        ErrorLoader_ErrorEncrypted,     ///< Error loading the specified application due to encryption
         ErrorLoader_ErrorInvalidFormat, ///< Error loading the specified application due to an
                                         /// invalid format
-        ErrorLoader_ErrorGbaTitle, ///< Error loading the specified application as it is GBA Virtual
-                                   ///< Console
-        ErrorSystemFiles,          ///< Error in finding system files
-        ErrorSavestate,            ///< Error saving or loading
-        ErrorArticDisconnected,    ///< Error when artic base disconnects
-        ShutdownRequested,         ///< Emulated program requested a system shutdown
-        ErrorUnknown               ///< Any other error
+        ErrorLoader_ErrorGbaTitle,      ///< Error loading the specified application as it is GBA Virtual
+                                        ///< Console
+        ErrorSystemFiles,               ///< Error in finding system files
+        ErrorSavestate,                 ///< Error saving or loading
+        ErrorArticDisconnected,         ///< Error when artic base disconnects
+        ShutdownRequested,              ///< Emulated program requested a system shutdown
+        ErrorUnknown                    ///< Any other error
     };
 
     explicit System();

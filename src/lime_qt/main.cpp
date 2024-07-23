@@ -1225,11 +1225,6 @@ bool GMainWindow::LoadROM(const QString& filename) {
                                   tr("GBA Virtual Console ROMs are not supported by Citra."));
             break;
 
-        case Core::System::ResultStatus::ErrorArticDisconnected:
-            QMessageBox::critical(
-                this, tr("Artic Base Server"),
-                tr("An error has occurred whilst communicating with the Artic Base Server."));
-            break;
         default:
             QMessageBox::critical(
                 this, tr("Error while loading ROM!"),
@@ -3147,11 +3142,6 @@ void GMainWindow::OnCoreError(Core::System::ResultStatus result, std::string det
         title = tr("Save/load Error");
         message = QString::fromStdString(details);
         error_severity_icon = QMessageBox::Icon::Warning;
-    } else if (result == Core::System::ResultStatus::ErrorArticDisconnected) {
-        title = tr("Artic Base Server");
-        message = tr("A communication error has occurred. The game will quit.");
-        error_severity_icon = QMessageBox::Icon::Critical;
-        can_continue = false;
     } else {
         title = tr("Fatal Error");
         message =
