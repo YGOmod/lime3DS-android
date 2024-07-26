@@ -271,6 +271,18 @@ void Module::Interface::SetNotificationMask(Kernel::HLERequestContext& ctx) {
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(ResultSuccess);
 }
+
+void Module::Interface::GetGameAuthenticationData(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+
+    std::vector<u8> out_authentication_data(sizeof(GameAuthenticationData));
+    memcpy(out_authentication_data.data(), &frd->game_authentication_data, sizeof(GameAuthenticationData));
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 2);
+    rb.Push(ResultSuccess);
+    rb.PushStaticBuffer(out_authentication_data, 0);
+}
+
 void Module::Interface::SetClientSdkVersion(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     u32 version = rp.Pop<u32>();

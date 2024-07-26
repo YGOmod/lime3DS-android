@@ -51,7 +51,7 @@ FRD_U::FRD_U(std::shared_ptr<Module> frd) : Module::Interface(std::move(frd), "f
         {0x0026, nullptr, "IsValidFriendCode"},
         {0x0027, nullptr, "ResultToErrorCode"},
         {0x0028, nullptr, "RequestGameAuthentication"},
-        {0x0029, nullptr, "GetGameAuthenticationData"},
+        {0x0029, &FRD_U::GetGameAuthenticationData, "GetGameAuthenticationData"},
         {0x002A, nullptr, "RequestServiceLocator"},
         {0x002B, nullptr, "GetServiceLocatorData"},
         {0x002C, nullptr, "DetectNatProperties"},

@@ -55,6 +55,35 @@ private:
     friend class boost::serialization::access;
 };
 
+struct GameAuthenticationData {
+    s32_le result{};
+    s32_le http_status_code{};
+    std::array<char, 32> server_address{};
+    u16_le server_port{};
+    u16_le padding1{};
+    u32_le unused{};
+    std::array<char, 256> auth_token{};
+    u64_le server_time{};
+
+    void Init() {
+        memset(this, 0, sizeof(*this));
+    }
+
+private:
+    template <class Archive>
+    void serialize(Archive& ar, const unsigned int) {
+        ar& result;
+        ar& http_status_code;
+        ar& server_address;
+        ar& server_port;
+        ar& padding1;
+        ar& unused;
+        ar& auth_token;
+        ar& server_time;
+    }
+    friend class boost::serialization::access;
+};
+
 struct Profile {
     u8 region;
     u8 country;
@@ -224,12 +253,14 @@ public:
          *      1 : Result of function, 0 on success, otherwise error code
          */
         void UnscrambleLocalFriendCode(Kernel::HLERequestContext& ctx);
-        
+
         void UpdateGameModeDescription(Kernel::HLERequestContext& ctx);
-        
+
         void AttachToEventNotification(Kernel::HLERequestContext& ctx);
-        
+
         void SetNotificationMask(Kernel::HLERequestContext& ctx);
+
+        void GetGameAuthenticationData(Kernel::HLERequestContext& ctx);
 
         /**
          * FRD::SetClientSdkVersion service function
@@ -238,7 +269,6 @@ public:
          *  Outputs:
          *      1 : Result of function, 0 on success, otherwise error code
          */
-        
         void SetClientSdkVersion(Kernel::HLERequestContext& ctx);
 
         /**
@@ -285,6 +315,7 @@ public:
 
 private:
     FriendAccount friend_account;
+    GameAuthenticationData game_authentication_data;
     FriendKey my_friend_key = {0, 0, 0ull};
     MyPresence my_presence = {};
     bool logged_in = false;
@@ -297,6 +328,8 @@ private:
 
     template <class Archive>
     void serialize(Archive& ar, const unsigned int) {
+        ar & friend_account;
+        ar & game_authentication_data;
         ar & my_friend_key;
         ar & my_presence;
         ar & logged_in;
