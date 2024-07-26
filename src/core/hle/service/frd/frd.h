@@ -183,6 +183,8 @@ public:
          *      2 : UTF16 encoded comment (max 16 symbols)
          */
         void GetMyComment(Kernel::HLERequestContext& ctx);
+        
+        void GetMyPassword(Kernel::HLERequestContext& ctx);
 
         /**
          * FRD::GetMyFavoriteGame service function

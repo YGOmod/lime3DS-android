@@ -26,7 +26,7 @@ FRD_A::FRD_A(std::shared_ptr<Module> frd) : Module::Interface(std::move(frd), "f
         {0x000D, &FRD_A::GetMyFavoriteGame, "GetMyFavoriteGame"},
         {0x000E, nullptr, "GetMyNcPrincipalId"},
         {0x000F, &FRD_A::GetMyComment, "GetMyComment"},
-        {0x0010, nullptr, "GetMyPassword"},
+        {0x0010, &FRD_A::GetMyPassword, "GetMyPassword"},
         {0x0011, &FRD_A::GetFriendKeyList, "GetFriendKeyList"},
         {0x0012, nullptr, "GetFriendPresence"},
         {0x0013, nullptr, "GetFriendScreenName"},
