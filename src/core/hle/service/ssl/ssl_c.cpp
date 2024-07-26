@@ -51,6 +51,9 @@ void SSL_C::Initialize(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     rp.PopPID();
 
+    std::random_device rand_device;
+    rand_gen.seed(rand_device());
+
     // Stub, return success
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(ResultSuccess);

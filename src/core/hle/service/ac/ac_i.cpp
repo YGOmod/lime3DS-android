@@ -75,7 +75,7 @@ AC_I::AC_I(std::shared_ptr<Module> ac) : Module::Interface(std::move(ac), "ac:i"
         {0x0040, &AC_I::SetClientVersion, "SetClientVersion"},
         {0x0041, nullptr, "SetTemporaryNetworkSettings"},
         //exclusive to AC:I service
-	    {0x0401, nullptr, "LoadNetworkSetting"},
+	    {0x0401, &AC_I::LoadNetworkSetting, "LoadNetworkSetting"},
 	    {0x0402, nullptr, "UpdateNetworkSetting"},
 	    {0x0403, nullptr, "RemoveNetworkSetting"},
 	    {0x0404, nullptr, "FlushNetworkSetting"},

@@ -125,6 +125,20 @@ void Module::Interface::GetMyComment(Kernel::HLERequestContext& ctx) {
     LOG_WARNING(Service_FRD, "(STUBBED) called");
 }
 
+void Module::Interface::GetMyPassword(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    const u32 pass_len = rp.Pop<u32>();
+    std::vector<u8> pass_buf(pass_len);
+
+
+    strncpy(reinterpret_cast<char*>(pass_buf.data()), ConvertU16ArrayToString(frd->friend_account.nex_password).c_str(),
+            pass_len - 1);
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 2);
+    rb.Push(ResultSuccess);
+    rb.PushStaticBuffer(std::move(pass_buf), 0);
+}
+
 void Module::Interface::GetMyMii(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     IPC::RequestBuilder rb = rp.MakeBuilder(0x19, 0);

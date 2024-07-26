@@ -44,6 +44,17 @@ private:
     friend class boost::serialization::access;
 };
 
+struct FriendAccount {
+    std::array<u16_le, 0x10> nex_password{};
+
+private:
+    template <class Archive>
+    void serialize(Archive& ar, const unsigned int) {
+        ar & nex_password;
+    }
+    friend class boost::serialization::access;
+};
+
 struct Profile {
     u8 region;
     u8 country;
@@ -271,6 +282,7 @@ public:
     };
 
 private:
+    FriendAccount friend_account;
     FriendKey my_friend_key = {0, 0, 0ull};
     MyPresence my_presence = {};
     bool logged_in = false;

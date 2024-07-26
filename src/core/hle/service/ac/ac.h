@@ -87,7 +87,8 @@ public:
          *      1 : Result of function, 0 on success, otherwise error code
          */
         void GetCloseResult(Kernel::HLERequestContext& ctx);
-	void GetLastErrorCode(Kernel::HLERequestContext& ctx);
+
+        void GetLastErrorCode(Kernel::HLERequestContext& ctx);
 
         /**
          * AC::GetStatus service function
@@ -204,6 +205,9 @@ public:
          *      1 : Result of function, 0 on success, otherwise error code
          */
         void SetClientVersion(Kernel::HLERequestContext& ctx);
+        
+        //ac:i
+        void LoadNetworkSetting(Kernel::HLERequestContext& ctx);
 
     protected:
         std::shared_ptr<Module> ac;

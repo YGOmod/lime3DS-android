@@ -292,6 +292,17 @@ void Module::Interface::SetClientVersion(Kernel::HLERequestContext& ctx) {
     rb.Push(ResultSuccess);
 }
 
+void Module::Interface::LoadNetworkSetting(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+
+    const u32 network_id = rp.Pop<u32>();
+
+    LOG_DEBUG(Service_AC, "(STUBBED) called, network_id={}", network_id);
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess);
+}
+
 void Module::Connect(u32 pid) {
     if (connect_event) {
         connect_event->SetName("AC:connect_event");

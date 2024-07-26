@@ -20,6 +20,8 @@ public:
 private:
     void Initialize(Kernel::HLERequestContext& ctx);
     void GenerateRandomData(Kernel::HLERequestContext& ctx);
+    
+    std::mt19937 rand_gen;
 
     SERVICE_SERIALIZATION_SIMPLE
 };
