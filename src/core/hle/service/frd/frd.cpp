@@ -28,6 +28,18 @@ Module::Interface::Interface(std::shared_ptr<Module> frd, const char* name, u32 
 
 Module::Interface::~Interface() = default;
 
+template <size_t size>
+std::string ConvertU16ArrayToString(std::array<u16, size> u16Array) {
+    std::string result;
+    for (u32 i = 0; i < size; i++) {
+        char lowerByte = static_cast<char>(u16Array[i]);
+        if (u16Array[i] == 0x00)
+            break;
+        result += lowerByte;
+    }
+    return result;
+}
+
 void Module::Interface::GetMyPresence(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
 
