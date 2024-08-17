@@ -52,8 +52,8 @@ ResultVal<std::unique_ptr<ArchiveBackend>> ArchiveSource_SDSaveData::Open(
         }
 
         return std::make_unique<SaveDataArchive>(std::move(concrete_mount_point));
-    }
 }
+
 
 Result ArchiveSource_SDSaveData::Format(u64 program_id,
                                         const FileSys::ArchiveFormatInfo& format_info,
@@ -94,5 +94,6 @@ std::string ArchiveSource_SDSaveData::GetSaveDataPathFor(const std::string& moun
                                                          u64 program_id) {
     return GetSaveDataPath(GetSaveDataContainerPath(mount_point), program_id);
 }
+
 
 } // namespace FileSys
