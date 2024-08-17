@@ -785,7 +785,7 @@ void Module::Interface::GetNumPrograms(Kernel::HLERequestContext& ctx) {
 void Module::Interface::FindDLCContentInfos(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
 
-    auto media_type = static_cast<Service::FS::MediaType>(rp.Pop<u8>());
+    auto media_type = rp.PopEnum<FS::MediaType>();
     u64 title_id = rp.Pop<u64>();
     u32 content_count = rp.Pop<u32>();
     auto& content_requested_in = rp.PopMappedBuffer();
@@ -851,7 +851,7 @@ void Module::Interface::ListDLCContentInfos(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
 
     u32 content_count = rp.Pop<u32>();
-    auto media_type = static_cast<Service::FS::MediaType>(rp.Pop<u8>());
+    auto media_type = rp.PopEnum<FS::MediaType>();
     u64 title_id = rp.Pop<u64>();
     u32 start_index = rp.Pop<u32>();
     auto& content_info_out = rp.PopMappedBuffer();
@@ -970,7 +970,7 @@ Result GetTitleInfoFromList(std::span<const u64> title_id_list, Service::FS::Med
 void Module::Interface::GetProgramInfos(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
 
-    auto media_type = static_cast<Service::FS::MediaType>(rp.Pop<u8>());
+    auto media_type = rp.PopEnum<FS::MediaType>();
     u32 title_count = rp.Pop<u32>();
     auto& title_id_list_buffer = rp.PopMappedBuffer();
     auto& title_info_out = rp.PopMappedBuffer();
@@ -1020,7 +1020,7 @@ void Module::Interface::DeleteUserProgram(Kernel::HLERequestContext& ctx) {
 
 void Module::Interface::GetProductCode(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    FS::MediaType media_type = rp.PopEnum<FS::MediaType>();
+    auto media_type = rp.PopEnum<FS::MediaType>();
     u64 title_id = rp.Pop<u64>();
     std::string path = GetTitleContentPath(media_type, title_id);
 
@@ -1047,7 +1047,7 @@ void Module::Interface::GetProductCode(Kernel::HLERequestContext& ctx) {
 void Module::Interface::GetDLCTitleInfos(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
 
-    auto media_type = static_cast<Service::FS::MediaType>(rp.Pop<u8>());
+    auto media_type = rp.PopEnum<FS::MediaType>();
     u32 title_count = rp.Pop<u32>();
     auto& title_id_list_buffer = rp.PopMappedBuffer();
     auto& title_info_out = rp.PopMappedBuffer();
@@ -1080,7 +1080,7 @@ void Module::Interface::GetDLCTitleInfos(Kernel::HLERequestContext& ctx) {
 void Module::Interface::GetPatchTitleInfos(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
 
-    auto media_type = static_cast<Service::FS::MediaType>(rp.Pop<u8>());
+    auto media_type = rp.PopEnum<FS::MediaType>();
     u32 title_count = rp.Pop<u32>();
     auto& title_id_list_buffer = rp.PopMappedBuffer();
     auto& title_info_out = rp.PopMappedBuffer();
@@ -1140,7 +1140,7 @@ void Module::Interface::ListDataTitleTicketInfos(Kernel::HLERequestContext& ctx)
 
 void Module::Interface::GetDLCContentInfoCount(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    auto media_type = static_cast<Service::FS::MediaType>(rp.Pop<u8>());
+    auto media_type = rp.PopEnum<FS::MediaType>();
     u64 title_id = rp.Pop<u64>();
 
     // Validate that only DLC TIDs are passed in
@@ -1320,7 +1320,7 @@ void Module::Interface::CheckContentRightsIgnorePlatform(Kernel::HLERequestConte
 
 void Module::Interface::BeginImportProgram(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    auto media_type = static_cast<Service::FS::MediaType>(rp.Pop<u8>());
+    auto media_type = rp.PopEnum<FS::MediaType>();
 
     if (am->cia_installing) {
         IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
@@ -1397,7 +1397,7 @@ void Module::Interface::EndImportProgramWithoutCommit(Kernel::HLERequestContext&
 
 void Module::Interface::CommitImportPrograms(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    [[maybe_unused]] const auto media_type = static_cast<FS::MediaType>(rp.Pop<u8>());
+    [[maybe_unused]] const auto media_type = rp.PopEnum<FS::MediaType>();
     [[maybe_unused]] const u32 title_count = rp.Pop<u32>();
     [[maybe_unused]] const u8 database = rp.Pop<u8>();
     const auto buffer = rp.PopMappedBuffer();
@@ -1484,7 +1484,7 @@ ResultVal<std::unique_ptr<AMFileWrapper>> GetFileFromSession(
 
 void Module::Interface::GetProgramInfoFromCia(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    [[maybe_unused]] const auto media_type = static_cast<FS::MediaType>(rp.Pop<u8>());
+    [[maybe_unused]] const auto media_type = rp.PopEnum<FS::MediaType>();
     auto cia = rp.PopObject<Kernel::ClientSession>();
 
     auto file_res = GetFileFromSession(cia);
@@ -1640,7 +1640,7 @@ void Module::Interface::GetCoreVersionFromCia(Kernel::HLERequestContext& ctx) {
 
 void Module::Interface::GetRequiredSizeFromCia(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    [[maybe_unused]] const auto media_type = static_cast<FS::MediaType>(rp.Pop<u8>());
+    [[maybe_unused]] const auto media_type = rp.PopEnum<FS::MediaType>();
     auto cia = rp.PopObject<Kernel::ClientSession>();
 
     auto file_res = GetFileFromSession(cia);

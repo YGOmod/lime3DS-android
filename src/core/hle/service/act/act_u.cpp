@@ -11,7 +11,7 @@ ACT_U::ACT_U(std::shared_ptr<Module> act) : Module::Interface(std::move(act), "a
     static const FunctionInfo functions[] = {
         // clang-format off
         {0x0001, &ACT_U::Initialize, "Initialize"},
-        {0x0002, nullptr, "GetErrorCode"},
+        {0x0002, &ACT_U::GetErrorCode, "GetErrorCode"},
         {0x0003, nullptr, "GetLastResponseCode"},
         {0x0004, nullptr, "Unknown_04"},
         {0x0005, nullptr, "GetAccountManagerInfo"},

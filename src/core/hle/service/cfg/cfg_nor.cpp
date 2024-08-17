@@ -29,19 +29,19 @@ CFG_NOR::CFG_NOR() : ServiceFramework("cfg:nor", 23) {
 void CFG_NOR::Initialize(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     const u8 value = rp.Pop<u8>();
-    
+
     LOG_WARNING(Service_CFG, "(STUBBED) called, value={}", value);
-    
+
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(ResultSuccess);
 }
 
 void CFG_NOR::Shutdown(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    
+
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(ResultSuccess);
-    
+
     LOG_WARNING(Service_CFG, "(STUBBED) called");
 }
 

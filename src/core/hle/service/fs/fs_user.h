@@ -479,8 +479,10 @@ private:
      *      1 : Result of function, 0 on success, otherwise error code
      */
     void CreateLegacySystemSaveData(Kernel::HLERequestContext& ctx);
-    
+
     void SetArchivePriority(Kernel::HLERequestContext& ctx);
+
+    void GetArchivePriority(Kernel::HLERequestContext& ctx);
 
     /**
      * FS_User::InitializeWithSdkVersion service function.
@@ -601,6 +603,8 @@ private:
      *      1 : Result of function, 0 on success, otherwise error code
      */
     void ObsoletedDeleteExtSaveData(Kernel::HLERequestContext& ctx);
+    
+    void SendInitializeInfoTo9(Kernel::HLERequestContext& ctx);
 
     /**
      * FS_User::GetSpecialContentIndex service function.

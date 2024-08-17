@@ -17,7 +17,7 @@
 #include "network/artic_base/artic_base_client.h"
 
 namespace Service::FS {
-enum class MediaType : u32;
+enum class MediaType : u8;
 } // namespace Service::FS
 
 namespace FileSys {

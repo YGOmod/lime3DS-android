@@ -38,13 +38,9 @@ Apploader_Artic::~Apploader_Artic() {
     // when emulation stops. Looks like the mem leak comes from IVFCFile objects
     // not being destroyed...
     if (main_romfs_reader) {
-        static_cast<FileSys::ArticRomFSReader*>(main_romfs_reader.get())->ClearCache();
-        static_cast<FileSys::ArticRomFSReader*>(main_romfs_reader.get())->CloseFile();
         main_romfs_reader.reset();
     }
     if (update_romfs_reader) {
-        static_cast<FileSys::ArticRomFSReader*>(update_romfs_reader.get())->ClearCache();
-        static_cast<FileSys::ArticRomFSReader*>(update_romfs_reader.get())->CloseFile();
         update_romfs_reader.reset();
     }
     client->Stop();
@@ -331,9 +327,6 @@ ResultStatus Apploader_Artic::Load(std::shared_ptr<Kernel::Process>& process) {
         return result;
 
     system.ArchiveManager().RegisterSelfNCCH(*this);
-    system.ArchiveManager().RegisterArticSaveDataSource(client);
-    system.ArchiveManager().RegisterArticExtData(client);
-    system.ArchiveManager().RegisterArticNCCH(client);
 
     ParseRegionLockoutInfo(ncch_program_id);
 
@@ -519,13 +512,11 @@ ResultStatus Apploader_Artic::ReadExtdataId(u64& out_extdata_id) {
 }
 
 ResultStatus Apploader_Artic::ReadRomFS(std::shared_ptr<FileSys::RomFSReader>& romfs_file) {
-    main_romfs_reader = romfs_file = std::make_shared<FileSys::ArticRomFSReader>(client, false);
-    return static_cast<FileSys::ArticRomFSReader*>(romfs_file.get())->OpenStatus();
+    return ResultStatus::ErrorNotImplemented;
 }
 
 ResultStatus Apploader_Artic::ReadUpdateRomFS(std::shared_ptr<FileSys::RomFSReader>& romfs_file) {
-    update_romfs_reader = romfs_file = std::make_shared<FileSys::ArticRomFSReader>(client, true);
-    return static_cast<FileSys::ArticRomFSReader*>(romfs_file.get())->OpenStatus();
+    return ResultStatus::ErrorNotImplemented;
 }
 
 ResultStatus Apploader_Artic::DumpRomFS(const std::string& target_path) {

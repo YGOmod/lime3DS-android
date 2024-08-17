@@ -425,35 +425,6 @@ void ArchiveManager::RegisterSelfNCCH(Loader::AppLoader& app_loader) {
     factory->Register(app_loader);
 }
 
-void ArchiveManager::RegisterArticSaveDataSource(
-    std::shared_ptr<Network::ArticBase::Client>& client) {
-    if (!sd_savedata_source.get()) {
-        LOG_ERROR(Service_FS, "Could not register artic save data source.");
-        return;
-    }
-    sd_savedata_source->RegisterArtic(client);
-}
-
-void ArchiveManager::RegisterArticExtData(std::shared_ptr<Network::ArticBase::Client>& client) {
-    for (auto it : {ArchiveIdCode::ExtSaveData, ArchiveIdCode::SharedExtSaveData,
-                    ArchiveIdCode::BossExtSaveData}) {
-        auto itr = id_code_map.find(it);
-        if (itr == id_code_map.end() || itr->second.get() == nullptr) {
-            continue;
-        }
-        reinterpret_cast<FileSys::ArchiveFactory_ExtSaveData*>(itr->second.get())
-            ->RegisterArtic(client);
-    }
-}
-
-void ArchiveManager::RegisterArticNCCH(std::shared_ptr<Network::ArticBase::Client>& client) {
-    auto itr = id_code_map.find(ArchiveIdCode::NCCH);
-    if (itr == id_code_map.end() || itr->second.get() == nullptr) {
-        return;
-    }
-    reinterpret_cast<FileSys::ArchiveFactory_NCCH*>(itr->second.get())->RegisterArtic(client);
-}
-
 ArchiveManager::ArchiveManager(Core::System& system) : system(system) {
     RegisterArchiveTypes();
 }

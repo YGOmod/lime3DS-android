@@ -89,15 +89,15 @@ FS_USER::FS_USER(Core::System& system)
         {0x082E, &FS_USER::GetProductInfo, "GetProductInfo"},
         {0x082F, &FS_USER::GetProgramLaunchInfo, "GetProgramLaunchInfo"},
         {0x0830, &FS_USER::ObsoletedCreateExtSaveData, "Obsoleted_3_0_CreateExtSaveData"},
-        {0x0831, nullptr, "CreateSharedExtSaveData"},
-        {0x0832, nullptr, "ReadExtSaveDataIcon"},
+        {0x0831, nullptr, "ObsoletedCreateSharedExtSaveData"},
+        {0x0832, nullptr, "ObsoletedReadExtSaveDataIcon"},
         {0x0833, nullptr, "EnumerateExtSaveData"},
         {0x0834, nullptr, "EnumerateSharedExtSaveData"},
         {0x0835, &FS_USER::ObsoletedDeleteExtSaveData, "Obsoleted_3_0_DeleteExtSaveData"},
         {0x0836, nullptr, "DeleteSharedExtSaveData"},
         {0x0837, nullptr, "SetCardSpiBaudRate"},
         {0x0838, nullptr, "SetCardSpiBusMode"},
-        {0x0839, nullptr, "SendInitializeInfoTo9"},
+        {0x0839, &FS_USER::SendInitializeInfoTo9, "SendInitializeInfoTo9"},
         {0x083A, &FS_USER::GetSpecialContentIndex, "GetSpecialContentIndex"},
         {0x083B, nullptr, "GetLegacyRomHeader"},
         {0x083C, nullptr, "GetLegacyBannerData"},
@@ -131,7 +131,7 @@ FS_USER::FS_USER(Core::System& system)
         {0x0858, nullptr, "StartDeviceMoveAsSource"},
         {0x0859, nullptr, "StartDeviceMoveAsDestination"},
         {0x085A, &FS_USER::SetArchivePriority, "SetArchivePriority"},
-        {0x085B, nullptr, "GetArchivePriority"},
+        {0x085B, &FS_USER::GetArchivePriority, "GetArchivePriority"},
         {0x085C, nullptr, "SetCtrCardLatencyParameter"},
         {0x085D, nullptr, "SetFsCompatibilityInfo"},
         {0x085E, nullptr, "ResetCardCompatibilityParameter"},
@@ -1189,11 +1189,22 @@ void FS_USER::SetArchivePriority(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     const auto archive_handle = rp.PopRaw<ArchiveHandle>();
     const auto priority = rp.Pop<u32>();
-    
-    LOG_DEBUG(Service_FS, "Stubbed. archive=0x{:08X} priority={}", archive_handle, priority);
-    
+
+    LOG_DEBUG(Service_FS, "Stubbed. archive=0x{:08X} priority=0x{:X}", archive_handle, priority);
+
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(ResultSuccess);
+}
+
+void FS_USER::GetArchivePriority(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp{ctx};
+    const auto archive_handle = rp.PopRaw<ArchiveHandle>();
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+    rb.Push(ResultSuccess);
+    rb.Push(priority);
+
+    LOG_DEBUG(Service_FS, "(STUBBED) archive=0x{:08X}, priority=0x{:X}", archive_handle, priority);
 }
 
 void FS_USER::InitializeWithSdkVersion(Kernel::HLERequestContext& ctx) {
@@ -1350,7 +1361,7 @@ void FS_USER::GetProgramLaunchInfo(Kernel::HLERequestContext& ctx) {
 
 void FS_USER::ObsoletedCreateExtSaveData(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    MediaType media_type = static_cast<MediaType>(rp.Pop<u8>());
+    auto media_type = rp.PopEnum<FS::MediaType>();
     u32 save_low = rp.Pop<u32>();
     u32 save_high = rp.Pop<u32>();
     u32 icon_size = rp.Pop<u32>();
@@ -1380,7 +1391,7 @@ void FS_USER::ObsoletedCreateExtSaveData(Kernel::HLERequestContext& ctx) {
 
 void FS_USER::ObsoletedDeleteExtSaveData(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    MediaType media_type = static_cast<MediaType>(rp.Pop<u8>());
+    auto media_type = rp.PopEnum<MediaType>();
     u32 save_low = rp.Pop<u32>();
 
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
@@ -1389,9 +1400,18 @@ void FS_USER::ObsoletedDeleteExtSaveData(Kernel::HLERequestContext& ctx) {
     LOG_DEBUG(Service_FS, "called, save_low={:08X} media_type={:08X}", save_low, media_type);
 }
 
+void FS_USER::SendInitializeInfoTo9(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+
+    LOG_WARNING(Service_FS, "(STUBBED) called");
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess);
+}
+
 void FS_USER::GetSpecialContentIndex(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    const MediaType media_type = static_cast<MediaType>(rp.Pop<u8>());
+    const auto media_type = rp.PopEnum<MediaType>();
     const u64 title_id = rp.Pop<u64>();
     const auto type = rp.PopEnum<SpecialContentType>();
 

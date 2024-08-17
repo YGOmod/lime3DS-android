@@ -36,6 +36,8 @@ public:
          *     1 : Result of function, 0 on success, otherwise error code
          */
         void Initialize(Kernel::HLERequestContext& ctx);
+        
+        void GetErrorCode(Kernel::HLERequestContext& ctx);
 
         /**
          * ACT::GetAccountDataBlock service function.

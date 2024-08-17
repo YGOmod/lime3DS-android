@@ -31,6 +31,17 @@ void Module::Interface::Initialize(Kernel::HLERequestContext& ctx) {
     rb.Push(ResultSuccess);
 }
 
+void Module::Interface::GetErrorCode(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    const auto input = rp.Pop<u32>();
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
+    rb.Push(ResultSuccess);
+    rb.Push<u32>(0); /// output value
+
+    LOG_WARNING(Service_ACT, "(STUBBED) input={:#010x}", input);
+}
+
 void Module::Interface::GetAccountDataBlock(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     const auto unknown = rp.Pop<u8>();

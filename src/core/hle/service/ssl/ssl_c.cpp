@@ -49,7 +49,9 @@ SSL_C::SSL_C() : ServiceFramework("ssl:C") {
 
 void SSL_C::Initialize(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    rp.PopPID();
+    const auto pid = rp.PopPID();
+    
+    LOG_WARNING(Service_SSL, "(STUBBED) called, pid={}", pid);
 
     std::random_device rand_device;
     rand_gen.seed(rand_device());

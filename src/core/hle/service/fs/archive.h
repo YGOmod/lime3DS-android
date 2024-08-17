@@ -49,7 +49,11 @@ enum class ArchiveIdCode : u32 {
 };
 
 /// Media types for the archives
-enum class MediaType : u32 { NAND = 0, SDMC = 1, GameCard = 2 };
+enum class MediaType : u8 {
+    NAND = 0, 
+    SDMC = 1, 
+    GameCard = 2
+};
 
 MediaType GetMediaTypeFromPath(std::string_view path);
 
@@ -289,12 +293,6 @@ public:
 
     /// Registers a new NCCH file with the SelfNCCH archive factory
     void RegisterSelfNCCH(Loader::AppLoader& app_loader);
-
-    void RegisterArticSaveDataSource(std::shared_ptr<Network::ArticBase::Client>& client);
-
-    void RegisterArticExtData(std::shared_ptr<Network::ArticBase::Client>& client);
-
-    void RegisterArticNCCH(std::shared_ptr<Network::ArticBase::Client>& client);
 
 private:
     Core::System& system;

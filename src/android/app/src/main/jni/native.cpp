@@ -129,7 +129,7 @@ static bool CheckMicPermission() {
                                                                IDCache::GetRequestMicPermission());
 }
 
-static Core::System::ResultStatus RunCitra(const std::string& filepath) {
+static Core::System::ResultStatus RunLime(const std::string& filepath) {
     // Lime3DS core only supports a single running instance
     std::scoped_lock lock(running_mutex);
 
@@ -632,7 +632,7 @@ void Java_io_github_lime3ds_android_NativeLibrary_run__Ljava_lang_String_2(
         running_cv.notify_all();
     }
 
-    const Core::System::ResultStatus result{RunCitra(path)};
+    const Core::System::ResultStatus result{RunLime(path)};
     if (result != Core::System::ResultStatus::Success) {
         env->CallStaticVoidMethod(IDCache::GetNativeLibraryClass(),
                                   IDCache::GetExitEmulationActivity(), static_cast<int>(result));
