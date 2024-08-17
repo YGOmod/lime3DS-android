@@ -51,7 +51,7 @@ void SSL_C::Initialize(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     const auto pid = rp.PopPID();
     
-    LOG_WARNING(Service_SSL, "(STUBBED) called, pid={}", pid);
+    //LOG_WARNING(Service_SSL, "(STUBBED) called, pid={}", pid);
 
     std::random_device rand_device;
     rand_gen.seed(rand_device());
