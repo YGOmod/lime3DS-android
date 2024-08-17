@@ -100,7 +100,6 @@ public:
                                         ///< Console
         ErrorSystemFiles,               ///< Error in finding system files
         ErrorSavestate,                 ///< Error saving or loading
-        ErrorArticDisconnected,         ///< Error when artic base disconnects
         ShutdownRequested,              ///< Emulated program requested a system shutdown
         ErrorUnknown                    ///< Any other error
     };
