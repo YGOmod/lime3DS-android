@@ -22,7 +22,7 @@ public:
         : AppLoader(system_, FileUtil::IOFile()) {
         client = std::make_shared<Network::ArticBase::Client>(server_addr, server_port);
         client->SetCommunicationErrorCallback([&system_]() {
-            system_.SetStatus(Core::System::ResultStatus::ErrorUnkown);
+            system_.SetStatus(Core::System::ResultStatus::ErrorUnknown);
         });
         client->SetReportArticEventCallback([&system_](u64 event) {
             Core::PerfStats::PerfArticEventBits ev =
