@@ -88,10 +88,6 @@ public:
      */
     double GetStableFrameTimeScale() const;
 
-    void AddArticBaseTraffic(u32 bytes) {
-        artic_transmitted += bytes;
-    }
-
     void ReportPerfArticEvent(PerfArticEventBits event, bool set) {
         if (set) {
             artic_events.Set(event, set);

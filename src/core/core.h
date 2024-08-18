@@ -178,11 +178,6 @@ public:
 
     [[nodiscard]] PerfStats::Results GetAndResetPerfStats();
 
-    void ReportArticTraffic(u32 bytes) {
-        if (perf_stats) {
-            perf_stats->AddArticBaseTraffic(bytes);
-        }
-    }
 
     void ReportPerfArticEvent(PerfStats::PerfArticEventBits event, bool set) {
         if (perf_stats) {
