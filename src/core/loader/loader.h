@@ -74,7 +74,6 @@ enum class ResultStatus {
     ErrorMemoryAllocationFailed,
     ErrorEncrypted,
     ErrorGbaTitle,
-    ErrorArtic,
 };
 
 constexpr u32 MakeMagic(char a, char b, char c, char d) {

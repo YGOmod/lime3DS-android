@@ -15,6 +15,7 @@
 #include "common/string_util.h"
 #include "common/swap.h"
 #include "core/core.h"
+#include "core/file_sys/archive_artic.h"
 #include "core/file_sys/archive_ncch.h"
 #include "core/file_sys/errors.h"
 #include "core/file_sys/ivfc_archive.h"
@@ -275,6 +276,12 @@ ArchiveFactory_NCCH::ArchiveFactory_NCCH() {}
 
 ResultVal<std::unique_ptr<ArchiveBackend>> ArchiveFactory_NCCH::Open(const Path& path,
                                                                      u64 program_id) {
+
+    if (IsUsingArtic()) {
+        EnsureCacheCreated();
+        return ArticArchive::Open(artic_client, Service::FS::ArchiveIdCode::NCCH, path,
+                                  Core::PerfStats::PerfArticEventBits::NONE, *this, false);
+    }
 
     if (path.GetType() != LowPathType::Binary) {
         LOG_ERROR(Service_FS, "Path need to be Binary");

@@ -54,7 +54,7 @@ std::pair<std::optional<u32>, ResultStatus> Apploader_Artic::LoadCoreVersion() {
     if (!is_loaded) {
         bool success = LoadExheader();
         if (!success) {
-            return std::make_pair(std::nullopt, ResultStatus::ErrorArtic);
+            return std::make_pair(std::nullopt, ResultStatus::Error);
         }
     }
 
@@ -67,7 +67,7 @@ std::pair<std::optional<Kernel::MemoryMode>, ResultStatus> Apploader_Artic::Load
     if (!is_loaded) {
         bool success = LoadExheader();
         if (!success) {
-            return std::make_pair(std::nullopt, ResultStatus::ErrorArtic);
+            return std::make_pair(std::nullopt, ResultStatus::Error);
         }
     }
 
@@ -86,7 +86,7 @@ Apploader_Artic::LoadNew3dsHwCapabilities() {
     if (!is_loaded) {
         bool success = LoadExheader();
         if (!success) {
-            return std::make_pair(std::nullopt, ResultStatus::ErrorArtic);
+            return std::make_pair(std::nullopt, ResultStatus::Error);
         }
     }
 
@@ -202,14 +202,14 @@ ResultStatus Apploader_Artic::LoadExec(std::shared_ptr<Kernel::Process>& process
 
         Service::FS::FS_USER::ProductInfo product_info{};
         if (LoadProductInfo(product_info) != ResultStatus::Success) {
-            return ResultStatus::ErrorArtic;
+            return ResultStatus::Error;
         }
         fs_user->RegisterProductInfo(process->process_id, product_info);
 
         process->Run(priority, stack_size);
         return ResultStatus::Success;
     }
-    return ResultStatus::ErrorArtic;
+    return ResultStatus::Error;
 }
 
 void Apploader_Artic::ParseRegionLockoutInfo(u64 program_id) {
@@ -281,16 +281,16 @@ ResultStatus Apploader_Artic::LoadProductInfo(Service::FS::FS_USER::ProductInfo&
     if (!client_connected)
         client_connected = client->Connect();
     if (!client_connected)
-        return ResultStatus::ErrorArtic;
+        return ResultStatus::Error;
 
     auto req = client->NewRequest("Process_GetProductInfo");
     auto resp = client->Send(req);
     if (!resp.has_value())
-        return ResultStatus::ErrorArtic;
+        return ResultStatus::Error;
 
     auto pinfo_buf = resp->GetResponseBuffer(0);
     if (!pinfo_buf.has_value() || pinfo_buf->second != sizeof(Service::FS::FS_USER::ProductInfo))
-        return ResultStatus::ErrorArtic;
+        return ResultStatus::Error;
 
     out_product_info = *reinterpret_cast<Service::FS::FS_USER::ProductInfo*>(pinfo_buf->first);
     cached_product_info = out_product_info;
@@ -344,7 +344,7 @@ ResultStatus Apploader_Artic::ReadCode(std::vector<u8>& buffer) {
     if (!client_connected)
         client_connected = client->Connect();
     if (!client_connected)
-        return ResultStatus::ErrorArtic;
+        return ResultStatus::Error;
 
     size_t code_size = program_exheader.codeset_info.text.num_max_pages * Memory::CITRA_PAGE_SIZE;
     code_size += program_exheader.codeset_info.ro.num_max_pages * Memory::CITRA_PAGE_SIZE;
@@ -362,11 +362,11 @@ ResultStatus Apploader_Artic::ReadCode(std::vector<u8>& buffer) {
         req.AddParameterS32(static_cast<s32>(to_read));
         auto resp = client->Send(req);
         if (!resp.has_value() || !resp->Succeeded() || resp->GetMethodResult() != 0)
-            return ResultStatus::ErrorArtic;
+            return ResultStatus::Error;
 
         auto code_buff = resp->GetResponseBuffer(0);
         if (!code_buff.has_value() || code_buff->second != to_read)
-            return ResultStatus::ErrorArtic;
+            return ResultStatus::Error;
 
         buffer.resize(read_amount + to_read);
         memcpy(buffer.data() + read_amount, code_buff->first, to_read);
@@ -385,16 +385,16 @@ ResultStatus Apploader_Artic::ReadIcon(std::vector<u8>& buffer) {
     if (!client_connected)
         client_connected = client->Connect();
     if (!client_connected)
-        return ResultStatus::ErrorArtic;
+        return ResultStatus::Error;
 
     auto req = client->NewRequest("Process_ReadIcon");
     auto resp = client->Send(req);
     if (!resp.has_value() || !resp->Succeeded() || resp->GetMethodResult() != 0)
-        return ResultStatus::ErrorArtic;
+        return ResultStatus::Error;
 
     auto icon_buf = resp->GetResponseBuffer(0);
     if (!icon_buf.has_value())
-        return ResultStatus::ErrorArtic;
+        return ResultStatus::Error;
 
     cached_icon.resize(icon_buf->second);
     memcpy(cached_icon.data(), icon_buf->first, icon_buf->second);
@@ -412,16 +412,16 @@ ResultStatus Apploader_Artic::ReadBanner(std::vector<u8>& buffer) {
     if (!client_connected)
         client_connected = client->Connect();
     if (!client_connected)
-        return ResultStatus::ErrorArtic;
+        return ResultStatus::Error;
 
     auto req = client->NewRequest("Process_ReadBanner");
     auto resp = client->Send(req);
     if (!resp.has_value() || !resp->Succeeded() || resp->GetMethodResult() != 0)
-        return ResultStatus::ErrorArtic;
+        return ResultStatus::Error;
 
     auto banner_buf = resp->GetResponseBuffer(0);
     if (!banner_buf.has_value())
-        return ResultStatus::ErrorArtic;
+        return ResultStatus::Error;
 
     cached_banner.resize(banner_buf->second);
     memcpy(cached_banner.data(), banner_buf->first, banner_buf->second);
@@ -439,16 +439,16 @@ ResultStatus Apploader_Artic::ReadLogo(std::vector<u8>& buffer) {
     if (!client_connected)
         client_connected = client->Connect();
     if (!client_connected)
-        return ResultStatus::ErrorArtic;
+        return ResultStatus::Error;
 
     auto req = client->NewRequest("Process_ReadLogo");
     auto resp = client->Send(req);
     if (!resp.has_value() || !resp->Succeeded() || resp->GetMethodResult() != 0)
-        return ResultStatus::ErrorArtic;
+        return ResultStatus::Error;
 
     auto logo_buf = resp->GetResponseBuffer(0);
     if (!logo_buf.has_value())
-        return ResultStatus::ErrorArtic;
+        return ResultStatus::Error;
 
     cached_logo.resize(logo_buf->second);
     memcpy(cached_logo.data(), logo_buf->first, logo_buf->second);
@@ -466,16 +466,16 @@ ResultStatus Apploader_Artic::ReadProgramId(u64& out_program_id) {
     if (!client_connected)
         client_connected = client->Connect();
     if (!client_connected)
-        return ResultStatus::ErrorArtic;
+        return ResultStatus::Error;
 
     auto req = client->NewRequest("Process_GetTitleID");
     auto resp = client->Send(req);
     if (!resp.has_value())
-        return ResultStatus::ErrorArtic;
+        return ResultStatus::Error;
 
     auto tid_buf = resp->GetResponseBuffer(0);
     if (!tid_buf.has_value() || tid_buf->second != sizeof(u64))
-        return ResultStatus::ErrorArtic;
+        return ResultStatus::Error;
 
     out_program_id = *reinterpret_cast<u64*>(tid_buf->first);
     cached_title_id = out_program_id;
