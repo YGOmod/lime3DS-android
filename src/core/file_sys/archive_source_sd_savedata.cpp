@@ -50,10 +50,9 @@ ResultVal<std::unique_ptr<ArchiveBackend>> ArchiveSource_SDSaveData::Open(
             // archive with the files and folders that it expects.
             return ResultNotFormatted;
         }
-
         return std::make_unique<SaveDataArchive>(std::move(concrete_mount_point));
-    }
 }
+
 
 Result ArchiveSource_SDSaveData::Format(u64 program_id,
                                         const FileSys::ArchiveFormatInfo& format_info,
