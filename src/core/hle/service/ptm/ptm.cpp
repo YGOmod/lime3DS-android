@@ -157,7 +157,7 @@ void Module::Interface::GetSystemTime(Kernel::HLERequestContext& ctx) {
 void Module::Interface::ConfigureNew3DSCPU(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     const u8 value = rp.Pop<u8>();
-    
+
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(ResultSuccess);
 
@@ -166,7 +166,7 @@ void Module::Interface::ConfigureNew3DSCPU(Kernel::HLERequestContext& ctx) {
 
 void Module::Interface::GetPlayHistoryStart(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    
+
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(ResultSuccess);
 
@@ -175,7 +175,7 @@ void Module::Interface::GetPlayHistoryStart(Kernel::HLERequestContext& ctx) {
 
 void Module::Interface::GetPlayHistoryLength(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    
+
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(ResultSuccess);
 
