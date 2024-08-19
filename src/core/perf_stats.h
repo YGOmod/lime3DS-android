@@ -57,8 +57,6 @@ public:
         double frametime;
         /// Ratio of walltime / emulated time elapsed
         double emulation_speed;
-        /// Artic base bytes per second
-        double artic_transmitted = 0;
         /// Artic base events
         PerfArticEvents artic_events{};
     };
@@ -119,8 +117,6 @@ private:
     u32 system_frames = 0;
     /// Cumulative number of game frames (GSP frame submissions) since last reset
     u32 game_frames = 0;
-    /// Cumulative number of transmitted artic base traffic
-    std::atomic<u32> artic_transmitted = 0;
     // System events that affect performance
     PerfArticEvents artic_events;
 

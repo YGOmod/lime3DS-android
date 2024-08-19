@@ -2912,51 +2912,6 @@ void GMainWindow::UpdateStatusBar() {
 
     auto results = system.GetAndResetPerfStats();
 
-    if (show_artic_label) {
-        const bool do_mb = results.artic_transmitted >= (1000.0 * 1000.0);
-        const double value = do_mb ? (results.artic_transmitted / (1000.0 * 1000.0))
-                                   : (results.artic_transmitted / 1000.0);
-        static const std::array<std::pair<Core::PerfStats::PerfArticEventBits, QString>, 4>
-            perf_events = {
-                std::make_pair(Core::PerfStats::PerfArticEventBits::ARTIC_SHARED_EXT_DATA,
-                               tr("(Accessing SharedExtData)")),
-                std::make_pair(Core::PerfStats::PerfArticEventBits::ARTIC_BOSS_EXT_DATA,
-                               tr("(Accessing BossExtData)")),
-                std::make_pair(Core::PerfStats::PerfArticEventBits::ARTIC_EXT_DATA,
-                               tr("(Accessing ExtData)")),
-                std::make_pair(Core::PerfStats::PerfArticEventBits::ARTIC_SAVE_DATA,
-                               tr("(Accessing SaveData)")),
-            };
-
-        const QString unit = do_mb ? tr("MB/s") : tr("KB/s");
-        QString event{};
-        for (auto p : perf_events) {
-            if (results.artic_events.Get(p.first)) {
-                event = QString::fromStdString(" ") + p.second;
-                break;
-            }
-        }
-
-        static const std::array label_color = {QStringLiteral("#ffffff"), QStringLiteral("#eed202"),
-                                               QStringLiteral("#ff3333")};
-
-        int style_index;
-
-        if (value > 200.0) {
-            style_index = 2;
-        } else if (value > 125.0) {
-            style_index = 1;
-        } else {
-            style_index = 0;
-        }
-        const QString style_sheet =
-            QStringLiteral("QLabel { color: %0; }").arg(label_color[style_index]);
-
-        artic_traffic_label->setText(
-            tr("Artic Base Traffic: %1 %2%3").arg(value, 0, 'f', 0).arg(unit).arg(event));
-        artic_traffic_label->setStyleSheet(style_sheet);
-    }
-
     if (Settings::values.frame_limit.GetValue() == 0) {
         emu_speed_label->setText(tr("Speed: %1%").arg(results.emulation_speed * 100.0, 0, 'f', 0));
     } else {
@@ -2967,9 +2922,6 @@ void GMainWindow::UpdateStatusBar() {
     game_fps_label->setText(tr("Game: %1 FPS").arg(results.game_fps, 0, 'f', 0));
     emu_frametime_label->setText(tr("Frame: %1 ms").arg(results.frametime * 1000.0, 0, 'f', 2));
 
-    if (show_artic_label) {
-        artic_traffic_label->setVisible(true);
-    }
     emu_speed_label->setVisible(true);
     game_fps_label->setVisible(true);
     emu_frametime_label->setVisible(true);
