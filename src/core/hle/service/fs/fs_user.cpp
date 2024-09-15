@@ -1617,8 +1617,7 @@ void FS_USER::GetThisSaveDataSecureValue(Kernel::HLERequestContext& ctx) {
             IPC::RequestBuilder rb = rp.MakeBuilder(5, 0);
             rb.Push(res.Code());
             rb.Push<bool>(std::get<0>(*res)); // indicates if the secure value exists
-            rb.Push<bool>(std::get<1>(
-                *res)); // indicates if the requesting process is a gamecard, overriding the check
+            rb.Push<bool>(std::get<1>(*res)); // indicates if the requesting process is a gamecard, overriding the check
             rb.Push<u64>(std::get<2>(*res)); // the secure value
         }
         return;

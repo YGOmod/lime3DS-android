@@ -33,23 +33,23 @@ void Module::Interface::Initialize(Kernel::HLERequestContext& ctx) {
 
 void Module::Interface::GetErrorCode(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    const auto input = rp.Pop<u32>();
+    const auto result = rp.Pop<Result>();
+
+    LOG_DEBUG(Service_ACT, "called result={:08X}", result.raw);
 
     IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
     rb.Push(ResultSuccess);
-    rb.Push<u32>(0); /// output value
-
-    LOG_WARNING(Service_ACT, "(STUBBED) input={:#010x}", input);
+    rb.Push<u32>(0); /// TODO: add error output value
 }
 
 void Module::Interface::GetAccountDataBlock(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    const auto unknown = rp.Pop<u8>();
+    const auto acc_slot = rp.Pop<u8>();
     const auto size = rp.Pop<u32>();
     const auto block_id = rp.Pop<u32>();
     [[maybe_unused]] auto output_buffer = rp.PopMappedBuffer();
 
-    LOG_DEBUG(Service_ACT, "(STUBBED) called unknown={:02X}, size={:08X}, block_id={:08X}", unknown,
+    LOG_DEBUG(Service_ACT, "(STUBBED) called acc_slot={:02X}, size={:08X}, block_id={:08X}", acc_slot,
               size, block_id);
 
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);

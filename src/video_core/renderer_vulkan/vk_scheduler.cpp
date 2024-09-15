@@ -142,12 +142,14 @@ void Scheduler::WorkerThread(std::stop_token stop_token) {
 
             // Perform the work, tracking whether the chunk was a submission
             // before executing.
-            const bool has_submit = work->HasSubmit();
-            work->ExecuteAll(current_cmdbuf);
+            if (work) {
+                const bool has_submit = work->HasSubmit();
+                work->ExecuteAll(current_cmdbuf);
 
             // If the chunk was a submission, reallocate the command buffer.
-            if (has_submit) {
-                AllocateWorkerCommandBuffers();
+                if (has_submit) {
+                    AllocateWorkerCommandBuffers();
+                }
             }
         }
 

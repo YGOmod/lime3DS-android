@@ -37,8 +37,8 @@ enum DescriptorType : u32 {
 
 union Header {
     u32 raw;
-    BitField<0, 6, u32> translate_params_size;
-    BitField<6, 6, u32> normal_params_size;
+    BitField<0, 6, u32>   translate_params_size;
+    BitField<6, 6, u32>   normal_params_size;
     BitField<16, 16, u32> command_id;
 };
 

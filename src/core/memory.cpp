@@ -319,11 +319,11 @@ private:
     void serialize(Archive& ar, const unsigned int file_version) {
         bool save_n3ds_ram = Settings::values.is_new_3ds.GetValue();
         ar & save_n3ds_ram;
-        ar& boost::serialization::make_binary_object(vram.get(), Memory::VRAM_SIZE);
-        ar& boost::serialization::make_binary_object(
-            fcram.get(), save_n3ds_ram ? Memory::FCRAM_N3DS_SIZE : Memory::FCRAM_SIZE);
-        ar& boost::serialization::make_binary_object(
-            n3ds_extra_ram.get(), save_n3ds_ram ? Memory::N3DS_EXTRA_RAM_SIZE : 0);
+        ar & boost::serialization::make_binary_object(vram.get(), Memory::VRAM_SIZE);
+        ar & boost::serialization::make_binary_object(
+             fcram.get(), save_n3ds_ram ? Memory::FCRAM_N3DS_SIZE : Memory::FCRAM_SIZE);
+        ar & boost::serialization::make_binary_object(
+             n3ds_extra_ram.get(), save_n3ds_ram ? Memory::N3DS_EXTRA_RAM_SIZE : 0);
         ar & cache_marker;
         ar & page_table_list;
         // dsp is set from Core::System at startup

@@ -103,6 +103,30 @@ enum class AppletId : u32 {
     Memolib2 = 0x409,
 };
 
+enum class AppletPreparationState : u32 {
+    NoPreparation = 0,
+    LaunchApp = 1,
+    CloseApp = 2,
+    ForceToCloseApp = 3,
+    PreloadAppLib = 4,
+    LaunchAppLib = 5,
+    CloseAppLib = 6,
+    LaunchSys = 7,
+    CloseSys = 8,
+    PreloadSysLib = 9,
+    LaunchSysLib = 10,
+    CloseSysLib = 11,
+    LaunchResident = 12,
+    LeaveResident = 13,
+    DoHomeMenu = 14,
+    LeaveHomeMenu = 15,
+    StartResident = 16,
+    DoAppJump = 17,
+    ForceToCloseSys = 18,
+    LaunchOtherSys = 19,
+    JumpToApp = 20
+};
+
 /// Application Old/New 3DS target platforms
 enum class TargetPlatform : u8 {
     Old3ds = 0,

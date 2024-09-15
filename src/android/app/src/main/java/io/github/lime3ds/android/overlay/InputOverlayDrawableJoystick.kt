@@ -131,8 +131,18 @@ class InputOverlayDrawableJoystick(
             radius = 0.0f
             outerBitmap.alpha = opacity
             boundsBoxBitmap.alpha = 0
-            virtBounds = Rect(origBounds.left, origBounds.top, origBounds.right, origBounds.bottom)
-            bounds = Rect(origBounds.left, origBounds.top, origBounds.right, origBounds.bottom)
+            virtBounds = Rect(
+                origBounds.left,
+                origBounds.top,
+                origBounds.right,
+                origBounds.bottom
+            )
+            bounds = Rect(
+                origBounds.left,
+                origBounds.top,
+                origBounds.right,
+                origBounds.bottom
+            )
             setInnerBounds()
             trackId = -1
             overlay.hapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY_RELEASE)
@@ -244,7 +254,12 @@ class InputOverlayDrawableJoystick(
             virtBounds.centerY() - virtBounds.height() / 2
         val width = pressedStateInnerBitmap.bounds.width() / 2
         val height = pressedStateInnerBitmap.bounds.height() / 2
-        defaultStateInnerBitmap.setBounds(x - width, y - height, x + width, y + height)
+        defaultStateInnerBitmap.setBounds(
+            x - width,
+            y - height,
+            x + width,
+            y + height
+        )
         pressedStateInnerBitmap.bounds = defaultStateInnerBitmap.bounds
     }
 

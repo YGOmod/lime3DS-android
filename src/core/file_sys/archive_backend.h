@@ -56,17 +56,17 @@ public:
      * Gets the string representation of the path for debugging
      * @return String representation of the path for debugging
      */
-    std::string DebugStr() const;
+    std::string     DebugStr() const;
 
-    std::string AsString() const;
-    std::u16string AsU16Str() const;
+    std::string     AsString() const;
+    std::u16string  AsU16Str() const;
     std::vector<u8> AsBinary() const;
 
 private:
-    LowPathType type;
+    LowPathType     type;
     std::vector<u8> binary;
-    std::string string;
-    std::u16string u16str;
+    std::string     string;
+    std::u16string  u16str;
 
     template <class Archive>
     void serialize(Archive& ar, const unsigned int) {
@@ -100,7 +100,7 @@ struct ArchiveFormatInfo {
     u32_le total_size;         ///< The pre-defined size of the archive.
     u32_le number_directories; ///< The pre-defined number of directories in the archive.
     u32_le number_files;       ///< The pre-defined number of files in the archive.
-    u8 duplicate_data;         ///< Whether the archive should duplicate the data.
+    u8     duplicate_data;     ///< Whether the archive should duplicate the data.
 };
 static_assert(std::is_trivial_v<ArchiveFormatInfo>, "ArchiveFormatInfo is not POD");
 static_assert(sizeof(ArchiveFormatInfo) == 16, "Invalid ArchiveFormatInfo size");
