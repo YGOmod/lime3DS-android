@@ -16,6 +16,11 @@ QTM_SP::QTM_SP() : ServiceFramework("qtm:sp", 2) {
         // clang-format off
         {0x0001, nullptr, "GetHeadtrackingInfoRaw"},
         {0x0002, nullptr, "GetHeadtrackingInfo"},
+        //
+        {0x0801, nullptr, "NotifyTopLcdModeChange"},
+        {0x0802, nullptr, "NotifyTopLcdPowerOn"},
+        {0x0803, nullptr, "IsExpanderInUse"},
+        {0x0804, nullptr, "NotifyTopLcdPowerOff"},
         // clang-format on
     };
 

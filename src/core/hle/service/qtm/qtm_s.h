@@ -16,6 +16,7 @@ public:
 private:
     SERVICE_SERIALIZATION_SIMPLE
 
+    void GetHeadtrackingInfoRaw(Kernel::HLERequestContext& ctx);
     void GetHeadtrackingInfo(Kernel::HLERequestContext& ctx);
 };
 

@@ -4,7 +4,6 @@
 #include <cryptopp/modes.h>
 #include "common/archives.h"
 #include "common/logging/log.h"
-#include "core/file_sys/archive_artic.h"
 #include "core/file_sys/archive_backend.h"
 #include "core/file_sys/romfs_reader.h"
 #include "core/hle/service/fs/fs_user.h"

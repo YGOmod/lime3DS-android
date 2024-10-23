@@ -32,13 +32,13 @@ PTM_S_Common::PTM_S_Common(std::shared_ptr<Module> ptm, const char* name)
         {0x000F, nullptr, "GetStepHistoryAll"},
         // ptm:sysm & ptm:s
         {0x0401, nullptr, "SetRtcAlarmEx"},
-        {0x0402, nullptr, "ReplySleepQuery"},
+        {0x0402, nullptr, "ReplyToSleepQuery"},
         {0x0403, nullptr, "NotifySleepPreparationComplete"},
-        {0x0404, nullptr, "SetWakeupTrigger"},
-        {0x0405, nullptr, "GetAwakeReason"},
+        {0x0404, nullptr, "SetWakeEvents"},
+        {0x0405, nullptr, "GetWakeReason"},
         {0x0406, nullptr, "RequestSleep"},
         {0x0407, nullptr, "ShutdownAsync"},
-        {0x0408, nullptr, "Awake"},
+        {0x0408, nullptr, "Awaken"},
         {0x0409, nullptr, "RebootAsync"},
         {0x040A, &PTM_S_Common::CheckNew3DS, "CheckNew3DS"},
         {0x0801, nullptr, "SetInfoLEDPattern"},
@@ -61,6 +61,8 @@ PTM_S_Common::PTM_S_Common(std::shared_ptr<Module> ptm, const char* name)
         {0x0812, nullptr, "IsShutdownByBatteryEmpty"},
         {0x0813, nullptr, "FormatSavedata"},
         {0x0814, nullptr, "GetLegacyJumpProhibitedFlag"},
+        {0x0816, nullptr, "GetRtcTime"},
+        {0x0817, nullptr, "SetRtcTime"},
         {0x0818, &PTM_S_Common::ConfigureNew3DSCPU, "ConfigureNew3DSCPU"},
         // clang-format on
     };

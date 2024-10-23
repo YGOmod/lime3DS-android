@@ -14,12 +14,35 @@ QTM_S::QTM_S() : ServiceFramework("qtm:s", 2) {
     static const FunctionInfo functions[] = {
         // qtm common commands
         // clang-format off
-        {0x0001, nullptr, "GetHeadtrackingInfoRaw"},
+        {0x0001, &QTM_S::GetHeadtrackingInfoRaw, "GetHeadtrackingInfoRaw"},
         {0x0002, &QTM_S::GetHeadtrackingInfo, "GetHeadtrackingInfo"},
+        //
+        {0x0401, nullptr, "SetCentralBarrierPosition"},
+        {0x0402, nullptr, "GetCameraLuminance"},
+        {0x0403, nullptr, "EnableAutoBarrierControl"},
+        {0x0404, nullptr, "DisableAutoBarrierControl"},
+        {0x0405, nullptr, "SetBarrierPosition"},
+        {0x0406, nullptr, "GetCurrentBarrierPosition"},
+        {0x0407, nullptr, "SetIrLedStatusOverride"},
+        {0x0408, nullptr, "SetCalibrationData"},
+        {0x0409, nullptr, "GetQtmStatus"},
+        {0x040A, nullptr, "SetQtmStatus"},
         // clang-format on
     };
 
     RegisterHandlers(functions);
+}
+
+void QTM_S::GetHeadtrackingInfoRaw(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    [[maybe_unused]] const u64 unknown = rp.Pop<u64>();
+
+    std::array<u8, 0x30> data{};
+    IPC::RequestBuilder rb = rp.MakeBuilder(13, 0);
+    rb.Push(ResultSuccess);
+    rb.PushRaw<std::array<u8, 0x30>>(data);
+
+    LOG_DEBUG(Service, "(STUBBED) called");
 }
 
 void QTM_S::GetHeadtrackingInfo(Kernel::HLERequestContext& ctx) {

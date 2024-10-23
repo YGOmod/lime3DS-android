@@ -17,10 +17,10 @@ class System;
 namespace Service::FS {
 
 struct FileSessionSlot : public Kernel::SessionRequestHandler::SessionDataBase {
-    u32 priority; ///< Priority of the file. TODO(Subv): Find out what this means
-    u64 offset;   ///< Offset that this session will start reading from.
-    u64 size;     ///< Max size of the file that this session is allowed to access
-    bool subfile; ///< Whether this file was opened via OpenSubFile or not.
+    u32  priority; ///< Priority of the file. TODO(Subv): Find out what this means
+    u64  offset;   ///< Offset that this session will start reading from.
+    u64  size;     ///< Max size of the file that this session is allowed to access
+    bool subfile;  ///< Whether this file was opened via OpenSubFile or not.
 
 private:
     template <class Archive>

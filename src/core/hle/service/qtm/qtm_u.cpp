@@ -14,8 +14,12 @@ QTM_U::QTM_U() : ServiceFramework("qtm:u", 2) {
     static const FunctionInfo functions[] = {
         // qtm common commands
         // clang-format off
-        {0x0001, nullptr, "GetHeadtrackingInfoRaw"},
-        {0x0002, nullptr, "GetHeadtrackingInfo"},
+        {0x0001, nullptr, "GetRawTrackingDataEx"},
+        {0x0002, nullptr, "GetTrackingDataEx"},
+        {0x0003, nullptr, "EnableManualIrLedControl"},
+        {0x0004, nullptr, "DisableManualIrLedControl"},
+        {0x0005, nullptr, "SetIrLedStatus"},
+        {0x0006, nullptr, "IsCurrentAppBlacklisted"},
         // clang-format on
     };
 

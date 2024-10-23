@@ -126,7 +126,7 @@ static std::unique_ptr<AppLoader> GetFileLoader(Core::System& system, FileUtil::
             int newVal = strToUInt(server_addr.substr(pos + 1));
             if (newVal >= 0 && newVal <= 0xFFFF) {
                 port = static_cast<u16>(newVal);
-                server_addr = server_addr.substr(0, pos);
+                server_addr = server_addr.resize(pos);
             }
         }
         return std::make_unique<Apploader_Artic>(system, server_addr, port);
