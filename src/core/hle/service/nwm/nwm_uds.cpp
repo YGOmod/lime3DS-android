@@ -58,7 +58,7 @@ NWM_UDS::NWM_UDS(Core::System& system) : ServiceFramework("nwm::UDS"), system(sy
         {0x001E, &NWM_UDS::ConnectToNetwork, "ConnectToNetwork"},
         {0x001F, &NWM_UDS::DecryptBeaconData, "DecryptBeaconData"},
         {0x0020, nullptr, "Flush"},
-        {0x0021, nullptr, "SetProbeResponseParam"},
+        {0x0021, &NWM_UDS::SetProbeResponseParam, "SetProbeResponseParam"},
         {0x0022, nullptr, "ScanOnConnection"},
         {0x0023, nullptr, "Unknown23"},
         // clang-format on
@@ -1499,6 +1499,13 @@ void NWM_UDS::DecryptBeaconData(Kernel::HLERequestContext& ctx) {
     std::vector<u8> output_buffer(sizeof(NodeInfo) * UDSMaxNodes);
     std::memcpy(output_buffer.data(), nodes.data(), sizeof(NodeInfo) * nodes.size());
     rb.PushStaticBuffer(std::move(output_buffer), 0);
+}
+
+void NWM_UDS::SetProbeResponseParam(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess);
 }
 
 // Sends a 802.11 beacon frame with information about the current network.
