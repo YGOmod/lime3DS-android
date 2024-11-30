@@ -152,6 +152,8 @@ FS_USER::FS_USER(Core::System& system)
         {0x0875, &FS_USER::SetSaveDataSecureValue, "SetSaveDataSecureValue" },
         {0x0876, &FS_USER::GetSaveDataSecureValue, "GetSaveDataSecureValue" },
         {0x087A, &FS_USER::AddSeed, "AddSeed"},
+        {0x087B, nullptr, "GetSeed"},
+        {0x087C, nullptr, "DeleteSeed"},
         {0x087D, &FS_USER::GetNumSeeds, "GetNumSeeds"},
         {0x0886, nullptr, "CheckUpdatedDat"},
         // clang-format on
