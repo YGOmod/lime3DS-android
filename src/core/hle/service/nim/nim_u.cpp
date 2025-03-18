@@ -28,6 +28,7 @@ enum class SystemUpdateState : u32 {
 
 struct SystemUpdateProgress {
     SystemUpdateState state;
+    INSERT_PADDING_BYTES(3);
     u32 last_operation_result;
     u64 current_title_downloaded_bytes;
     u64 current_title_total_bytes;
@@ -53,6 +54,7 @@ enum class TitleDownloadState : u32 {
 
 struct TitleDownloadProgress {
     TitleDownloadState state;
+    INSERT_PADDING_BYTES(3);
     u32 last_operation_result;
     u64 downloaded_bytes;
     u64 total_bytes;
@@ -65,8 +67,8 @@ struct TitleDownloadConfig {
     u64 title_id;
     u32 title_version;
     u32 unknown_1;
-    u8 age_rating;
-    u8 media_type;
+    u8  age_rating;
+    u8  media_type;
     INSERT_PADDING_BYTES(2);
     u32 unknown_2;
 };
@@ -117,7 +119,7 @@ static_assert(sizeof(AutoTitleDownloadTaskInfo) == 0x138,
               "AutoTitleDownloadTaskInfo structure size is wrong");
 
 struct AutoDbgDat {
-    u8 unknown_1[0x4];
+    u32 debug_flags;
     u32 num_auto_download_tasks;
     u8 unknown_2[0x100];
 };

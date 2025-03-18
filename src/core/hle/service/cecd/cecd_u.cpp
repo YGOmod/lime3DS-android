@@ -34,6 +34,7 @@ CECD_U::CECD_U(std::shared_ptr<Module> cecd)
         {0x0012, &CECD_U::OpenAndRead, "OpenAndRead"},
         {0x001E, nullptr, "GetEventLog"},
         {0x001F, nullptr, "GetEventLogStart"},
+        {0x0020, nullptr, "GetEventLogEntryCount"},
         // clang-format on
     };
 

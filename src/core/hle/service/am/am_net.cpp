@@ -19,7 +19,7 @@ AM_NET::AM_NET(std::shared_ptr<Module> am) : Module::Interface(std::move(am), "a
         {0x0007, &AM_NET::DeleteTicket, "DeleteTicket"},
         {0x0008, &AM_NET::GetNumTickets, "GetNumTickets"},
         {0x0009, &AM_NET::GetTicketList, "GetTicketList"},
-        {0x000A, nullptr, "GetDeviceID"},
+        {0x000A, nullptr, "GetDeviceId"},
         {0x000B, nullptr, "GetNumImportTitleContexts"},
         {0x000C, nullptr, "GetImportTitleContextList"},
         {0x000D, nullptr, "GetImportTitleContexts"},

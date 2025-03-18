@@ -14,8 +14,11 @@ QTM_C::QTM_C() : ServiceFramework("qtm:c", 2) {
     static const FunctionInfo functions[] = {
         // qtm calibration commands
         // clang-format off
-        {0x0001, nullptr, "InitializeHardwareCheck"},
-        {0x0005, nullptr, "SetIrLedCheck"},
+        {0x0001, nullptr, "StartHardwareCheck"},
+        {0x0002, nullptr, "StopHardwareCheck"},
+        {0x0003, nullptr, "SetBarrierPattern"},
+        (0x0004, nullptr, "WaitAndCheckExpanderWorking"},
+        {0x0005, nullptr, "SetIrLedStatusOverride"},
         // clang-format on
     };
 

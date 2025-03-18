@@ -45,6 +45,17 @@ void DSP_DSP::RecvDataIsReady(Kernel::HLERequestContext& ctx) {
     LOG_DEBUG(Service_DSP, "register_number={}", register_number);
 }
 
+void DSP_DSP::SendData(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    const u32 register_number = rp.Pop<u32>();
+    const u32 value = rp.Pop<u32>();
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess);
+
+    LOG_DEBUG(Service_DSP, "register_number={} value={}", register_number, value);
+}
+
 void DSP_DSP::SetSemaphore(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     const u16 semaphore_value = rp.Pop<u16>();
@@ -353,7 +364,7 @@ DSP_DSP::DSP_DSP(Core::System& system)
         // clang-format off
         {0x0001, &DSP_DSP::RecvData, "RecvData"},
         {0x0002, &DSP_DSP::RecvDataIsReady, "RecvDataIsReady"},
-        {0x0003, nullptr, "SendData"},
+        {0x0003, &DSP_DSP::SendData, "SendData"},
         {0x0004, nullptr, "SendDataIsEmpty"},
         {0x0005, nullptr, "SendFifoEx"},
         {0x0006, nullptr, "RecvFifoEx"},

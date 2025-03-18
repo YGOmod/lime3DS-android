@@ -19,10 +19,10 @@ namespace FileSys {
 
 enum TMDContentTypeFlag : u16 {
     Encrypted = 1 << 0,
-    Disc = 1 << 2,
-    CFM = 1 << 3,
-    Optional = 1 << 14,
-    Shared = 1 << 15
+    Disc      = 1 << 2,
+    CFM       = 1 << 3,
+    Optional  = 1 << 14,
+    Shared    = 1 << 15
 };
 
 enum TMDContentIndex { Main = 0, Manual = 1, DLP = 2 };

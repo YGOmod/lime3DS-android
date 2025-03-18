@@ -293,6 +293,8 @@ add_library(lime_core STATIC
     hle/service/frd/frd.h
     hle/service/frd/frd_a.cpp
     hle/service/frd/frd_a.h
+    hle/service/frd/frd_n.cpp
+    hle/service/frd/frd_n.h
     hle/service/frd/frd_u.cpp
     hle/service/frd/frd_u.h
     hle/service/fs/archive.cpp

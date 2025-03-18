@@ -215,7 +215,7 @@ CSND_SND::CSND_SND(Core::System& system) : ServiceFramework("csnd:SND", 4), syst
 void CSND_SND::Initialize(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     const u32 size = Common::AlignUp(rp.Pop<u32>(), Memory::CITRA_PAGE_SIZE);
-    master_state_offset = rp.Pop<u32>();
+    master_state_offset  = rp.Pop<u32>();
     channel_state_offset = rp.Pop<u32>();
     capture_state_offset = rp.Pop<u32>();
     type1_command_offset = rp.Pop<u32>();

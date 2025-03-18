@@ -16,6 +16,21 @@ QTM_S::QTM_S() : ServiceFramework("qtm:s", 2) {
         // clang-format off
         {0x0001, nullptr, "GetHeadtrackingInfoRaw"},
         {0x0002, &QTM_S::GetHeadtrackingInfo, "GetHeadtrackingInfo"},
+        {0x0003, nullptr, "EnableManualIrLedControl"},
+        {0x0004, nullptr, "DisableManualIrLedControl"},
+        {0x0005, nullptr, "SetIrLedStatus"},
+        (0x0006, nullptr, "IsCurrentAppBlacklisted"},
+        // qtm:s
+        {0x0401, nullptr, "SetCentralBarrierPosition"},
+        {0x0402, nullptr, "GetCameraLuminance"},
+        {0x0403, nullptr, "EnableAutoBarrierControl"},
+        {0x0404, nullptr, "DisableAutoBarrierControl"},
+        {0x0405, nullptr, "SetBarrierPosition"},
+        {0x0406, nullptr, "GetCurrentBarrierPosition"},
+        {0x0407, nullptr, "SetIrLedStatusOverride"},
+        {0x0408, nullptr, "SetCalibrationData"},
+        {0x0409, nullptr, "GetQtmStatus"},
+        {0x040A, nullptr, "SetQtmStatus"},
         // clang-format on
     };
 

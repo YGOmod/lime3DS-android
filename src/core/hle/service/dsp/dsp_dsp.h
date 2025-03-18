@@ -62,6 +62,7 @@ private:
      */
     void RecvDataIsReady(Kernel::HLERequestContext& ctx);
 
+    void SendData(Kernel::HLERequestContext& ctx);
     /**
      * DSP_DSP::SetSemaphore service function
      *  Inputs:

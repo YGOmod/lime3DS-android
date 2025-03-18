@@ -1136,7 +1136,8 @@ void FS_USER::CardSlotIsInserted(Kernel::HLERequestContext& ctx) {
 void FS_USER::DeleteSystemSaveData(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     u32 savedata_high = rp.Pop<u32>();
-    u32 savedata_low = rp.Pop<u32>();
+    u32 savedata_low  = rp.Pop<u32>();
+    LOG_WARNING(Service_FS,"(STUBBED) called. savedata_high={:08X} savedata_low={:08X}", savedata_high, savedata_low);
 
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(archives.DeleteSystemSaveData(savedata_high, savedata_low));
@@ -1144,15 +1145,15 @@ void FS_USER::DeleteSystemSaveData(Kernel::HLERequestContext& ctx) {
 
 void FS_USER::CreateSystemSaveData(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    u32 savedata_high = rp.Pop<u32>();
-    u32 savedata_low = rp.Pop<u32>();
-    u32 total_size = rp.Pop<u32>();
-    u32 block_size = rp.Pop<u32>();
-    u32 directories = rp.Pop<u32>();
-    u32 files = rp.Pop<u32>();
+    u32 savedata_high     = rp.Pop<u32>();
+    u32 savedata_low      = rp.Pop<u32>();
+    u32 total_size        = rp.Pop<u32>();
+    u32 block_size        = rp.Pop<u32>();
+    u32 directories       = rp.Pop<u32>();
+    u32 files             = rp.Pop<u32>();
     u32 directory_buckets = rp.Pop<u32>();
-    u32 file_buckets = rp.Pop<u32>();
-    bool duplicate = rp.Pop<bool>();
+    u32 file_buckets      = rp.Pop<u32>();
+    bool duplicate        = rp.Pop<bool>();
 
     LOG_WARNING(
         Service_FS,
@@ -1167,14 +1168,14 @@ void FS_USER::CreateSystemSaveData(Kernel::HLERequestContext& ctx) {
 
 void FS_USER::CreateLegacySystemSaveData(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    u32 savedata_id = rp.Pop<u32>();
-    u32 total_size = rp.Pop<u32>();
-    u32 block_size = rp.Pop<u32>();
-    u32 directories = rp.Pop<u32>();
-    u32 files = rp.Pop<u32>();
+    u32 savedata_id       = rp.Pop<u32>();
+    u32 total_size        = rp.Pop<u32>();
+    u32 block_size        = rp.Pop<u32>();
+    u32 directories       = rp.Pop<u32>();
+    u32 files             = rp.Pop<u32>();
     u32 directory_buckets = rp.Pop<u32>();
-    u32 file_buckets = rp.Pop<u32>();
-    bool duplicate = rp.Pop<bool>();
+    u32 file_buckets      = rp.Pop<u32>();
+    bool duplicate        = rp.Pop<bool>();
 
     LOG_WARNING(Service_FS,
                 "(STUBBED) savedata_id={:08X} total_size={:08X} block_size={:08X} directories={} "
@@ -1190,9 +1191,9 @@ void FS_USER::CreateLegacySystemSaveData(Kernel::HLERequestContext& ctx) {
 void FS_USER::SetArchivePriority(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     const auto archive_handle = rp.PopRaw<ArchiveHandle>();
-    const auto priority = rp.Pop<u32>();
+    const auto priority       = rp.Pop<u32>();
 
-    LOG_DEBUG(Service_FS, "Stubbed. archive=0x{:08X} priority=0x{:X}", archive_handle, priority);
+    LOG_DEBUG(Service_FS, "(STUBBED) archive=0x{:08X} priority=0x{:X}", archive_handle, priority);
 
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(ResultSuccess);
@@ -1212,7 +1213,7 @@ void FS_USER::GetArchivePriority(Kernel::HLERequestContext& ctx) {
 void FS_USER::InitializeWithSdkVersion(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     const u32 version = rp.Pop<u32>();
-    u32 pid = rp.PopPID();
+    u32 pid           = rp.PopPID();
 
     ClientSlot* slot = GetSessionData(ctx.Session());
     slot->program_id = system.Kernel().GetProcessById(pid)->codeset->program_id;
@@ -1252,7 +1253,7 @@ void FS_USER::GetArchiveResource(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     auto media_type = rp.PopEnum<MediaType>();
 
-    LOG_WARNING(Service_FS, "(STUBBED) called Media type=0x{:08X}", media_type);
+    LOG_WARNING(Service_FS, "(STUBBED) called. Media type=0x{:08X}", media_type);
 
     auto resource = archives.GetArchiveResource(media_type);
     if (resource.Failed()) {
@@ -1282,7 +1283,7 @@ void FS_USER::AbnegateAccessRight(Kernel::HLERequestContext& ctx) {
 
 void FS_USER::GetFormatInfo(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    const auto archive_id = rp.PopEnum<FS::ArchiveIdCode>();
+    const auto archive_id       = rp.PopEnum<FS::ArchiveIdCode>();
     const auto archivename_type = rp.PopEnum<FileSys::LowPathType>();
     const auto archivename_size = rp.Pop<u32>();
     std::vector<u8> archivename = rp.PopStaticBuffer();
@@ -1363,13 +1364,13 @@ void FS_USER::GetProgramLaunchInfo(Kernel::HLERequestContext& ctx) {
 
 void FS_USER::ObsoletedCreateExtSaveData(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    auto media_type = rp.PopEnum<FS::MediaType>();
-    u32 save_low = rp.Pop<u32>();
-    u32 save_high = rp.Pop<u32>();
-    u32 icon_size = rp.Pop<u32>();
-    u32 directories = rp.Pop<u32>();
-    u32 files = rp.Pop<u32>();
-    auto icon_buffer = rp.PopMappedBuffer();
+    auto media_type   = rp.PopEnum<FS::MediaType>();
+    u32  save_low     = rp.Pop<u32>();
+    u32  save_high    = rp.Pop<u32>();
+    u32  icon_size    = rp.Pop<u32>();
+    u32  directories  = rp.Pop<u32>();
+    u32  files        = rp.Pop<u32>();
+    auto icon_buffer  = rp.PopMappedBuffer();
 
     std::vector<u8> icon(icon_size);
     icon_buffer.Read(icon.data(), 0, icon_size);
@@ -1394,7 +1395,7 @@ void FS_USER::ObsoletedCreateExtSaveData(Kernel::HLERequestContext& ctx) {
 void FS_USER::ObsoletedDeleteExtSaveData(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     auto media_type = rp.PopEnum<MediaType>();
-    u32 save_low = rp.Pop<u32>();
+    u32  save_low   = rp.Pop<u32>();
 
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(archives.DeleteExtSaveData(media_type, 0, 0, save_low));
@@ -1414,8 +1415,8 @@ void FS_USER::SendInitializeInfoTo9(Kernel::HLERequestContext& ctx) {
 void FS_USER::GetSpecialContentIndex(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     const auto media_type = rp.PopEnum<MediaType>();
-    const u64 title_id = rp.Pop<u64>();
-    const auto type = rp.PopEnum<SpecialContentType>();
+    const u64  title_id   = rp.Pop<u64>();
+    const auto type       = rp.PopEnum<SpecialContentType>();
 
     LOG_DEBUG(Service_FS, "called, media_type={:08X} type={:08X}, title_id={:016X}", media_type,
               type, title_id);

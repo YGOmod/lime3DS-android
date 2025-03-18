@@ -34,8 +34,21 @@ CECD_S::CECD_S(std::shared_ptr<Module> cecd)
         {0x0012, &CECD_S::OpenAndRead, "OpenAndRead"},
         {0x001E, nullptr, "GetEventLog"},
         {0x001F, nullptr, "GetEventLogStart"},
+        {0x0020, nullptr, "GetEventLogEntryCount"},
         // cecd:s commands
         {0x0402, &CECD_S::GetCecInfoEventHandleSys, "GetCecInfoEventHandleSys"},
+        {0x040A, nullptr, "SprCreate"},
+        {0x040B, nullptr, "SprInitialise"},
+        {0x040C, nullptr, "SprGetSendSlotsMetadata"},
+        {0x040D, nullptr, "SprGetSlot"},
+        {0x040E, nullptr, "SprSetTitleSent"},
+        {0x040F, nullptr, "SprFinaliseSend"},
+        {0x0410, nullptr, "SprStartRecv"},
+        {0x0411, nullptr, "SprAddSlotsMetadata"},
+        {0x0412, nullptr, "SprAddSlot"},
+        {0x0413, nullptr, "SprFinaliseRecv"},
+        {0x0414, nullptr, "SprDone"},
+        {0x0415, nullptr, "GenHashConsoleUnique"},
         // clang-format on
     };
 

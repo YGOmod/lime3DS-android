@@ -15,7 +15,7 @@ AM_APP::AM_APP(std::shared_ptr<Module> am) : Module::Interface(std::move(am), "a
         {0x1003, &AM_APP::ListDLCContentInfos, "ListDLCContentInfos"},
         {0x1004, &AM_APP::DeleteContents, "DeleteContents"},
         {0x1005, &AM_APP::GetDLCTitleInfos, "GetDLCTitleInfos"},
-        {0x1006, nullptr, "GetNumDataTitleTickets"},
+        {0x1006, nullptr, "GetDLCOrLicenseNumTickets"},
         {0x1007, &AM_APP::ListDataTitleTicketInfos, "ListDataTitleTicketInfos"},
         {0x1008, nullptr, "GetItemRights"},
         {0x1009, nullptr, "IsDataTitleInUse"},
