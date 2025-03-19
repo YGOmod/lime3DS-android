@@ -8,7 +8,7 @@ SERIALIZE_EXPORT_IMPL(Service::FRD::FRD_N)
 
 namespace Service::FRD {
 
-FRD_N::FRD_N(std::shared_ptr<Module> frd) : Module::Interface(std::move(frd), "frd:n") {
+FRD_N::FRD_N(std::shared_ptr<Module> frd) : Module::Interface(std::move(frd), "frd:n", 8) {
     static const FunctionInfo functions[] = {
         {0x0001, nullptr, "GetHandleOfNdmStatusChangedEvent"},
         {0x0002, nullptr, "Resume"},
