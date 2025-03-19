@@ -36,7 +36,7 @@ struct SystemUpdateProgress {
     u64 titles_total;
 };
 
-static_assert(sizeof(SystemUpdateProgress) == 0x28, "SystemUpdateProgress structure size is wrong");
+static_assert(sizeof(SystemUpdateProgress) == 0x30, "SystemUpdateProgress structure size is wrong");
 
 enum class TitleDownloadState : u32 {
     NotInitialized,
@@ -60,7 +60,7 @@ struct TitleDownloadProgress {
     u64 total_bytes;
 };
 
-static_assert(sizeof(TitleDownloadProgress) == 0x18,
+static_assert(sizeof(TitleDownloadProgress) == 0x20,
               "TitleDownloadProgress structure size is wrong");
 
 struct TitleDownloadConfig {
@@ -97,7 +97,7 @@ struct BackgroundTitleDownloadTaskInfo {
     TitleDownloadProgress progress;
 };
 
-static_assert(sizeof(BackgroundTitleDownloadTaskInfo) == 0x120,
+static_assert(sizeof(BackgroundTitleDownloadTaskInfo) == 0x128,
               "BackgroundTitleDownloadTaskInfo structure size is wrong");
 
 struct AutoTitleDownloadTaskInfo {
