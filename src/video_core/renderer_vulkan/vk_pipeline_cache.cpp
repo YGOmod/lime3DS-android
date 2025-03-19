@@ -271,8 +271,9 @@ bool PipelineCache::BindPipeline(const PipelineInfo& info, bool wait_built) {
         }
 
         if (instance.IsExtendedDynamicStateSupported()) {
-            if (rasterization.cull_mode != current_rasterization.cull_mode || is_dirty) {
-                cmdbuf.setCullModeEXT(PicaToVK::CullMode(rasterization.cull_mode));
+            const bool needs_flip = rasterization.flip_viewport != current_rasterization.flip_viewport;
+            if (rasterization.cull_mode != current_rasterization.cull_mode || needs_flip || is_dirty) {
+                cmdbuf.setCullModeEXT(PicaToVK::CullMode(rasterization.cull_mode, rasterization.flip_viewport));
                 cmdbuf.setFrontFaceEXT(PicaToVK::FrontFace(rasterization.cull_mode));
             }
 

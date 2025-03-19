@@ -860,11 +860,11 @@ void RasterizerAccelerated::SyncTextureBorderColor(int tex_index) {
 }
 
 void RasterizerAccelerated::SyncClipPlane() {
-    const u32 enable_clip1 = regs.rasterizer.clip_enable != 0;
+    const bool enable_clip1 = regs.rasterizer.clip_enable != 0;
     const auto raw_clip_coef = regs.rasterizer.GetClipCoef();
     const Common::Vec4f new_clip_coef = {raw_clip_coef.x.ToFloat32(), raw_clip_coef.y.ToFloat32(),
                                          raw_clip_coef.z.ToFloat32(), raw_clip_coef.w.ToFloat32()};
-    if (enable_clip1 != vs_uniform_block_data.data.enable_clip1 ||
+    if (enable_clip1 != (vs_uniform_block_data.data.enable_clip1 != 0) ||
         new_clip_coef != vs_uniform_block_data.data.clip_coef) {
         vs_uniform_block_data.data.enable_clip1 = enable_clip1;
         vs_uniform_block_data.data.clip_coef = new_clip_coef;

@@ -351,11 +351,4 @@
     <string name="november">Novembro</string>
     <string name="december">Dezembro</string>
 
-    <!-- Artic base -->
-    <string name="artic_server_comm_error">Falha ao comunicar-se com o servidor Artic Base. A emulação será interrompida.</string>
-    <string name="artic_base">Artic Base</string>
-    <string name="artic_base_connect_description">Conecte-se a um console real que esteja executando um servidor Artic Base</string>
-    <string name="artic_base_connect">Conectar-se ao Artic Base</string>
-    <string name="artic_base_enter_address">Digite o endereço do servidor Artic Base</string>
-
 </resources>

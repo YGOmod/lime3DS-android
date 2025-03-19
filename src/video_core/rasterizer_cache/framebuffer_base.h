@@ -65,13 +65,17 @@ template <class T>
 class FramebufferHelper {
 public:
     explicit FramebufferHelper(RasterizerCache<T>* res_cache_, typename T::Framebuffer* fb_,
-                               const Pica::RasterizerRegs& regs,
+                               bool flip_rect, const Pica::RasterizerRegs& regs,
                                Common::Rectangle<u32> surfaces_rect)
         : res_cache{res_cache_}, fb{fb_} {
         const u32 res_scale = fb->Scale();
+        const u32 height = surfaces_rect.GetHeight() / res_scale;
 
         // Determine the draw rectangle (render area + scissor)
-        const Common::Rectangle viewport_rect = regs.GetViewportRect();
+        Common::Rectangle viewport_rect = regs.GetViewportRect();
+        if (flip_rect) {
+            viewport_rect = viewport_rect.VerticalMirror(height);
+        }
         draw_rect.left =
             std::clamp<s32>(static_cast<s32>(surfaces_rect.left) + viewport_rect.left * res_scale,
                             surfaces_rect.left, surfaces_rect.right);
@@ -103,6 +107,10 @@ public:
             static_cast<s32>(surfaces_rect.left + (regs.scissor_test.x2 + 1) * res_scale);
         scissor_rect.top =
             static_cast<s32>(surfaces_rect.bottom + (regs.scissor_test.y2 + 1) * res_scale);
+
+        if (flip_rect) {
+            scissor_rect = scissor_rect.VerticalMirror(height);
+        }
     }
 
     ~FramebufferHelper() {
