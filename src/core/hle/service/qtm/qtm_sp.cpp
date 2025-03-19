@@ -19,7 +19,7 @@ QTM_SP::QTM_SP() : ServiceFramework("qtm:sp", 2) {
         {0x0003, nullptr, "EnableManualIrLedControl"},
         {0x0004, nullptr, "DisableManualIrLedControl"},
         {0x0005, nullptr, "SetIrLedStatus"},
-        (0x0006, nullptr, "IsCurrentAppBlacklisted"},
+        {0x0006, nullptr, "IsCurrentAppBlacklisted"},
         // qtm:s
         {0x0401, nullptr, "SetCentralBarrierPosition"},
         {0x0402, nullptr, "GetCameraLuminance"},
