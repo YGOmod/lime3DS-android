@@ -4,8 +4,9 @@
 
 package io.github.lime3ds.android.activities
 
-import SecondScreen
+import io.github.lime3ds.android.display.SecondScreen
 import android.Manifest.permission
+import android.app.Activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
