@@ -365,7 +365,6 @@
     <string name="emulation_screen_layout_single">Single Screen</string>
     <string name="emulation_screen_layout_sidebyside">Side by Side Screens</string>
     <string name="emulation_screen_layout_hybrid">Hybrid Screens</string>
-    <string name="emulation_screen_layout_sidebyside">Side by Side Screens</string>
     <string name="emulation_cycle_landscape_layouts">Cycle Landscape Layouts</string>
     <string name="emulation_secondary_screen_default">System Default (mirror)</string>
     <string name="emulation_top_screen">Top Screen</string>
