@@ -173,7 +173,7 @@ FramebufferLayout SingleFrameLayout(u32 width, u32 height, bool swapped, bool up
         emulation_aspect_ratio = (swapped) ? BOT_SCREEN_ASPECT_RATIO : TOP_SCREEN_ASPECT_RATIO;
     }
 
-    float window_aspect_ratio = static_cast<float>(height) / width;
+    const float window_aspect_ratio = static_cast<float>(height) / static_cast<float>(width);
 
     if (window_aspect_ratio < emulation_aspect_ratio) {
         top_screen =
@@ -197,7 +197,7 @@ FramebufferLayout LargeFrameLayout(u32 width, u32 height, bool swapped, bool upr
     FramebufferLayout res{width, height, true, true, {}, {}, !upright};
     // Split the window into two parts. Give 4x width to the main screen and 1x width to the small
     // To do that, find the total emulation box and maximize that based on window size
-    float window_aspect_ratio = static_cast<float>(height) / width;
+    const float window_aspect_ratio = static_cast<float>(height) / static_cast<float>(width);
     float emulation_aspect_ratio;
     float large_screen_aspect_ratio;
     float small_screen_aspect_ratio;
@@ -299,7 +299,7 @@ FramebufferLayout HybridScreenLayout(u32 width, u32 height, bool swapped, bool u
     // Split the window into two parts. Give 2.25x width to the main screen,
     // and make a bar on the right side with 1x width top screen and 1.25x width bottom screen
     // To do that, find the total emulation box and maximize that based on window size
-    const float window_aspect_ratio = static_cast<float>(height) / width;
+    const float window_aspect_ratio = static_cast<float>(height) / static_cast<float>(width);
     const float scale_factor = 2.25f;
 
     float main_screen_aspect_ratio = TOP_SCREEN_ASPECT_RATIO;
@@ -369,6 +369,22 @@ FramebufferLayout SeparateWindowsLayout(u32 width, u32 height, bool is_secondary
     // The same logic is found in the SingleFrameLayout using the is_swapped bool.
     is_secondary = Settings::values.swap_screen ? !is_secondary : is_secondary;
     return SingleFrameLayout(width, height, is_secondary, upright);
+}
+
+FramebufferLayout AndroidSecondaryLayout(u32 width, u32 height) {
+    const Settings::SecondaryScreenLayout layout = Settings::values.secondary_screen_layout.GetValue();
+    switch (layout) {
+
+        case Settings::SecondaryScreenLayout::BottomScreenOnly:
+            return SingleFrameLayout(width, height, true, Settings::values.upright_screen.GetValue());
+        case Settings::SecondaryScreenLayout::SideBySide:
+            return LargeFrameLayout(width, height, false, Settings::values.upright_screen.GetValue(), 1.0f, Settings::LayoutOption::LargeScreen);
+        case Settings::SecondaryScreenLayout::None:
+            // this should never happen, but if it does, somehow, send the top screen
+        case Settings::SecondaryScreenLayout::TopScreenOnly:
+        default:
+            return SingleFrameLayout(width, height, false, Settings::values.upright_screen.GetValue());
+    }
 }
 
 FramebufferLayout CustomFrameLayout(u32 width, u32 height, bool is_swapped) {

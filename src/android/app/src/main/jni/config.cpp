@@ -173,6 +173,8 @@ void Config::ReadValues() {
     // Layout
     Settings::values.layout_option = static_cast<Settings::LayoutOption>(sdl2_config->GetInteger(
         "Layout", "layout_option", static_cast<int>(Settings::LayoutOption::MobileLandscape)));
+    Settings::values.secondary_screen_layout = static_cast<Settings::SecondaryScreenLayout>(sdl2_config->GetInteger(
+        "Layout", "secondary_screen_layout", static_cast<int>(Settings::SecondaryScreenLayout::None)));
     ReadSetting("Layout", Settings::values.custom_layout);
     ReadSetting("Layout", Settings::values.custom_top_left);
     ReadSetting("Layout", Settings::values.custom_top_top);

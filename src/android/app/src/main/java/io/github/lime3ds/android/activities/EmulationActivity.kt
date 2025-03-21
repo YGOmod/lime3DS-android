@@ -4,9 +4,9 @@
 
 package io.github.lime3ds.android.activities
 
+import SecondScreen
 import android.Manifest.permission
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -56,6 +56,7 @@ class EmulationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEmulationBinding
     private lateinit var screenAdjustmentUtil: ScreenAdjustmentUtil
     private lateinit var hotkeyUtility: HotkeyUtility
+    private lateinit var secondScreen: SecondScreen;
 
     private val emulationFragment: EmulationFragment
         get() {
@@ -72,6 +73,8 @@ class EmulationActivity : AppCompatActivity() {
         settingsViewModel.settings.loadSettings()
 
         super.onCreate(savedInstanceState)
+        secondScreen = SecondScreen(this);
+        secondScreen.updateDisplay();
 
         binding = ActivityEmulationBinding.inflate(layoutInflater)
         screenAdjustmentUtil = ScreenAdjustmentUtil(windowManager, settingsViewModel.settings)
@@ -108,6 +111,11 @@ class EmulationActivity : AppCompatActivity() {
         enableFullscreenImmersive()
     }
 
+    override fun onStop() {
+        secondScreen.releasePresentation()
+        super.onStop()
+    }
+
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         enableFullscreenImmersive()
@@ -115,6 +123,7 @@ class EmulationActivity : AppCompatActivity() {
 
     public override fun onRestart() {
         super.onRestart()
+        secondScreen.updateDisplay()
         NativeLibrary.reloadCameraDevices()
     }
 
@@ -132,6 +141,8 @@ class EmulationActivity : AppCompatActivity() {
         EmulationLifecycleUtil.clear()
         isEmulationRunning = false
         instance = null
+        secondScreen.releasePresentation()
+        secondScreen.releaseVD();
         super.onDestroy()
     }
 

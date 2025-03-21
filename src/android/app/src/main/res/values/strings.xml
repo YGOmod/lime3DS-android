@@ -359,12 +359,14 @@
     <string name="emulation_open_settings">Open Settings</string>
     <string name="emulation_open_cheats">Open Cheats</string>
     <string name="emulation_switch_screen_layout">Landscape Screen Layout</string>
+    <string name="emulation_switch_secondary_layout">Secondary Screen Layout</string>
     <string name="emulation_screen_layout_landscape">Default</string>
     <string name="emulation_screen_layout_portrait">Portrait</string>
     <string name="emulation_screen_layout_single">Single Screen</string>
     <string name="emulation_screen_layout_sidebyside">Side by Side Screens</string>
     <string name="emulation_screen_layout_hybrid">Hybrid Screens</string>
     <string name="emulation_cycle_landscape_layouts">Cycle Landscape Layouts</string>
+    <string name="emulation_secondary_screen_default">System Default (mirror)</string>
     <string name="emulation_swap_screens">Swap Screens</string>
     <string name="emulation_touch_overlay_reset">Reset Overlay</string>
     <string name="emulation_show_overlay">Show Overlay</string>

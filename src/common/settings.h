@@ -51,6 +51,13 @@ enum class LayoutOption : u32 {
     MobileLandscape,
 };
 
+enum class SecondaryScreenLayout : u32 {
+    None,
+    TopScreenOnly,
+    BottomScreenOnly,
+    SideBySide
+};
+
 enum class StereoRenderOption : u32 {
     Off = 0,
     SideBySide = 1,
@@ -480,6 +487,7 @@ struct Values {
                                                         "texture_sampling"};
 
     SwitchableSetting<LayoutOption> layout_option{LayoutOption::Default, "layout_option"};
+    SwitchableSetting<SecondaryScreenLayout> secondary_screen_layout{SecondaryScreenLayout::None, "secondary_screen_layout"};
     SwitchableSetting<bool> swap_screen{false, "swap_screen"};
     SwitchableSetting<bool> upright_screen{false, "upright_screen"};
     SwitchableSetting<float, true> large_screen_proportion{4.f, 1.f, 16.f,
