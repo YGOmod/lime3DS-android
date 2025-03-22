@@ -435,6 +435,16 @@ public:
         void DoCleanup(Kernel::HLERequestContext& ctx);
 
         /**
+         * AM::InitializeTitleDatabase service function
+         *  Inputs:
+         *      1 : Media Type
+         *      2 : Boolean, overwrite
+         *  Outputs:
+         *      1 : Result, 0 on success, otherwise error code
+         */
+        void InitializeTitleDatabase(Kernel::HLERequestContext& ctx);
+
+        /**
          * AM::QueryAvailableTitleDatabase service function
          *  Inputs:
          *      1 : Media Type

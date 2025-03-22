@@ -1,4 +1,4 @@
-// Copyright 2015 Citra Emulator Project
+/// Copyright 2015 Citra Emulator Project
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
 
@@ -33,7 +33,7 @@ AM_SYS::AM_SYS(std::shared_ptr<Module> am) : Module::Interface(std::move(am), "a
         {0x0015, nullptr, "DeleteAllImportContexts"},
         {0x0016, nullptr, "DeleteAllTemporaryPrograms"},
         {0x0017, nullptr, "ImportTwlBackupLegacy"},
-        {0x0018, nullptr, "InitializeTitleDatabase"},
+        {0x0018, &AM_SYS::InitializeTitleDatabase, "InitializeTitleDatabase"},
         {0x0019, &AM_SYS::QueryAvailableTitleDatabase, "QueryAvailableTitleDatabase"},
         {0x001A, nullptr, "CalcTwlBackupSize"},
         {0x001B, nullptr, "ExportTwlBackup"},
@@ -42,10 +42,10 @@ AM_SYS::AM_SYS(std::shared_ptr<Module> am) : Module::Interface(std::move(am), "a
         {0x001E, nullptr, "ReadTwlBackupInfo"},
         {0x001F, nullptr, "DeleteAllExpiredUserPrograms"},
         {0x0020, nullptr, "GetTwlArchiveResourceInfo"},
-        {0x0021, nullptr, "GetPersonalizedTicketInfoList"},
+        {0x0021, &AM_SYS::GetPersonalizedTicketInfoList, "GetPersonalizedTicketInfoList"},
         {0x0022, nullptr, "DeleteAllImportContextsFiltered"},
-        {0x0023, nullptr, "GetNumImportTitleContextsFiltered"},
-        {0x0024, nullptr, "GetImportTitleContextListFiltered"},
+        {0x0023, &AM_SYS::GetNumImportTitleContextsFiltered, "GetNumImportTitleContextsFiltered"},
+        {0x0024, &AM_SYS::GetImportTitleContextListFiltered, "GetImportTitleContextListFiltered"},
         {0x0025, &AM_SYS::CheckContentRights, "CheckContentRights"},
         {0x0026, nullptr, "GetTicketLimitInfos"},
         {0x0027, nullptr, "GetDemoLaunchInfos"},
@@ -53,8 +53,9 @@ AM_SYS::AM_SYS(std::shared_ptr<Module> am) : Module::Interface(std::move(am), "a
         {0x0029, nullptr, "DeleteUserProgramsAtomically"},
         {0x002A, nullptr, "GetNumExistingContentInfosSystem"},
         {0x002B, nullptr, "ListExistingContentInfosSystem"},
-        {0x002C, nullptr, "GetProgramInfosIgnorePlatform"},
+        {0x002C, &AM_SYS::GetProgramInfosIgnorePlatform, "GetProgramInfosIgnorePlatform"},
         {0x002D, &AM_SYS::CheckContentRightsIgnorePlatform, "CheckContentRightsIgnorePlatform"},
+        // am:app
         {0x1001, &AM_SYS::GetDLCContentInfoCount, "GetDLCContentInfoCount"},
         {0x1002, &AM_SYS::FindDLCContentInfos, "FindDLCContentInfos"},
         {0x1003, &AM_SYS::ListDLCContentInfos, "ListDLCContentInfos"},

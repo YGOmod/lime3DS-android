@@ -29,12 +29,12 @@ AM_NET::AM_NET(std::shared_ptr<Module> am) : Module::Interface(std::move(am), "a
         {0x0011, nullptr, "GetImportContentContexts"},
         {0x0012, nullptr, "DeleteImportContentContexts"},
         {0x0013, &AM_NET::NeedsCleanup, "NeedsCleanup"},
-        {0x0014, nullptr, "DoCleanup"},
+        {0x0014, &AM_NET::DoCleanup, "DoCleanup"},
         {0x0015, nullptr, "DeleteAllImportContexts"},
         {0x0016, nullptr, "DeleteAllTemporaryPrograms"},
         {0x0017, nullptr, "ImportTwlBackupLegacy"},
-        {0x0018, nullptr, "InitializeTitleDatabase"},
-        {0x0019, nullptr, "QueryAvailableTitleDatabase"},
+        {0x0018, &AM_NET::InitializeTitleDatabase, "InitializeTitleDatabase"},
+        {0x0019, &AM_NET::QueryAvailableTitleDatabase, "QueryAvailableTitleDatabase"},
         {0x001A, nullptr, "CalcTwlBackupSize"},
         {0x001B, nullptr, "ExportTwlBackup"},
         {0x001C, nullptr, "ImportTwlBackup"},
@@ -55,6 +55,7 @@ AM_NET::AM_NET(std::shared_ptr<Module> am) : Module::Interface(std::move(am), "a
         {0x002B, nullptr, "ListExistingContentInfosSystem"},
         {0x002C, &AM_NET::GetProgramInfosIgnorePlatform, "GetProgramInfosIgnorePlatform"},
         {0x002D, &AM_NET::CheckContentRightsIgnorePlatform, "CheckContentRightsIgnorePlatform"},
+        // am:u
         {0x0401, nullptr, "UpdateFirmwareTo"},
         {0x0402, &AM_NET::BeginImportProgram, "BeginImportProgram"},
         {0x0403, nullptr, "BeginImportProgramTemporarily"},
@@ -80,6 +81,7 @@ AM_NET::AM_NET(std::shared_ptr<Module> am) : Module::Interface(std::move(am), "a
         {0x0417, nullptr, "PerpetuateAgbSaveData"},
         {0x0418, nullptr, "BeginImportProgramForOverWrite"},
         {0x0419, nullptr, "BeginImportSystemProgram"},
+        // am:net
         {0x0801, &AM_NET::BeginImportTicket, "BeginImportTicket"},
         {0x0802, nullptr, "CancelImportTicket"},
         {0x0803, &AM_NET::EndImportTicket, "EndImportTicket"},
@@ -120,6 +122,7 @@ AM_NET::AM_NET(std::shared_ptr<Module> am) : Module::Interface(std::move(am), "a
         {0x0826, nullptr, "UpdateImportContentContexts"},
         {0x0827, nullptr, "DeleteAllDemoLaunchInfos"},
         {0x0828, nullptr, "BeginImportTitleForOverWrite"},
+        {0x0829, nullptr, "ExportTicketWrapped"},
         // clang-format on
     };
     RegisterHandlers(functions);

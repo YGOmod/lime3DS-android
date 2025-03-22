@@ -1235,6 +1235,17 @@ void Module::Interface::DoCleanup(Kernel::HLERequestContext& ctx) {
     rb.Push(ResultSuccess);
 }
 
+void Module::Interface::InitializeTitleDatabase(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    u8 media_type = rp.Pop<u8>();
+    bool overwrite = rp.Pop<bool>();
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess); // No error
+
+    LOG_WARNING(Service_AM, "(STUBBED) media_type={}, overwrite={}", media_type, overwrite);
+}
+
 void Module::Interface::QueryAvailableTitleDatabase(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     u8 media_type = rp.Pop<u8>();
@@ -1248,7 +1259,7 @@ void Module::Interface::QueryAvailableTitleDatabase(Kernel::HLERequestContext& c
 
 void Module::Interface::GetPersonalizedTicketInfoList(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    [[maybe_unused]] u32 ticket_count = rp.Pop<u32>();
+    u32 ticket_count = rp.Pop<u32>();
     [[maybe_unused]] auto& buffer = rp.PopMappedBuffer();
 
     IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);

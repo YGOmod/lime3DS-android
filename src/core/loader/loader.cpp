@@ -138,7 +138,7 @@ static std::unique_ptr<AppLoader> GetFileLoader(Core::System& system, FileUtil::
 }
 
 std::unique_ptr<AppLoader> GetLoader(const std::string& filename) {
-    
+
     FileUtil::IOFile file(filename, "rb");
     if (!file.IsOpen()) {
         LOG_ERROR(Loader, "Failed to load file {}", filename);

@@ -70,6 +70,13 @@ BOSS_P::BOSS_P(std::shared_ptr<Module> boss)
         // boss:p
         {0x0401, &BOSS_P::InitializeSessionPrivileged, "InitializeSessionPrivileged"},
         {0x0404, &BOSS_P::GetAppNewFlag, "GetAppNewFlag"},
+        {0x0405, nullptr, "SetAppNewFlag"},
+        {0x0406, nullptr, "SetOptoutFlagPrivileged"},
+        {0x0407, nullptr, "GetOptoutFlagPrivileged"},
+        {0x0409, nullptr, "UnregisterTaskPrivileged"},
+        {0x040A, nullptr, "GetAppIdList"},
+        {0x040B, nullptr, "GetTaskIdListPrivileged"},
+        {0x040C, nullptr, "GetStepIdListPrivileged"},
         {0x040D, &BOSS_P::GetNsDataIdListPrivileged, "GetNsDataIdListPrivileged"},
         {0x040E, &BOSS_P::GetNsDataIdListPrivileged1, "GetNsDataIdListPrivileged1"},
         {0x0413, &BOSS_P::SendPropertyPrivileged, "SendPropertyPrivileged"},

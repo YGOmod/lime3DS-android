@@ -42,6 +42,14 @@ void Module::Interface::GetErrorCode(Kernel::HLERequestContext& ctx) {
     rb.Push<u32>(0); /// TODO: add error output value
 }
 
+void Module::Interface::Cancel(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    LOG_DEBUG(Service_ACT, "(STUBBED) called.");
+
+    IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
+    rb.Push(ResultSuccess);
+}
+
 void Module::Interface::GetAccountDataBlock(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     const auto acc_slot = rp.Pop<u8>();

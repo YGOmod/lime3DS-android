@@ -942,7 +942,7 @@ class InputOverlay(context: Context?, attrs: AttributeSet?) : SurfaceView(contex
 
             scale *= (preferences.getInt("controlScale-$buttonId", 50) + 50).toFloat()
             scale /= 100f
-          
+
             val opacity: Int = preferences.getInt("controlOpacity", 50) * 255 / 100
 
             // Initialize the InputOverlayDrawableButton.
@@ -1005,9 +1005,9 @@ class InputOverlay(context: Context?, attrs: AttributeSet?) : SurfaceView(contex
                 "controlScale-" + NativeLibrary.ButtonType.DPAD,
                 50
             ) + 50).toFloat()
-            
+
             scale /= 100f
-          
+
             val opacity: Int = preferences.getInt("controlOpacity", 50) * 255 / 100
 
             // Initialize the InputOverlayDrawableDpad.

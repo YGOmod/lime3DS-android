@@ -205,7 +205,7 @@ public:
          *      1 : Result of function, 0 on success, otherwise error code
          */
         void SetClientVersion(Kernel::HLERequestContext& ctx);
-        
+
         //ac:i
         void LoadNetworkSetting(Kernel::HLERequestContext& ctx);
 

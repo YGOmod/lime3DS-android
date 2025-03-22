@@ -62,7 +62,7 @@ void Module::Interface::GetBatteryChargeState(Kernel::HLERequestContext& ctx) {
     rb.Push(ResultSuccess);
     rb.Push(ptm->battery_is_charging);
 
-    LOG_WARNING(Service_PTM, "(STUBBED) called");
+    LOG_DEBUG(Service_PTM, "(STUBBED) called");
 }
 
 void Module::Interface::GetPedometerState(Kernel::HLERequestContext& ctx) {

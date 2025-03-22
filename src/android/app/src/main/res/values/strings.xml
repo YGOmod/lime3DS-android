@@ -493,7 +493,7 @@
     <!-- Black backgrounds theme -->
     <string name="use_black_backgrounds">Black Backgrounds</string>
     <string name="use_black_backgrounds_description">When using the dark theme, apply black backgrounds.</string>
-    
+
     <!-- Clock types -->
     <string name="device_clock">Device Clock</string>
     <string name="simulated_clock">Simulated Clock</string>
@@ -557,7 +557,7 @@
     <string name="scaleforce">ScaleForce</string>
     <string name="xbrz">xBRZ</string>
     <string name="mmpx">MMPX</string>
-    
+
     <!-- Texture sampling names -->
     <string name="game_controlled">Game Controlled</string>
     <string name="nearest_neighbor_sampling">Nearest Neighbor</string>

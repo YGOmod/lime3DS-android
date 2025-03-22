@@ -194,7 +194,7 @@
         <item>4</item>
         <item>5</item>
     </integer-array>
-    
+
     <string-array name="textureSamplingNames">
         <item>@string/game_controlled</item>
         <item>@string/nearest_neighbor_sampling</item>
@@ -217,7 +217,7 @@
         <item>1</item>
         <item>2</item>
     </integer-array>
-    
+
     <string-array name="systemFileRegions">
         <item>@string/system_region_jpn</item>
         <item>@string/system_region_usa</item>
