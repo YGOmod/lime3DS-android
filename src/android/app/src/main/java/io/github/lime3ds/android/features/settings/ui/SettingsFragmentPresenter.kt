@@ -879,7 +879,7 @@ class SettingsFragmentPresenter(private val fragmentView: SettingsFragmentView) 
             add(
                 SingleChoiceSetting(
                     IntSetting.AUDIO_EMULATION,
-                    R.string.audio_emulation_name,
+                    R.string.audio_emulation,
                     0,
                     R.array.audioEmulationNames,
                     R.array.audioEmulationValues,
