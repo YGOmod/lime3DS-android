@@ -128,7 +128,8 @@ void Module::Interface::GetMyComment(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     IPC::RequestBuilder rb = rp.MakeBuilder(10, 0);
 
-    constexpr Comment comment{.name = {u'H', u'e', u'y', '!'}};
+    constexpr Comment comment{
+                        .name = {u'H', u'e', u'y', '!'}};
 
     rb.Push(ResultSuccess);
     rb.PushRaw<Comment>(comment);
@@ -169,7 +170,12 @@ void Module::Interface::GetMyProfile(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     IPC::RequestBuilder rb = rp.MakeBuilder(3, 0);
 
-    constexpr Profile profile{.region = 1, .country = 1, .area = 1, .language = 1, .platform = 1};
+    constexpr Profile profile{
+                        .region = 1,
+                        .country = 1,
+                        .area = 1,
+                        .language = 1,
+                        .platform = 1};
 
     rb.Push(ResultSuccess);
     rb.PushRaw<Profile>(profile);
@@ -181,7 +187,9 @@ void Module::Interface::GetMyFavoriteGame(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     IPC::RequestBuilder rb = rp.MakeBuilder(5, 0);
 
-    constexpr Game game{.title_id = 0x0004000E00030700, .version = 1};
+    constexpr Game game{
+                    .title_id = 0x0004000E00030700,
+                    .version = 1};
 
     rb.Push(ResultSuccess);
     rb.PushRaw<Game>(game);
@@ -193,7 +201,9 @@ void Module::Interface::GetMyPlayingGame(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     IPC::RequestBuilder rb = rp.MakeBuilder(5, 0);
 
-    constexpr Game game{.title_id = 0x0004000E00030700, .version = 1};
+    constexpr Game game{
+                    .title_id = 0x0004000E00030700,
+                    .version = 1};
 
     rb.Push(ResultSuccess);
     rb.PushRaw<Game>(game);

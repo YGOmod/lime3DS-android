@@ -34,12 +34,24 @@ private:
 };
 
 struct MyPresence {
-    u8 unknown[0x12C];
+    u32 join_flag;
+    u32 matchmake_type;
+    u32 join_game_id;
+    u32 join_game_mode;
+    u32 owner_id;
+    u32 join_group_id;
+    u8  app_arg[20];
 
 private:
     template <class Archive>
     void serialize(Archive& ar, const unsigned int) {
-        ar & unknown;
+        ar & join_flag;
+        ar & matchmake_type;
+        ar & join_game_id;
+        ar & join_game_mode;
+        ar & owner_id;
+        ar & join_group_id;
+        ar & app_arg;
     }
     friend class boost::serialization::access;
 };
@@ -56,14 +68,13 @@ private:
 };
 
 struct GameAuthenticationData {
-    s32_le result{};
-    s32_le http_status_code{};
+    u32 nasc_result;
+    u32 http_status_code;
     std::array<char, 32> server_address{};
-    u16_le server_port{};
-    u16_le padding1{};
-    u32_le unused{};
+    u16 server_port;
+    INSERT_PADDING_BYTES(0x6);
     std::array<char, 256> auth_token{};
-    u64_le server_time{};
+    u64 server_time;
 
     void Init() {
         memset(this, 0, sizeof(*this));
@@ -76,8 +87,6 @@ private:
         ar& http_status_code;
         ar& server_address;
         ar& server_port;
-        ar& padding1;
-        ar& unused;
         ar& auth_token;
         ar& server_time;
     }

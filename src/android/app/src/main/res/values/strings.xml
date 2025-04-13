@@ -276,6 +276,7 @@
     <string name="async_custom_loading_description">Load custom textures asynchronously with background threads to reduce loading stutter.</string>
 
     <!-- Audio settings strings -->
+    <string name="audio_emulation">Audio Emulation</string>
     <string name="audio_volume">Volume</string>
     <string name="audio_stretch">Audio Stretching</string>
     <string name="audio_stretch_description">Stretches audio to reduce stuttering. When enabled, increases audio latency and slightly reduces performance.</string>
@@ -534,6 +535,11 @@
     <string name="horizontal">Horizontal</string>
     <string name="vertical">Vertical</string>
     <string name="reverse">Reverse</string>
+
+    <!-- Audio emulation types -->
+    <string name="hle">HLE</string>
+    <string name="lle">LLE</string>
+    <string name="lle_multithreaded">LLE (Multithreaded)</string>
 
     <!-- Audio input types -->
     <string name="static_noise">Static Noise</string>

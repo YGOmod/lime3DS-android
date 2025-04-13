@@ -40,7 +40,7 @@ FRD_U::FRD_U(std::shared_ptr<Module> frd) : Module::Interface(std::move(frd), "f
         {0x001B, nullptr, "IsIncludedInFriendList"},
         {0x001C, &FRD_U::UnscrambleLocalFriendCode, "UnscrambleLocalFriendCode"},
         {0x001D, &FRD_U::UpdateGameModeDescription, "UpdateGameModeDescription"},
-        {0x001E, nullptr, "UpdateGameMode"},
+        {0x001E, nullptr, "UpdateMyPresence"},
         {0x001F, nullptr, "SendInvitation"},
         {0x0020, &FRD_U::AttachToEventNotification, "AttachToEventNotification"},
         {0x0021, &FRD_U::SetNotificationMask, "SetNotificationMask"},

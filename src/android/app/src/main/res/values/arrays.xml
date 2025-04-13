@@ -119,6 +119,18 @@
         <item>3</item>
     </integer-array>
 
+    <string-array name="audioEmulationNames">
+        <item>@string/hle</item>
+        <item>@string/lle</item>
+        <item>@string/lle_multithreaded</item>
+    </string-array>
+
+    <integer-array name="audioEmulationValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </integer-array>
+
     <string-array name="audioInputTypeNames">
         <item>@string/auto</item>
         <item>@string/none</item>
