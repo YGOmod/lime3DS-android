@@ -83,7 +83,7 @@ struct GameAuthenticationData {
 private:
     template <class Archive>
     void serialize(Archive& ar, const unsigned int) {
-        ar& result;
+        ar& nasc_result;
         ar& http_status_code;
         ar& server_address;
         ar& server_port;
