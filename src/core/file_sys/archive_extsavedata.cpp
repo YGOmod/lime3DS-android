@@ -235,7 +235,7 @@ Path ArchiveFactory_ExtSaveData::GetCorrectedPath(const Path& path) {
     return {binary_data};
 }
 
-static Service::FS::ArchiveIdCode ExtSaveDataTypeToArchiveID(ExtSaveDataType type) {
+[[maybe_unused]] static Service::FS::ArchiveIdCode ExtSaveDataTypeToArchiveID(ExtSaveDataType type) {
     switch (type) {
     case FileSys::ExtSaveDataType::Normal:
         return Service::FS::ArchiveIdCode::ExtSaveData;
