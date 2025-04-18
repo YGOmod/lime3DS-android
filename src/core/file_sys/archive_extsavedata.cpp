@@ -248,7 +248,7 @@ static Service::FS::ArchiveIdCode ExtSaveDataTypeToArchiveID(ExtSaveDataType typ
     }
 }
 
-static Core::PerfStats::PerfArticEventBits ExtSaveDataTypeToPerfArtic(ExtSaveDataType type) {
+[[maybe_unused]] static Core::PerfStats::PerfArticEventBits ExtSaveDataTypeToPerfArtic(ExtSaveDataType type) {
     switch (type) {
     case FileSys::ExtSaveDataType::Normal:
         return Core::PerfStats::PerfArticEventBits::ARTIC_EXT_DATA;
