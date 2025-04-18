@@ -74,7 +74,7 @@ struct ArchiveResource {
 static_assert(sizeof(ArchiveResource) == 0x10, "ArchiveResource has incorrect size");
 
 struct ExtSaveDataInfo {
-    u8 media_type;
+    MediaType media_type;
     u8 unknown;
     u16 reserved1;
     u32 save_id_low;
