@@ -959,7 +959,7 @@ class EmulationFragment : Fragment(), SurfaceHolder.Callback, Choreographer.Fram
         resetScale("controlScale-" + NativeLibrary.ButtonType.BUTTON_SWAP)
         binding.surfaceInputOverlay.refreshControls()
     }
-    
+
     private fun setControlOpacity(opacity: Int) {
         preferences.edit()
             .putInt("controlOpacity", opacity)

@@ -147,6 +147,8 @@ FS_USER::FS_USER(Core::System& system)
         {0x0868, nullptr, "GetMediaType"},
         {0x0869, nullptr, "GetNandEraseCount"},
         {0x086A, nullptr, "ReadNandReport"},
+        {0x086B, nullptr, "SetOtherSaveDataSecureValue"},
+        {0x086C, nullptr, "GetOtherSaveDataSecureValue"},
         {0x086E, &FS_USER::SetThisSaveDataSecureValue, "SetThisSaveDataSecureValue" },
         {0x086F, &FS_USER::GetThisSaveDataSecureValue, "GetThisSaveDataSecureValue" },
         {0x0875, &FS_USER::SetSaveDataSecureValue, "SetSaveDataSecureValue" },
@@ -1036,7 +1038,7 @@ void FS_USER::GetFreeBytes(Kernel::HLERequestContext& ctx) {
 
 void FS_USER::GetCardType(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
-    
+
     IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
     rb.Push(ResultSuccess);
     rb.Push(false);
@@ -1127,10 +1129,12 @@ void FS_USER::DeleteExtSaveData(Kernel::HLERequestContext& ctx) {
 
 void FS_USER::CardSlotIsInserted(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
+    bool card_is_inserted = false;
+
     IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
     rb.Push(ResultSuccess);
-    rb.Push(false);
-    LOG_WARNING(Service_FS, "(STUBBED) called");
+    rb.Push(card_is_inserted ? 1 : 0);
+    LOG_DEBUG(Service_FS, "(STUBBED) called");
 }
 
 void FS_USER::DeleteSystemSaveData(Kernel::HLERequestContext& ctx) {
@@ -1270,11 +1274,11 @@ void FS_USER::GetArchiveResource(Kernel::HLERequestContext& ctx) {
 void FS_USER::AbnegateAccessRight(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     u32 access_right = rp.Pop<u32>();
-    
+
     if(access_right >= 0x38) {
         LOG_ERROR(Service_FS, "invalid access right");
     }
-    
+
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(ResultSuccess);
 

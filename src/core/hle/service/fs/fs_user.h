@@ -373,7 +373,7 @@ private:
      *      5 : Available free space in clusters
      */
     void GetCardType(Kernel::HLERequestContext& ctx);
-    
+
     void GetSdmcArchiveResource(Kernel::HLERequestContext& ctx);
 
     /**
@@ -529,7 +529,7 @@ private:
      *      5 : Available free space in clusters
      */
     void GetArchiveResource(Kernel::HLERequestContext& ctx);
-    
+
     void AbnegateAccessRight(Kernel::HLERequestContext& ctx);
 
     /**
@@ -603,7 +603,7 @@ private:
      *      1 : Result of function, 0 on success, otherwise error code
      */
     void ObsoletedDeleteExtSaveData(Kernel::HLERequestContext& ctx);
-    
+
     void SendInitializeInfoTo9(Kernel::HLERequestContext& ctx);
 
     /**

@@ -91,7 +91,7 @@ class EmulationActivity : AppCompatActivity() {
         navController.setGraph(R.navigation.emulation_navigation, intent.extras)
 
         isActivityRecreated = savedInstanceState != null
-        
+
         // Set these options now so that the SurfaceView the game renders into is the right size.
         enableFullscreenImmersive()
 
