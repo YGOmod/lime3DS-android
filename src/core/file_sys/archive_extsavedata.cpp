@@ -10,7 +10,6 @@
 #include "common/common_types.h"
 #include "common/file_util.h"
 #include "common/logging/log.h"
-#include "core/file_sys/archive_artic.h"
 #include "core/file_sys/archive_extsavedata.h"
 #include "core/file_sys/disk_archive.h"
 #include "core/file_sys/errors.h"
@@ -245,19 +244,6 @@ Path ArchiveFactory_ExtSaveData::GetCorrectedPath(const Path& path) {
         return Service::FS::ArchiveIdCode::BossExtSaveData;
     default:
         return Service::FS::ArchiveIdCode::ExtSaveData;
-    }
-}
-
-[[maybe_unused]] static Core::PerfStats::PerfArticEventBits ExtSaveDataTypeToPerfArtic(ExtSaveDataType type) {
-    switch (type) {
-    case FileSys::ExtSaveDataType::Normal:
-        return Core::PerfStats::PerfArticEventBits::ARTIC_EXT_DATA;
-    case FileSys::ExtSaveDataType::Shared:
-        return Core::PerfStats::PerfArticEventBits::ARTIC_SHARED_EXT_DATA;
-    case FileSys::ExtSaveDataType::Boss:
-        return Core::PerfStats::PerfArticEventBits::ARTIC_BOSS_EXT_DATA;
-    default:
-        return Core::PerfStats::PerfArticEventBits::ARTIC_EXT_DATA;
     }
 }
 
