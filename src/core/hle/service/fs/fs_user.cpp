@@ -154,8 +154,8 @@ FS_USER::FS_USER(Core::System& system)
         {0x0875, &FS_USER::SetSaveDataSecureValue, "SetSaveDataSecureValue" },
         {0x0876, &FS_USER::GetSaveDataSecureValue, "GetSaveDataSecureValue" },
         {0x087A, &FS_USER::AddSeed, "AddSeed"},
-        {0x087B, nullptr, "GetSeed"},
-        {0x087C, nullptr, "DeleteSeed"},
+        {0x087B, &FS_USER::GetSeed, "GetSeed"},
+        {0x087C, &FS_USER::DeleteSeed, "DeleteSeed"},
         {0x087D, &FS_USER::GetNumSeeds, "GetNumSeeds"},
         {0x0886, nullptr, "CheckUpdatedDat"},
         // clang-format on
@@ -1134,7 +1134,7 @@ void FS_USER::CardSlotIsInserted(Kernel::HLERequestContext& ctx) {
     IPC::RequestBuilder rb = rp.MakeBuilder(2, 0);
     rb.Push(ResultSuccess);
     rb.Push(card_is_inserted ? 1 : 0);
-    LOG_DEBUG(Service_FS, "(STUBBED) called");
+    LOG_WARNING(Service_FS, "(STUBBED) called");
 }
 
 void FS_USER::DeleteSystemSaveData(Kernel::HLERequestContext& ctx) {
@@ -1456,6 +1456,35 @@ void FS_USER::AddSeed(Kernel::HLERequestContext& ctx) {
     FileSys::AddSeed({title_id, seed, {}});
     IPC::RequestBuilder rb{rp.MakeBuilder(1, 0)};
     rb.Push(ResultSuccess);
+}
+
+void FS_USER::GetSeed(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    u64 title_id{rp.Pop<u64>()};
+
+    auto seed = FileSys::GetSeed(title_id);
+    if (!seed.has_value()) {
+        IPC::RequestBuilder rb{rp.MakeBuilder(1, 0)};
+        rb.Push(Result(FileSys::ErrCodes::RomFSNotFound, ErrorModule::FS, ErrorSummary::NotFound,
+                       ErrorLevel::Status));
+        return;
+    }
+
+    IPC::RequestBuilder rb{rp.MakeBuilder(5, 0)};
+    rb.Push(ResultSuccess);
+    rb.PushRaw<FileSys::Seed::Data>(seed.value());
+}
+
+void FS_USER::DeleteSeed(Kernel::HLERequestContext& ctx) {
+    IPC::RequestParser rp(ctx);
+    u64 title_id{rp.Pop<u64>()};
+
+    bool found = FileSys::DeleteSeed(title_id);
+
+    IPC::RequestBuilder rb{rp.MakeBuilder(1, 0)};
+    rb.Push(found ? ResultSuccess
+                  : Result(FileSys::ErrCodes::RomFSNotFound, ErrorModule::FS,
+                           ErrorSummary::NotFound, ErrorLevel::Status));
 }
 
 void FS_USER::ObsoletedSetSaveDataSecureValue(Kernel::HLERequestContext& ctx) {

@@ -480,8 +480,26 @@ private:
      */
     void CreateLegacySystemSaveData(Kernel::HLERequestContext& ctx);
 
+    /**
+     * FS_User::SetArchivePriority service function.
+     *  Inputs:
+     *      0 : 0x085A00C0
+     *    1-2 : u64, Archive handle
+     *      3 : Priority
+     *  Outputs:
+     *      1 : Result of function, 0 on success, otherwise error code
+     */
     void SetArchivePriority(Kernel::HLERequestContext& ctx);
 
+    /**
+     * FS_User::GetArchivePriority service function.
+     *  Inputs:
+     *      0 : 0x085B0080
+     *    1-2 : u64, Archive handle
+     *  Outputs:
+     *      1 : Result of function, 0 on success, otherwise error code
+     *      2 : Priority
+     */
     void GetArchivePriority(Kernel::HLERequestContext& ctx);
 
     /**
@@ -530,6 +548,14 @@ private:
      */
     void GetArchiveResource(Kernel::HLERequestContext& ctx);
 
+    /**
+     * FS_User::AbnegateAccessRight service function.
+     *  Inputs:
+     *      0 : 0x08350080
+     *      1 : Access Right (should be < 0x38)
+     *  Outputs:
+     *      1 : Result of function, 0 on success, otherwise error code
+     */
     void AbnegateAccessRight(Kernel::HLERequestContext& ctx);
 
     /**
@@ -604,6 +630,13 @@ private:
      */
     void ObsoletedDeleteExtSaveData(Kernel::HLERequestContext& ctx);
 
+    /**
+     * FS_User::SendInitializeInfoTo9 service function.
+     *  Inputs:
+     *      0 : 0x08390000
+     *  Outputs:
+     *      1 : Result of function, 0 on success, otherwise error code
+     */
     void SendInitializeInfoTo9(Kernel::HLERequestContext& ctx);
 
     /**
@@ -642,6 +675,29 @@ private:
      *      1 : Result of function, 0 on success, otherwise error code
      */
     void AddSeed(Kernel::HLERequestContext& ctx);
+
+    /**
+     * FS_User::GetSeed service function.
+     *  Inputs:
+     *      0 : 0x087B0080
+     *    1-2 : u64, Title ID
+     *  Outputs:
+     *      0 : 0x087B0080
+     *      1 : Result of function, 0 on success, otherwise error code
+     *    2-5 : Seed value
+     */
+    void GetSeed(Kernel::HLERequestContext& ctx);
+
+    /**
+     * FS_User::DeleteSeed service function.
+     *  Inputs:
+     *      0 : 0x087C0080
+     *    1-2 : u64, Title ID
+     *  Outputs:
+     *      0 : 0x087C0080
+     *      1 : Result of function, 0 on success, otherwise error code
+     */
+    void DeleteSeed(Kernel::HLERequestContext& ctx);
 
     /**
      * FS_User::SetSaveDataSecureValue service function.
