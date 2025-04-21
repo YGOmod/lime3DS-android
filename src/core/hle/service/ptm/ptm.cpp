@@ -52,7 +52,7 @@ void Module::Interface::GetBatteryLevel(Kernel::HLERequestContext& ctx) {
     rb.Push(ResultSuccess);
     rb.Push(static_cast<u32>(ChargeLevels::CompletelyFull)); // Set to a completely full battery
 
-    LOG_WARNING(Service_PTM, "(STUBBED) called");
+    LOG_DEBUG(Service_PTM, "(STUBBED) called");
 }
 
 void Module::Interface::GetBatteryChargeState(Kernel::HLERequestContext& ctx) {
