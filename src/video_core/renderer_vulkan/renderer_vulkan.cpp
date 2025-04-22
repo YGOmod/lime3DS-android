@@ -798,7 +798,7 @@ void RendererVulkan::DrawScreens(Frame* frame, const Layout::FramebufferLayout& 
     ApplySecondLayerOpacity(1.0f);
 
     bool use_custom_opacity =
-        Settings::values.layout_option.GetValue() == Settings::LayoutOption::CustomLayout &&
+        Settings::values.layout_option.GetValue() == Settings::LayoutOption::SingleScreen &&
         Settings::values.custom_second_layer_opacity.GetValue() < 100;
     float second_alpha = use_custom_opacity
                              ? Settings::values.custom_second_layer_opacity.GetValue() / 100.0f
