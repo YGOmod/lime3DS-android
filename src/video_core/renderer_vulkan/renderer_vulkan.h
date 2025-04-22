@@ -105,6 +105,7 @@ private:
                           Layout::DisplayOrientation orientation);
     void DrawSingleScreenStereo(u32 screen_id_l, u32 screen_id_r, float x, float y, float w,
                                 float h, Layout::DisplayOrientation orientation);
+    void ApplySecondLayerOpacity(float alpha);
     void LoadFBToScreenInfo(const Pica::FramebufferConfig& framebuffer, ScreenInfo& screen_info,
                             bool right_eye);
     void FillScreen(Common::Vec3<u8> color, const TextureInfo& texture);

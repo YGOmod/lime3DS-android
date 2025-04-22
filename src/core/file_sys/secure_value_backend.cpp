@@ -62,7 +62,7 @@ ResultVal<std::tuple<bool, bool, u64>> DefaultSecureValueBackend::GetThisSaveDat
 
     // TODO: Implement Secure Value Lookup & Generation
 
-    LOG_WARNING(Service_FS, "(STUBBED) called secure_value_slot=0x{:08X}", secure_value_slot);
+    LOG_WARNING(Service_FS, "(STUBBED) called, secure_value_slot=0x{:08X}", secure_value_slot);
 
     return std::make_tuple<bool, bool, u64>(false, true, 0);
 }
