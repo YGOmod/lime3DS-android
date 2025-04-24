@@ -7,7 +7,6 @@
 #include "core/core.h"
 #include "core/hle/ipc_helpers.h"
 #include "core/hle/kernel/event.h"
-#include "core/hle/service/fs/archive.h"
 #include "core/hle/service/nim/nim_u.h"
 
 SERVICE_CONSTRUCT_IMPL(Service::NIM::NIM_U)
@@ -69,7 +68,7 @@ struct TitleDownloadConfig {
     u32 title_version;
     u32 unknown_1;
     u8  age_rating;
-    MediaType media_type;
+    u8  media_type;
     INSERT_PADDING_BYTES(2);
     u32 unknown_2;
 };
