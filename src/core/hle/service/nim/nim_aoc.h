@@ -15,7 +15,7 @@ public:
 
 private:
     void Initialize(Kernel::HLERequestContext& ctx);
-    
+
     SERVICE_SERIALIZATION_SIMPLE
 };
 

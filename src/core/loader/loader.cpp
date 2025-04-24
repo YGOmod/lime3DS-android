@@ -74,6 +74,7 @@ const char* GetFileTypeString(FileType type) {
         return "ELF";
     case FileType::THREEDSX:
         return "3DSX";
+    case FileType::ARTIC:
     case FileType::Error:
     case FileType::Unknown:
         break;
@@ -104,6 +105,7 @@ static std::unique_ptr<AppLoader> GetFileLoader(Core::System& system, FileUtil::
         return std::make_unique<AppLoader_ELF>(system, std::move(file), filename);
 
     // NCCH/NCSD container formats.
+    case FileType::ARTIC: // Remove this
     case FileType::CXI:
     case FileType::CCI:
         return std::make_unique<AppLoader_NCCH>(system, std::move(file), filepath);

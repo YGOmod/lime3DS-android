@@ -14,8 +14,15 @@ public:
     ~NIM_S();
 
 private:
+    /**
+     * NIM::CancelDownload service function
+     *  Inputs:
+     *      1 : None
+     *  Outputs:
+     *      1 : Result of function, 0 on success, otherwise error code
+     */
     void CancelDownload(Kernel::HLERequestContext& ctx);
-    
+
     SERVICE_SERIALIZATION_SIMPLE
 };
 
