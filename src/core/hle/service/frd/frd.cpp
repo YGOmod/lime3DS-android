@@ -65,7 +65,7 @@ void Module::Interface::GetFriendKeyList(Kernel::HLERequestContext& ctx) {
     rb.Push<u32>(0); // 0 friends
     rb.PushStaticBuffer(std::move(buffer), 0);
 
-    LOG_WARNING(Service_FRD, "(STUBBED) called, unknown={}, frd_count={}", unknown, frd_count);
+    LOG_DEBUG(Service_FRD, "(STUBBED) called, unknown={}, frd_count={}", unknown, frd_count);
 }
 
 void Module::Interface::GetFriendProfile(Kernel::HLERequestContext& ctx) {

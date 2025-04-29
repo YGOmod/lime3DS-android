@@ -201,7 +201,7 @@ private:
     void GetNodeInformation(Kernel::HLERequestContext& ctx);
 
     /**
-     * NWM_UDS::RecvBeaconBroadcastData service function
+     * NWM_UDS::StartScan service function
      * Returns the raw beacon data for nearby networks that match the supplied WlanCommId.
      *  Inputs:
      *      1 : Output buffer max size
@@ -219,7 +219,7 @@ private:
      *      1 : Result of function, 0 on success, otherwise error code
      *      2, 3: output buffer return descriptor & ptr
      */
-    void RecvBeaconBroadcastData(Kernel::HLERequestContext& ctx);
+    void StartScan(Kernel::HLERequestContext& ctx);
 
     /**
      * NWM_UDS::SetApplicationData service function.

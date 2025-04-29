@@ -57,7 +57,7 @@ FS_USER::FS_USER(Core::System& system)
         {0x080E, &FS_USER::CloseArchive, "CloseArchive"},
         {0x080F, &FS_USER::FormatThisUserSaveData, "FormatThisUserSaveData"},
         {0x0810, &FS_USER::CreateLegacySystemSaveData, "CreateLegacySystemSaveData"},
-        {0x0811, nullptr, "DeleteSystemSaveData"},
+        {0x0811, nullptr, "ObsoletedDeleteSystemSaveData"},
         {0x0812, &FS_USER::GetFreeBytes, "GetFreeBytes"},
         {0x0813, &FS_USER::GetCardType, "GetCardType"},
         {0x0814, &FS_USER::GetSdmcArchiveResource, "GetSdmcArchiveResource"},
@@ -91,10 +91,10 @@ FS_USER::FS_USER(Core::System& system)
         {0x0830, &FS_USER::ObsoletedCreateExtSaveData, "Obsoleted_3_0_CreateExtSaveData"},
         {0x0831, nullptr, "ObsoletedCreateSharedExtSaveData"},
         {0x0832, nullptr, "ObsoletedReadExtSaveDataIcon"},
-        {0x0833, nullptr, "EnumerateExtSaveData"},
-        {0x0834, nullptr, "EnumerateSharedExtSaveData"},
+        {0x0833, nullptr, "ObsoletedEnumerateExtSaveData"},
+        {0x0834, nullptr, "ObsoletedEnumerateSharedExtSaveData"},
         {0x0835, &FS_USER::ObsoletedDeleteExtSaveData, "Obsoleted_3_0_DeleteExtSaveData"},
-        {0x0836, nullptr, "DeleteSharedExtSaveData"},
+        {0x0836, nullptr, "ObsoletedDeleteSharedExtSaveData"},
         {0x0837, nullptr, "SetCardSpiBaudRate"},
         {0x0838, nullptr, "SetCardSpiBusMode"},
         {0x0839, &FS_USER::SendInitializeInfoTo9, "SendInitializeInfoTo9"},
@@ -1257,7 +1257,7 @@ void FS_USER::GetArchiveResource(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
     auto media_type = rp.PopEnum<MediaType>();
 
-    LOG_WARNING(Service_FS, "(STUBBED) called. Media type=0x{:08X}", media_type);
+    LOG_WARNING(Service_FS, "(STUBBED) called. Media type=0x{:02X}", media_type);
 
     auto resource = archives.GetArchiveResource(media_type);
     if (resource.Failed()) {
@@ -1276,7 +1276,7 @@ void FS_USER::AbnegateAccessRight(Kernel::HLERequestContext& ctx) {
     u32 access_right = rp.Pop<u32>();
 
     if(access_right >= 0x38) {
-        LOG_ERROR(Service_FS, "invalid access right");
+        LOG_ERROR(Service_FS, "Invalid access right");
     }
 
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);

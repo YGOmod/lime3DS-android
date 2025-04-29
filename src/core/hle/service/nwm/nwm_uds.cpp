@@ -44,7 +44,7 @@ NWM_UDS::NWM_UDS(Core::System& system) : ServiceFramework("nwm::UDS"), system(sy
         {0x000B, &NWM_UDS::GetConnectionStatus, "GetConnectionStatus"},
         {0x000D, &NWM_UDS::GetNodeInformation, "GetNodeInformation"},
         {0x000E, &NWM_UDS::DecryptBeaconData, "DecryptBeaconData (deprecated)"},
-        {0x000F, &NWM_UDS::RecvBeaconBroadcastData, "RecvBeaconBroadcastData"},
+        {0x000F, &NWM_UDS::StartScan, "StartScan"},
         {0x0010, &NWM_UDS::SetApplicationData, "SetApplicationData"},
         {0x0011, &NWM_UDS::GetApplicationData, "GetApplicationData"},
         {0x0012, &NWM_UDS::Bind, "Bind"},
@@ -650,7 +650,7 @@ void NWM_UDS::Shutdown(Kernel::HLERequestContext& ctx) {
     LOG_DEBUG(Service_NWM, "called");
 }
 
-void NWM_UDS::RecvBeaconBroadcastData(Kernel::HLERequestContext& ctx) {
+void NWM_UDS::StartScan(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
 
     u32 out_buffer_size = rp.Pop<u32>();
@@ -1503,6 +1503,9 @@ void NWM_UDS::DecryptBeaconData(Kernel::HLERequestContext& ctx) {
 
 void NWM_UDS::SetProbeResponseParam(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx);
+    rp.Skip(1, false); // This field is normally 0x00321F00.
+    s8 data = rp.Pop<s8>();
+    LOG_WARNING("STUBBED called. data={}", data);
 
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(ResultSuccess);

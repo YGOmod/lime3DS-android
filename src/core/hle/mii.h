@@ -25,6 +25,7 @@ struct MiiData {
         BitField<1, 1, u8> is_private_name; ///< Private name?
         BitField<2, 2, u8> region_lock;     ///< Region lock (0=no lock, 1=JPN, 2=USA, 3=EUR)
         BitField<4, 2, u8> char_set;        ///< Character set (0=JPN+USA+EUR, 1=CHN, 2=KOR, 3=TWN)
+        BitField<6, 2, u8> pad;
     } mii_options;
 
     /// Mii position in Mii selector or Mii maker
@@ -40,8 +41,8 @@ struct MiiData {
         u8 raw;
 
         BitField<0, 4, u8> unknown0; ///< Mabye padding (always seems to be 0)?
-        BitField<4, 3, u8>
-            origin_console; ///< Console that the Mii was created on (1=WII, 2=DSI, 3=3DS)
+        BitField<4, 3, u8> origin_console; ///< Console that the Mii was created on (1=WII, 2=DSI, 3=3DS)
+        BitField<7, 1, u8> pad;
     } console_identity;
 
     u64_be system_id;      ///< Identifies the system that the Mii was created on (Determines pants)
@@ -58,6 +59,7 @@ struct MiiData {
         BitField<5, 5, u16> bday_day;        ///< Day of Mii's birthday
         BitField<10, 4, u16> favorite_color; ///< Color of Mii's shirt
         BitField<14, 1, u16> favorite;       ///< Whether the Mii is one of your 10 favorite Mii's
+        BitField<15, 1, u16> pad;
     } mii_details;
 
     Nickname mii_name; ///< Name of Mii (Encoded using UTF16)
@@ -66,55 +68,59 @@ struct MiiData {
 
     /// Face style
     union {
-        u8 raw;
+        u16 raw;
 
-        BitField<0, 1, u8> disable_sharing; ///< Whether or not Sharing of the Mii is allowed
-        BitField<1, 4, u8> type;            ///< Face type
-        BitField<5, 3, u8> skin_color;      ///< Color of skin
+        BitField<0, 1, u16> disable_sharing; ///< Whether or not Sharing of the Mii is allowed
+        BitField<1, 4, u16> type;            ///< Face type
+        BitField<5, 3, u16> skin_color;      ///< Color of skin
     } face_style;
 
     /// Face details
     union {
-        u8 raw;
+        u16 raw;
 
-        BitField<0, 4, u8> wrinkles;
-        BitField<4, 4, u8> makeup;
+        BitField<0, 4, u16> wrinkles;
+        BitField<4, 4, u16> makeup;
     } face_details;
 
     u8 hair_style;
 
     /// Hair details
     union {
-        u8 raw;
+        u16 raw;
 
-        BitField<0, 3, u8> color;
-        BitField<3, 1, u8> flip;
+        BitField<0, 3, u16> color;
+        BitField<3, 1, u16> flip;
+        BitField<4, 1, u16> pad;
     } hair_details;
 
     /// Eye details
     union {
-        u32_be raw;
+        u16_be raw;
 
-        BitField<0, 6, u32> type;
-        BitField<6, 3, u32> color;
-        BitField<9, 4, u32> scale;
-        BitField<13, 3, u32> aspect;
-        BitField<16, 5, u32> rotate;
-        BitField<21, 4, u32> x;
-        BitField<25, 5, u32> y;
+        BitField<0, 6, u16> type;
+        BitField<6, 3, u16> color;
+        BitField<9, 4, u16> scale;
+        BitField<13, 3, u16> aspect;
+        BitField<16, 5, u16> rotate;
+        BitField<21, 4, u16> x;
+        BitField<25, 5, u16> y;
+        BitField<30, 2, u16> pad;
     } eye_details;
 
     /// Eyebrow details
     union {
-        u32_be raw;
+        u16_be raw;
 
-        BitField<0, 5, u32> style;
-        BitField<5, 3, u32> color;
-        BitField<8, 4, u32> scale;
-        BitField<12, 3, u32> aspect;
-        BitField<16, 5, u32> rotate;
-        BitField<21, 4, u32> x;
-        BitField<25, 5, u32> y;
+        BitField<0, 5, u16> style;
+        BitField<5, 3, u16> color;
+        BitField<8, 4, u16> scale;
+        BitField<12, 3, u16> aspect;
+        BitField<15, 1, u16> pad;
+        BitField<16, 5, u16> rotate;
+        BitField<21, 4, u16> x;
+        BitField<25, 5, u16> y;
+        BitField<30, 3, u16> pad2;
     } eyebrow_details;
 
     /// Nose details
@@ -124,6 +130,7 @@ struct MiiData {
         BitField<0, 5, u16> type;
         BitField<5, 4, u16> scale;
         BitField<9, 5, u16> y;
+        BitField<14, 2, u16> pad;
     } nose_details;
 
     /// Mouth details
@@ -152,6 +159,7 @@ struct MiiData {
         BitField<3, 3, u16> color;
         BitField<6, 4, u16> scale;
         BitField<10, 5, u16> y;
+        BitField<15, 1, u16> pad;
     } beard_details;
 
     /// Glasses details
@@ -172,6 +180,7 @@ struct MiiData {
         BitField<1, 4, u16> scale;
         BitField<5, 5, u16> x;
         BitField<10, 5, u16> y;
+        BitField<15, 1, u16> pad;
     } mole_details;
 
     Nickname author_name; ///< Name of Mii's author (Encoded using UTF16)

@@ -716,7 +716,7 @@ void GSP_GPU::SetLedForceOff(Kernel::HLERequestContext& ctx) {
 
     IPC::RequestBuilder rb = rp.MakeBuilder(1, 0);
     rb.Push(ResultSuccess);
-    LOG_DEBUG(Service_GSP, "(STUBBED) called");
+    LOG_DEBUG(Service_GSP, "(STUBBED) called. state={}", state);
 }
 
 void GSP_GPU::SetInternalPriorities(Kernel::HLERequestContext& ctx) {
